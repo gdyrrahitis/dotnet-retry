@@ -1,8 +1,8 @@
 ﻿namespace DotNetRetry
 {
-    public class RetryWrapper
+    public class RetryWrapper: IRetryWrapper
     {
-        public static IRetry GetRetryMechanism()
+        public IRetry GetRetryMechanism()
         {
             return RetryStatic.Instance;
         }
