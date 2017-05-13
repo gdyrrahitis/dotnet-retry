@@ -27,20 +27,23 @@ Retries are performed in a linear fashion.
     * void Attempt<T>. Attempts to try and run a void synchronous action with a parameter of type T
 
 ### Examples
-*Just a method invocation*
+**Just a method invocation**
+
 Just retrying a method, twice waiting for two seconds between retries.
 ```
 var retry = new Retry();
 retry.Attempt(() => TryThisOperation(), 2, Timespan.FromSeconds(2));
 ```
 
-*Handling exceptions*
+**Handling exceptions**
 ```
 var retry = new Retry();
-try {
+try 
+{
 	retry.Attempt(() => int.Parse("abc"), 3, Timespan.FromSeconds(1));
 }
-catch(AggregateException ex) {
+catch(AggregateException ex) 
+{
 	// Handle all individual exceptions
 }
 ```
