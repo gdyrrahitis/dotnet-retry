@@ -13,8 +13,8 @@ Retry mechanism for C#
 ### Description
 A retry library for C#, which can retry a given operation.
 It consists of 3 Classes to use, `RetryWrapper.cs`, `RetryStatic.cs`, `Retry.cs`. The first two end up to use `Retry.cs` in the end. More on Classes section.
-`Retry` class uses a recursive way to try to re-run the provided operation. The method retries are stored into a `Stack` and recursivelly, every X time, which is provided to the call of the retry method, the operation is popped out of the `Stack`, in order to run. If, it won't run, after the maximum retries have met, an `AggregateException` will be thrown, along with the exceptions thrown from the method invocation.
-It also supports async methods for retrying, which tries to execute the method, waiting for the result.
+`Retry` class contains operations, methods named `Attemp` to re-run a failed action or function (`Func<T>`). Method retries are performed in a loop, and upon failure are delayed for X amount of time, which X is provided to the call of the retry method. After reaching the maximum number of retries, an `AggregateException` will be thrown, which contains all the exceptions occured for the method invocation.
+Retries are performed in a linear fashion.
 
 ### Classes
 * `RetryWrapper.cs`. A wrapper class that wraps the static 'RetryStatic.cs`. It is intended to be used on test suites.
@@ -27,12 +27,31 @@ It also supports async methods for retrying, which tries to execute the method, 
     * void Attempt<T>. Attempts to try and run a void synchronous action with a parameter of type T
 
 ### Examples
-Just retrying a method
+*Just a method invocation*
+Just retrying a method, twice waiting for two seconds between retries.
 ```
-const string test = "abc123";
 var retry = new Retry();
-retry.Attempt(() => int.Parse(test), 2, Timespan.FromSeconds(2));
+retry.Attempt(() => TryThisOperation(), 2, Timespan.FromSeconds(2));
+```
+
+*Handling exceptions*
+```
+var retry = new Retry();
+try {
+	retry.Attempt(() => int.Parse("abc"), 3, Timespan.FromSeconds(1));
+}
+catch(AggregateException ex) {
+	// Handle all individual exceptions
+}
 ```
 
 ### Tests
 Tests under `DotNetRetry.Tests` project, using `NUnit 3` framework.
+
+#### Running from command line
+If you have dotnet cli installed, you can build the project from the solution folder, and then run the tests
+```
+$ > dotnet build
+
+$ > "packages/NUnit.ConsoleRunner.3.6.1/tools/nunit3-console.exe" DotNetRetryTests/bin/Release/DotNetRetry.Tests.dll
+```
