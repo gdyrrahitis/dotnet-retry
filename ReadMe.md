@@ -24,7 +24,7 @@ Retries are performed in a linear fashion.
 * `Retry.cs`. The class that consists all the logic for the retry attempts.
   * Methods
     * void Attempt. Attempts to try and run a void synchronous action
-    * void Attempt<T>. Attempts to try and run a void synchronous action with a parameter of type T
+    * T Attempt<T>. Attempts to try and run a synchronous Func<T>
 
 ### Examples
 **Just a method invocation**
