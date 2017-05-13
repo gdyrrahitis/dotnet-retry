@@ -40,11 +40,11 @@ retry.Attempt(() => TryThisOperation(), 2, Timespan.FromSeconds(2));
 var retry = new Retry();
 try 
 {
-	retry.Attempt(() => int.Parse("abc"), 3, Timespan.FromSeconds(1));
+    retry.Attempt(() => int.Parse("abc"), 3, Timespan.FromSeconds(1));
 }
 catch(AggregateException ex) 
 {
-	// Handle all individual exceptions
+    // Handle all individual exceptions
 }
 ```
 
