@@ -191,3 +191,4 @@ ModelManifest.xml
 *.ncrunchsolution
 /DotNetRetry/DotNetRetry.nuspec
 /DotNetRetry/gdyrra.dotnet.retry.1.0.0.nupkg
+*.nupkg
