@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading;
     using System.Threading.Tasks;
 
     public class Retry : IRetry
@@ -19,10 +18,6 @@
         /// <summary>
         /// Retries an action and if something happens stores the exceptions to aggregate them
         /// </summary>
-        /// <param name="action">The action to try execute</param>
-        /// <param name="tries">Total tries</param>
-        /// <param name="timeBetweenRetries">Time between retries</param>
-        /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
         private static void Do(Action action, int tries, TimeSpan timeBetweenRetries)
         {
             var exceptions = new List<Exception>();
@@ -45,7 +40,7 @@
         }
 
         /// <summary>
-        /// Attempts to retry an Func with a result.
+        /// Attempts to retry an a method that returns a result.
         /// </summary>
         /// <typeparam name="T">The type of the return value the action returns</typeparam>
         /// <param name="function">The function to try execute</param>
@@ -58,11 +53,6 @@
         /// <summary>
         /// Retries an action and if something happens stores the exceptions to aggregate them
         /// </summary>
-        /// <param name="function">The function to try execute</param>
-        /// <param name="tries">Total tries</param>
-        /// <param name="timeBetweenRetries">Time between retries</param>
-        /// <returns>The return value of the function</returns>
-        /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
         private static T Do<T>(Func<T> function, int tries, TimeSpan timeBetweenRetries)
         {
             var exceptions = new List<Exception>();
@@ -70,7 +60,8 @@
             {
                 try
                 {
-                    return function();
+                    var result = function();
+                    return result;
                 }
                 catch (Exception ex)
                 {

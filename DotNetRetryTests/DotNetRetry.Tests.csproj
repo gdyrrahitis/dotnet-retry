@@ -51,8 +51,11 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="RetryTests\Attempt.cs" />
+    <Compile Include="RetryTests\Action\Attempt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RetryTests\Function\Attempt.cs" />
+    <Compile Include="Static\RetryTests\Instance.cs" />
+    <Compile Include="Wrapper\RetryTests\GetRetryMechanism.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNetRetry\DotNetRetry.csproj">

@@ -2,9 +2,6 @@
 {
     public class Retry: IRetryWrapper
     {
-        public IRetry GetRetryMechanism()
-        {
-            return Static.Retry.Instance;
-        }
+        public IRetry GetRetryMechanism() => Static.Retry.Instance;
     }
 }

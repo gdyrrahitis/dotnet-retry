@@ -58,3 +58,5 @@ $ > dotnet build
 
 $ > "packages/NUnit.ConsoleRunner.3.6.1/tools/nunit3-console.exe" DotNetRetryTests/bin/Release/DotNetRetry.Tests.dll
 ```
+## License
+Library and code is free to use in commercial applications and/or libraries without restrictions.
