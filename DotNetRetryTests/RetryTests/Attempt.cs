@@ -1,4 +1,4 @@
-﻿namespace DotNetRetryTests.RetryTests
+﻿namespace DotNetRetry.Tests.RetryTests
 {
     using System;
     using DotNetRetry;
