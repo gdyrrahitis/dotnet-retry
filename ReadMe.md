@@ -44,6 +44,7 @@ retry.Attempt(() => TryThisOperation(x, y), 2, Timespan.FromSeconds(2));
 ```
 
 **Using methods that return a value**
+
 They will be treated as `Func<T>`
 ```
 // Greet() method returns "Hello there!"
@@ -53,6 +54,7 @@ var greeting = retry.Attempt(Greet, 2, Timespan.FromSeconds(2));
 ```
 
 **Handling exceptions**
+
 The following will fail in all tries. If that happens, `Attempt` method will throw an `AggregateException` with all exceptions listed.
 ```
 var retry = new Retry();
@@ -67,6 +69,7 @@ catch(AggregateException ex)
 ```
 
 **Using singleton instance**
+
 In `DotNetRetry.Static` there is another `Retry` class, which returns a singleton instance
 ```
 DotNetRetry.Static.Retry.Attempt(TryThisOperation, 2, Timespan.FromSeconds(2));
