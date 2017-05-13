@@ -29,13 +29,31 @@ Retries are performed in a linear fashion.
 ### Examples
 **Just a method invocation**
 
-Just retrying a method, twice waiting for two seconds between retries.
+Just retrying a method, twice, waiting for two seconds between retries.
 ```
 var retry = new Retry();
 retry.Attempt(() => TryThisOperation(), 2, Timespan.FromSeconds(2));
+// or just retry.Attempt(TryThisOperation, 2, Timespan.FromSeconds(2));
+```
+
+**Or passing variables, it doesn't matter**
+```
+// x = 1, y = "abc"
+var retry = new Retry();
+retry.Attempt(() => TryThisOperation(x, y), 2, Timespan.FromSeconds(2));
+```
+
+**Using methods that return a value**
+They will be treated as `Func<T>`
+```
+// Greet() method returns "Hello there!"
+var retry = new Retry();
+var greeting = retry.Attempt(Greet, 2, Timespan.FromSeconds(2));
+// Hello there!
 ```
 
 **Handling exceptions**
+The following will fail in all tries. If that happens, `Attempt` method will throw an `AggregateException` with all exceptions listed.
 ```
 var retry = new Retry();
 try 
@@ -46,6 +64,12 @@ catch(AggregateException ex)
 {
     // Handle all individual exceptions
 }
+```
+
+**Using singleton instance**
+In `DotNetRetry.Static` there is another `Retry` class, which returns a singleton instance
+```
+DotNetRetry.Static.Retry.Attempt(TryThisOperation, 2, Timespan.FromSeconds(2));
 ```
 
 ### Tests
