@@ -4,7 +4,7 @@ Retry mechanism for C#
 [![Build Status](https://travis-ci.org/gdyrrahitis/dotnet-retry.svg?branch=master)](https://travis-ci.org/gdyrrahitis/dotnet-retry)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/gdyrrahitis/dotnet-retry)
 
-## Table Of Contents
+## Table of contents
 * Description
 * Classes
 * Examples
