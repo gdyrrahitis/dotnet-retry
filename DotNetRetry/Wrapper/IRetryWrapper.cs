@@ -1,4 +1,4 @@
-﻿namespace DotNetRetry
+﻿namespace DotNetRetry.Wrapper
 {
     public interface IRetryWrapper
     {
