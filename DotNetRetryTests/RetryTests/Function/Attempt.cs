@@ -101,5 +101,35 @@
             AreEqual(3, tries);
             AreEqual("abc", result);
         }
+
+        [Test]
+        public void ThrowsArgumentOutOfRangeExceptionForTriesBeingLessThanOne()
+        {
+            // Arrange | Act
+            TestDelegate action = () => _retry.Attempt(() => "abc", 0, TimeSpan.FromSeconds(1));
+
+            // Assert
+            Throws<ArgumentOutOfRangeException>(action);
+        }
+
+        [Test]
+        public void ThrowsArgumentExceptionForTimespanBeingZero()
+        {
+            // Arrange | Act
+            TestDelegate action = () => _retry.Attempt(() => "abc", 3, TimeSpan.Zero);
+
+            // Assert
+            Throws<ArgumentException>(action);
+        }
+
+        [Test]
+        public void ThrowsArgumentExceptionForTimespanBeingMinValue()
+        {
+            // Arrange | Act
+            TestDelegate action = () => _retry.Attempt(() => "abc", 3, TimeSpan.MinValue);
+
+            // Assert
+            Throws<ArgumentException>(action);
+        }
     }
 }

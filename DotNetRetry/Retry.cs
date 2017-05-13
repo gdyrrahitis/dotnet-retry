@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Bytes2you.Validation;
 
     public class Retry : IRetry
     {
@@ -13,6 +14,8 @@
         /// <param name="tries">Total tries</param>
         /// <param name="timeBetweenRetries">Time between retries</param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
+        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="tries"/> being less than 1</exception>
+        /// <exception cref="ArgumentException">For parameter <paramref name="timeBetweenRetries"/> Timespan.Zero or Timespan.MinValue values</exception>
         public void Attempt(Action action, int tries, TimeSpan timeBetweenRetries) => Do(action, tries, timeBetweenRetries);
 
         /// <summary>
@@ -20,6 +23,8 @@
         /// </summary>
         private static void Do(Action action, int tries, TimeSpan timeBetweenRetries)
         {
+            ValidateArguments(tries, timeBetweenRetries);
+
             var exceptions = new List<Exception>();
             while (tries > 0)
             {
@@ -39,6 +44,15 @@
             }
         }
 
+        private static void ValidateArguments(int tries, TimeSpan timeBetweenRetries)
+        {
+            Guard.WhenArgument(tries, nameof(tries)).IsLessThan(1).Throw();
+            Guard.WhenArgument(timeBetweenRetries, nameof(timeBetweenRetries))
+                .IsEqual(TimeSpan.Zero)
+                .IsEqual(TimeSpan.MinValue)
+                .Throw();
+        }
+
         /// <summary>
         /// Attempts to retry an a method that returns a result.
         /// </summary>
@@ -47,6 +61,8 @@
         /// <param name="tries">Total tries</param>
         /// <param name="timeBetweenRetries">Time between retries</param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
+        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="tries"/> being less than 1</exception>
+        /// <exception cref="ArgumentException">For parameter <paramref name="timeBetweenRetries"/> Timespan.Zero or Timespan.MinValue values</exception>
         /// <returns>The function return value</returns>
         public T Attempt<T>(Func<T> function, int tries, TimeSpan timeBetweenRetries) => Do(function, tries, timeBetweenRetries);
 
@@ -55,6 +71,8 @@
         /// </summary>
         private static T Do<T>(Func<T> function, int tries, TimeSpan timeBetweenRetries)
         {
+            ValidateArguments(tries, timeBetweenRetries);
+
             var exceptions = new List<Exception>();
             while (tries > 0)
             {
