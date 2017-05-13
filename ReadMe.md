@@ -1,9 +1,8 @@
 ﻿# DotNetRetry
 Retry mechanism for C#
 
-[![Build Status](https://circleci.com/gh/gdyrrahitis/angular-101/tree/master.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/gdyrrahitis/angular-101/tree/master)
-[![Node version](https://img.shields.io/badge/node-4.5.0-brightgreen.svg?style=flat)](http://nodejs.org/download/)
-[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/gdyrrahitis/angular-101)
+[![Build Status](https://circleci.com/gh/gdyrrahitis/angular-101/tree/master.svg?style=shield&circle-token=:circle-token)](https://travis-ci.org/gdyrrahitis/dotnet-retry.svg?branch=master)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/gdyrrahitis/dotnet-retry)
 
 ## Table Of Contents
 * Description
