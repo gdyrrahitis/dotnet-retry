@@ -2,7 +2,7 @@
 Retry mechanism for C#
 
 [![Build Status](https://travis-ci.org/gdyrrahitis/dotnet-retry.svg?branch=master)](https://travis-ci.org/gdyrrahitis/dotnet-retry)
-[![NuGet](https://img.shields.io/nuget/v/Nuget.Core.svg)](https://www.nuget.org/packages/gdyrra.dotnet.retry/0.1.0)
+[![NuGet](https://img.shields.io/nuget/v/gdyrra.dotnet.retry.svg)](https://www.nuget.org/packages/gdyrra.dotnet.retry/0.1.0)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/gdyrrahitis/dotnet-retry)
 
 ## Table of contents
