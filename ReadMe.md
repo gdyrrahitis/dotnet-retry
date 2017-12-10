@@ -17,7 +17,7 @@ It consists of 3 Classes to use, `RetryWrapper.cs`, `RetryStatic.cs`, `Retry.cs`
 `Retry` class contains operations, methods named `Attemp` to re-run a failed action or function (`Func<T>`). Method retries are performed in a loop, and upon failure are delayed for X amount of time, which X is provided to the call of the retry method. After reaching the maximum number of retries, an `AggregateException` will be thrown, which contains all the exceptions occured for the method invocation.
 
 ### Retries
-For retries a linear technique is implemented in this current `0.1.0` version.
+For retries a linear technique is implemented in this current `1.0.0` version.
 
 ### Classes
 * `RetryWrapper.cs`. A wrapper class that wraps the static 'RetryStatic.cs`. It is intended to be used on test suites.

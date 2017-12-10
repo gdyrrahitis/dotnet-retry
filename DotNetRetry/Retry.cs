@@ -4,9 +4,19 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Bytes2you.Validation;
+    using Events;
 
-    public class Retry : IRetry
+    internal class Retry
     {
+        private const string InvalidOperationExceptionErrorMessage = "Fatal error in function retry. Reached unreachable code section.";
+
+        private readonly Retriable _retriable;
+
+        internal Retry(Retriable retriable)
+        {
+            _retriable = retriable;
+        }
+
         /// <summary>
         /// Attempts to retry an action.
         /// </summary>
@@ -16,35 +26,62 @@
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
         /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="tries"/> being less than 1</exception>
         /// <exception cref="ArgumentException">For parameter <paramref name="timeBetweenRetries"/> Timespan.Zero or Timespan.MinValue values</exception>
-        public void Attempt(Action action, int tries, TimeSpan timeBetweenRetries) => Do(action, tries, timeBetweenRetries);
+        public void Attempt(Action action, int tries, TimeSpan timeBetweenRetries) => Do(() =>
+        {
+            action();
+            _retriable.OnAfterRetryInvocation();
+        }, tries, timeBetweenRetries);
 
         /// <summary>
         /// Retries an action and if something happens stores the exceptions to aggregate them
         /// </summary>
-        private static void Do(Action action, int tries, TimeSpan timeBetweenRetries)
+        private void Do(Action action, int tries, TimeSpan timeBetweenRetries)
         {
             ValidateArguments(tries, timeBetweenRetries);
 
             var exceptions = new List<Exception>();
+            
             while (tries > 0)
             {
+                _retriable.OnBeforeRetryInvocation();
                 try
                 {
                     action();
-                    break;
+                    return;
                 }
                 catch (Exception ex)
                 {
+                    _retriable.OnFailureInvocation();
                     exceptions.Add(ex);
                     if (--tries > 0)
                         Task.Delay(timeBetweenRetries).Wait();
                     else
-                        throw new AggregateException(exceptions);
+                        ThrowFlattenAggregateException(exceptions);
                 }
+                _retriable.OnAfterRetryInvocation();
             }
         }
 
-        private static void ValidateArguments(int tries, TimeSpan timeBetweenRetries)
+        /// <summary>
+        /// Throws a flatten aggregate exception to the caller.
+        /// </summary>
+        /// <param name="exceptions">An <see cref="IEnumerable{T}"/> of <see cref="Exception"/> objects.</param>
+        /// <remarks>
+        /// For more info on Flatten method see 
+        /// https://msdn.microsoft.com/en-us/library/system.aggregateexception.flatten(v=vs.110).aspx
+        /// </remarks>
+        private static void ThrowFlattenAggregateException(IEnumerable<Exception> exceptions)
+        {
+            var aggregateException = new AggregateException(exceptions);
+            throw aggregateException.Flatten();
+        }
+
+        /// <summary>
+        /// Validates arguments <paramref name="tries"/> and <paramref name="timeBetweenRetries"/>.
+        /// </summary>
+        /// <param name="tries">Number of tries.</param>
+        /// <param name="timeBetweenRetries">Time to wait between retries.</param>
+        private void ValidateArguments(int tries, TimeSpan timeBetweenRetries)
         {
             Guard.WhenArgument(tries, nameof(tries)).IsLessThan(1).Throw();
             Guard.WhenArgument(timeBetweenRetries, nameof(timeBetweenRetries))
@@ -64,18 +101,25 @@
         /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="tries"/> being less than 1</exception>
         /// <exception cref="ArgumentException">For parameter <paramref name="timeBetweenRetries"/> Timespan.Zero or Timespan.MinValue values</exception>
         /// <returns>The function return value</returns>
-        public T Attempt<T>(Func<T> function, int tries, TimeSpan timeBetweenRetries) => Do(function, tries, timeBetweenRetries);
+        public T Attempt<T>(Func<T> function, int tries, TimeSpan timeBetweenRetries) => 
+            Do(() =>
+            {
+                var result = function();
+                _retriable.OnAfterRetryInvocation();
+                return result;
+            }, tries, timeBetweenRetries);
 
         /// <summary>
-        /// Retries an action and if something happens stores the exceptions to aggregate them
+        /// Retries an action and if something happens stores the exceptions to aggregate them.
         /// </summary>
-        private static T Do<T>(Func<T> function, int tries, TimeSpan timeBetweenRetries)
+        private T Do<T>(Func<T> function, int tries, TimeSpan timeBetweenRetries)
         {
             ValidateArguments(tries, timeBetweenRetries);
 
             var exceptions = new List<Exception>();
             while (tries > 0)
             {
+                _retriable.OnBeforeRetryInvocation();
                 try
                 {
                     var result = function();
@@ -83,15 +127,17 @@
                 }
                 catch (Exception ex)
                 {
+                    _retriable.OnFailureInvocation();
                     exceptions.Add(ex);
                     if (--tries > 0)
                         Task.Delay(timeBetweenRetries).Wait();
                     else
-                        throw new AggregateException(exceptions);
+                        ThrowFlattenAggregateException(exceptions);
                 }
+                _retriable.OnAfterRetryInvocation();
             }
 
-            throw new InvalidOperationException("Fatal error in function retry. Reached unreachable code section.");
+            throw new InvalidOperationException(InvalidOperationExceptionErrorMessage);
         }
     }
 }

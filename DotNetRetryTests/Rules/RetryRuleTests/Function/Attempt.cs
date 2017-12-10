@@ -1,20 +1,18 @@
-﻿namespace DotNetRetry.Tests.RetryTests.Function
+﻿namespace DotNetRetry.Tests.Rules.RetryRuleTests.Function
 {
     using System;
     using System.Diagnostics;
+    using DotNetRetry.Rules;
     using NUnit.Framework;
     using static NUnit.Framework.Assert;
 
     [TestFixture]
     public class Attempt
     {
-        private IRetry _retry;
+        private IRetry _rules;
 
         [SetUp]
-        public void Setup()
-        {
-            _retry = new Retry();
-        }
+        public void Setup() => _rules = RetryRule.SetupRules();
 
         [Test]
         public void ReturnsListOfExceptionsAfterFailedInAllTries()
@@ -28,7 +26,7 @@
             };
 
             // Act
-            TestDelegate action = () => _retry.Attempt(function, 3, TimeSpan.FromSeconds(1));
+            TestDelegate action = () => _rules.Attempt(function, 3, TimeSpan.FromSeconds(1));
 
             // Assert
             var exception = Throws<AggregateException>(action);
@@ -48,7 +46,7 @@
 
             // Act
             stopwatch.Start();
-            Throws<AggregateException>(() => _retry.Attempt(function, 3, TimeSpan.FromSeconds(1)));
+            Throws<AggregateException>(() => _rules.Attempt(function, 3, TimeSpan.FromSeconds(1)));
             stopwatch.Stop();
             var elapsed = stopwatch.Elapsed;
 
@@ -72,7 +70,7 @@
             };
 
             // Act
-            var result = _retry.Attempt(function, 3, TimeSpan.FromSeconds(1));
+            var result = _rules.Attempt(function, 3, TimeSpan.FromSeconds(1));
 
             // Assert
             AreEqual(2, tries);
@@ -95,7 +93,7 @@
             };
 
             // Act
-            var result = _retry.Attempt(function, 3, TimeSpan.FromSeconds(1));
+            var result = _rules.Attempt(function, 3, TimeSpan.FromSeconds(1));
 
             // Assert
             AreEqual(3, tries);
@@ -106,7 +104,7 @@
         public void ThrowsArgumentOutOfRangeExceptionForTriesBeingLessThanOne()
         {
             // Arrange | Act
-            TestDelegate action = () => _retry.Attempt(() => "abc", 0, TimeSpan.FromSeconds(1));
+            TestDelegate action = () => _rules.Attempt(() => "abc", 0, TimeSpan.FromSeconds(1));
 
             // Assert
             Throws<ArgumentOutOfRangeException>(action);
@@ -116,7 +114,7 @@
         public void ThrowsArgumentExceptionForTimespanBeingZero()
         {
             // Arrange | Act
-            TestDelegate action = () => _retry.Attempt(() => "abc", 3, TimeSpan.Zero);
+            TestDelegate action = () => _rules.Attempt(() => "abc", 3, TimeSpan.Zero);
 
             // Assert
             Throws<ArgumentException>(action);
@@ -126,7 +124,7 @@
         public void ThrowsArgumentExceptionForTimespanBeingMinValue()
         {
             // Arrange | Act
-            TestDelegate action = () => _retry.Attempt(() => "abc", 3, TimeSpan.MinValue);
+            TestDelegate action = () => _rules.Attempt(() => "abc", 3, TimeSpan.MinValue);
 
             // Assert
             Throws<ArgumentException>(action);
