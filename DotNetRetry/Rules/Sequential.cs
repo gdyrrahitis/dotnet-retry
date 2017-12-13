@@ -1,22 +1,21 @@
 ﻿using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("DotNetRetry.Tests")]
-namespace DotNetRetry
+namespace DotNetRetry.Rules
 {
     using System;
     using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using Bytes2you.Validation;
     using Events;
 
-    internal class Retry: IRetry
+    internal class Sequential: IRetry
     {
         private const string InvalidOperationExceptionErrorMessage = "Fatal error in function retry. Reached unreachable code section.";
 
         private readonly Retriable _retriable;
 
-        internal Retry(Retriable retriable)
+        internal Sequential(Retriable retriable)
         {
             _retriable = retriable;
         }
@@ -44,7 +43,7 @@ namespace DotNetRetry
             ValidateArguments(tries, timeBetweenRetries);
 
             var exceptions = new List<Exception>();
-            
+
             while (tries > 0)
             {
                 _retriable.OnBeforeRetryInvocation();
@@ -105,7 +104,7 @@ namespace DotNetRetry
         /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="tries"/> being less than 1</exception>
         /// <exception cref="ArgumentException">For parameter <paramref name="timeBetweenRetries"/> Timespan.Zero or Timespan.MinValue values</exception>
         /// <returns>The function return value</returns>
-        public T Attempt<T>(Func<T> function, int tries, TimeSpan timeBetweenRetries) => 
+        public T Attempt<T>(Func<T> function, int tries, TimeSpan timeBetweenRetries) =>
             Do(() =>
             {
                 var result = function();
