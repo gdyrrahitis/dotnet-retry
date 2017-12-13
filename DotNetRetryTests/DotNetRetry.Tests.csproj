@@ -51,12 +51,16 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Exceptions\RuleNotFoundExceptionTests\Constructor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RulesFactoryTests\Select.cs" />
     <Compile Include="Rules\RetryRuleTests\Action\Attempt.cs" />
     <Compile Include="Rules\RetryRuleTests\Function\Attempt.cs" />
     <Compile Include="Rules\RetryRuleTests\OnAfterRetry.cs" />
     <Compile Include="Rules\RetryRuleTests\OnBeforeRetry.cs" />
     <Compile Include="Rules\RetryRuleTests\OnFailure.cs" />
+    <Compile Include="Rules\SequentialTests\Action\Attempt.cs" />
+    <Compile Include="Rules\SequentialTests\Function\Attempt.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNetRetry\DotNetRetry.csproj">
@@ -67,7 +71,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Rules\ExponentialTests\Action\" />
+    <Folder Include="Rules\ExponentialTests\Function\" />
+    <Folder Include="Strategy\Activators\NullActivatorTests\" />
+    <Folder Include="Strategy\Activators\TypeActivatorTests\" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

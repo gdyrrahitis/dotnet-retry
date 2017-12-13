@@ -11,19 +11,39 @@
     /// </summary>
     public class RetryRule : Retriable, IRules
     {
+        private readonly IRulesFactory _factory;
         private static RetryRule _instance;
+        private static Rules _rule;
 
-        private RetryRule()
+        private RetryRule(IRulesFactory factory)
         {
+            _factory = factory;
         }
 
-        private static RetryRule Instance => _instance ?? (_instance = new RetryRule());
+        private static RetryRule Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    var entry = Startup.Configure();
+                    _instance = new RetryRule(entry);
+                }
+
+                return _instance;
+            }
+        }
 
         /// <summary>
         /// Builds the retry rules.
         /// </summary>
         /// <returns>A new <see cref="RetryRule"/> instance.</returns>
-        public static RetryRule SetupRules() => _instance = new RetryRule();
+        public static RetryRule SetupRules(Rules rule)
+        {
+            _rule = rule;
+            var entry = Startup.Configure();
+            return _instance = new RetryRule(entry);
+        }
 
         /// <summary>
         /// Sets up a handler on before retry events.
@@ -69,7 +89,7 @@
         /// <exception cref="ArgumentException">For parameter <paramref name="timeBetweenRetries"/> Timespan.Zero or Timespan.MinValue values</exception>
         public void Attempt(Action action, int tries, TimeSpan timeBetweenRetries)
         {
-            var retry = new Retry(this);
+            var retry = _factory.Select(_rule, this);
             retry.Attempt(() =>
             {
                 action();
@@ -90,7 +110,7 @@
         /// <returns>The function return value</returns>
         public T Attempt<T>(Func<T> function, int tries, TimeSpan timeBetweenRetries)
         {
-            var retry = new Retry(this);
+            var retry = _factory.Select(_rule, this);
             return retry.Attempt(() =>
             {
                 var result = function();
