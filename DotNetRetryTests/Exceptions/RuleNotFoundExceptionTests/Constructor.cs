@@ -2,23 +2,22 @@
 {
     using System;
     using DotNetRetry.Exceptions;
-    using NUnit.Framework;
-    using static NUnit.Framework.Assert;
+    using Xunit;
+    using static Xunit.Assert;
 
-    [TestFixture]
     public class Constructor
     {
-        [Test]
+        [Fact]
         public void CreatesInstanceWithParameterlessConstructor()
         {
             // Arrange | Act
             var result = new RuleNotFoundException();
 
             // Assert
-            IsInstanceOf<Exception>(result);
+            IsType<Exception>(result);
         }
 
-        [Test]
+        [Fact]
         public void CreatesInstanceWithMessage()
         {
             // Arrange 
@@ -28,10 +27,10 @@
             var result = new RuleNotFoundException(message);
 
             // Assert
-            AreEqual(message, result.Message);
+            Equal(message, result.Message);
         }
 
-        [Test]
+        [Fact]
         public void CreatesInstanceWithMessageAndInnerException()
         {
             // Arrange 
@@ -43,9 +42,9 @@
             var result = new RuleNotFoundException(message, innerException);
 
             // Assert
-            AreEqual(message, result.Message);
+            Equal(message, result.Message);
             NotNull(result.InnerException);
-            AreEqual(innerMessage, result.InnerException.Message);
+            Equal(innerMessage, result.InnerException.Message);
         }
     }
 }

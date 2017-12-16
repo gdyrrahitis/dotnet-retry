@@ -2,31 +2,34 @@
 {
     using System;
     using DotNetRetry.Rules;
-    using NUnit.Framework;
-    using static NUnit.Framework.Assert;
+    using Xunit;
+    using static Xunit.Assert;
 
-    [TestFixture]
     public class OnFailure
     {
-        [Test]
-        public void ReturnsSelf()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void ReturnsSelf(Rule input)
         {
             // Arrange 
-            var rule = RetryRule.SetupRules();
+            var rule = RetryRule.SetupRules(input);
 
             // Act
             var result = rule.OnFailure((sender, args) => { });
 
             // Assert
-            AreSame(rule, result);
+            Same(rule, result);
         }
 
-        [Test]
-        public void EventShouldBeDispatchedWhenFailureOccursForAction()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void EventShouldBeDispatchedWhenFailureOccursForAction(Rule input)
         {
             // Arrange
             var dispatched = false;
-            var rule = RetryRule.SetupRules().OnFailure((sender, args) => dispatched = true);
+            var rule = RetryRule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
 
             // Act
             Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom Exception"); }, 1,
@@ -36,31 +39,33 @@
             True(dispatched, "Event should be dispatched");
         }
 
-        [Test]
-        public void EventShouldBeDispatchedWhenFailureOccursForFunction()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void EventShouldBeDispatchedWhenFailureOccursForFunction(Rule input)
         {
             // Arrange
             var dispatched = false;
-            var rule = RetryRule.SetupRules().OnFailure((sender, args) => dispatched = true);
+            var rule = RetryRule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
 
             // Act
             Throws<AggregateException>(() => rule.Attempt(() =>
             {
                 throw new Exception("Custom Exception");
-                return "Function Invocation";
-            }, 1,
-                TimeSpan.FromSeconds(1)));
+            }, 1, TimeSpan.FromSeconds(1)));
 
             // Assert
             True(dispatched, "Event should be dispatched");
         }
 
-        [Test]
-        public void EventShouldNotBeDispatchedWhenThereIsNoFailureForAction()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void EventShouldNotBeDispatchedWhenThereIsNoFailureForAction(Rule input)
         {
             // Arrange
             var dispatched = false;
-            var rule = RetryRule.SetupRules().OnFailure((sender, args) => dispatched = true);
+            var rule = RetryRule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
 
             // Act
             rule.Attempt(() => { }, 1, TimeSpan.FromSeconds(1));
@@ -69,12 +74,14 @@
             False(dispatched, "Event should not be dispatched");
         }
 
-        [Test]
-        public void EventShouldNotBeDispatchedWhenThereIsNoFailureForFunction()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void EventShouldNotBeDispatchedWhenThereIsNoFailureForFunction(Rule input)
         {
             // Arrange
             var dispatched = false;
-            var rule = RetryRule.SetupRules().OnFailure((sender, args) => dispatched = true);
+            var rule = RetryRule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
 
             // Act
             rule.Attempt(() => "Function Invocation", 1, TimeSpan.FromSeconds(1));
@@ -83,29 +90,33 @@
             False(dispatched, "Event should not be dispatched");
         }
 
-        [Test]
-        public void EventShouldNotBeDispatchedByAnotherRuleForAction()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void EventShouldNotBeDispatchedByAnotherRuleForAction(Rule input)
         {
             // Arrange
             var dispatched = false;
-            RetryRule.SetupRules().OnFailure((sender, args) => dispatched = true);
+            RetryRule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
 
             // Act
-            RetryRule.SetupRules().Attempt(() => { }, 1, TimeSpan.FromSeconds(1));
+            RetryRule.SetupRules(input).Attempt(() => { }, 1, TimeSpan.FromSeconds(1));
 
             // Assert
             False(dispatched, "Event should not be dispatched");
         }
 
-        [Test]
-        public void EventShouldNotBeDispatchedByAnotherRuleForFunction()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void EventShouldNotBeDispatchedByAnotherRuleForFunction(Rule input)
         {
             // Arrange
             var dispatched = false;
-            RetryRule.SetupRules().OnFailure((sender, args) => dispatched = true);
+            RetryRule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
 
             // Act
-            RetryRule.SetupRules().Attempt(() => "Function Invocation", 1, TimeSpan.FromSeconds(1));
+            RetryRule.SetupRules(input).Attempt(() => "Function Invocation", 1, TimeSpan.FromSeconds(1));
 
             // Assert
             False(dispatched, "Event should not be dispatched");

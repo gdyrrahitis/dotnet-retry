@@ -2,22 +2,20 @@
 {
     using System;
     using DotNetRetry.Rules;
-    using NUnit.Framework;
-    using static NUnit.Framework.Assert;
+    using Xunit;
+    using static Xunit.Assert;
 
-    [TestFixture]
     public class Attempt
     {
-        private Sequential _rule;
+        private readonly Sequential _rule;
 
-        [SetUp]
-        public void Setup()
+        public Attempt()
         {
-            var rule = RetryRule.SetupRules();
+            var rule = RetryRule.SetupRules(Rule.Sequential);
             _rule = new Sequential(rule);
         }
 
-        [Test]
+        [Fact]
         public void SuccessAtFirstTry()
         {
             // Arrange
@@ -33,10 +31,10 @@
             _rule.Attempt(successFullAction, 3, TimeSpan.FromSeconds(2));
 
             // Assert
-            AreEqual(15, actual);
+            Equal(15, actual);
         }
 
-        [Test]
+        [Fact]
         public void SuccessAtSecondTry()
         {
             // Arrange
@@ -61,11 +59,11 @@
             _rule.Attempt(successAtSecondTryAction, 5, TimeSpan.FromSeconds(1));
 
             // Assert
-            AreEqual(2, tries);
-            AreEqual(123, actual);
+            Equal(2, tries);
+            Equal(123, actual);
         }
 
-        [Test]
+        [Fact]
         public void SuccessAtThirdTry()
         {
             // Arrange
@@ -90,11 +88,11 @@
             _rule.Attempt(successAtThirdTryAction, 5, TimeSpan.FromSeconds(1));
 
             // Assert
-            AreEqual(3, tries);
-            AreEqual(123, actual);
+            Equal(3, tries);
+            Equal(123, actual);
         }
 
-        [Test]
+        [Fact]
         public void FailureAfterAllTriesReturnsAggregateExceptionWithAllTheExceptionsOccurred()
         {
             // Arrange
@@ -108,16 +106,15 @@
             };
 
             // Act
-            TestDelegate action = () => _rule.Attempt(failureAction, 3, TimeSpan.FromSeconds(1));
-            var exception = Throws<AggregateException>(action);
+            var exception = Throws<AggregateException>(() => _rule.Attempt(failureAction, 3, TimeSpan.FromSeconds(1)));
 
             // Assert
-            AreEqual(3, exception.InnerExceptions.Count);
-            AreEqual(3, tries);
-            AreEqual(0, actual);
+            Equal(3, exception.InnerExceptions.Count);
+            Equal(3, tries);
+            Equal(0, actual);
         }
 
-        [Test]
+        [Fact]
         public void SuccessAtFirstTryWithParameterPassed()
         {
             // Arrange
@@ -129,10 +126,10 @@
             _rule.Attempt(() => convertToIntAction(parameter), 3, TimeSpan.FromSeconds(1));
 
             // Assert
-            AreEqual(123456, actual);
+            Equal(123456, actual);
         }
 
-        [Test]
+        [Fact]
         public void SuccessAtSecondTryWithParameterPassed()
         {
             // Arrange
@@ -157,11 +154,11 @@
             _rule.Attempt(() => convertToIntAction(parameter), 6, TimeSpan.FromSeconds(1));
 
             // Assert
-            AreEqual(2, tries);
-            AreEqual(123456, actual);
+            Equal(2, tries);
+            Equal(123456, actual);
         }
 
-        [Test]
+        [Fact]
         public void FailureAfterAllTriesWithParameterPassed()
         {
             // Arrange
@@ -175,43 +172,42 @@
             };
 
             // Act
-            TestDelegate action = () => _rule.Attempt(() => failureAction(parameter), 3, TimeSpan.FromSeconds(1));
-            var exception = Throws<AggregateException>(action);
+            var exception = Throws<AggregateException>(() => _rule.Attempt(() => failureAction(parameter), 3, TimeSpan.FromSeconds(1)));
 
             // Assert
-            AreEqual(3, exception.InnerExceptions.Count);
-            AreEqual(3, tries);
-            AreEqual(0, actual);
+            Equal(3, exception.InnerExceptions.Count);
+            Equal(3, tries);
+            Equal(0, actual);
         }
 
-        [Test]
+        [Fact]
         public void ThrowsArgumentOutOfRangeExceptionForTriesBeingLessThanOne()
         {
             // Arrange | Act
-            TestDelegate action = () => _rule.Attempt(() => { }, 0, TimeSpan.FromSeconds(1));
+            var exception = Throws<ArgumentOutOfRangeException>(() => _rule.Attempt(() => { }, 0, TimeSpan.FromSeconds(1)));
 
             // Assert
-            Throws<ArgumentOutOfRangeException>(action);
+            Equal("", exception.Message);
         }
 
-        [Test]
+        [Fact]
         public void ThrowsArgumentExceptionForTimespanBeingZero()
         {
             // Arrange | Act
-            TestDelegate action = () => _rule.Attempt(() => { }, 3, TimeSpan.Zero);
+            var exception = Throws<ArgumentException>(() => _rule.Attempt(() => { }, 3, TimeSpan.Zero));
 
             // Assert
-            Throws<ArgumentException>(action);
+            Equal("", exception.Message);
         }
 
-        [Test]
+        [Fact]
         public void ThrowsArgumentExceptionForTimespanBeingMinValue()
         {
             // Arrange | Act
-            TestDelegate action = () => _rule.Attempt(() => { }, 3, TimeSpan.MinValue);
+            var exception = Throws<ArgumentException>(() => _rule.Attempt(() => { }, 3, TimeSpan.MinValue));
 
             // Assert
-            Throws<ArgumentException>(action);
+            Equal("", exception.Message);
         }
     }
 }

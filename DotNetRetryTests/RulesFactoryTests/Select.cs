@@ -2,22 +2,18 @@
 {
     using System;
     using System.Collections.Generic;
-    using DotNetRetry.Exceptions;
-    using DotNetRetry.Rules;
-    using NUnit.Framework;
+    using Exceptions;
+    using Rules;
     using Strategy.Activators;
-    using static NUnit.Framework.Assert;
+    using Xunit;
+    using static Xunit.Assert;
 
-    [TestFixture]
     public class Select
     {
-        private ActivatorsFactory _activatorFactory;
-        private Dictionary<Type, object[]> _rules;
+        private readonly ActivatorsFactory _activatorFactory;
 
-        [SetUp]
-        public void Setup()
+        public Select()
         {
-            var retryRule = RetryRule.SetupRules();
             var activators = new List<IActivator>
             {
                 new NullActivator(),
@@ -25,38 +21,44 @@
             };
 
             _activatorFactory = new ActivatorsFactory(activators);
-            _rules = new Dictionary<Type, object[]>
-            {
-                { typeof(Sequential), new object[]{ retryRule } },
-                { typeof(Exponential), new object[]{retryRule } }
-            };
         }
 
-        [TestCase(Rules.Sequential, typeof(Sequential))]
-        [TestCase(Rules.Exponential, typeof(Exponential))]
-        public void SelectRule(Rules rule, Type type)
+        [Theory]
+        [InlineData(Rule.Sequential, typeof(Sequential))]
+        [InlineData(Rule.Exponential, typeof(Exponential))]
+        public void SelectRule(Rule rule, Type type)
         {
             // Arrange
-            var factory = new RulesFactory(_rules, _activatorFactory);
+            var rules = new List<Type>
+            {
+                typeof(Sequential),
+                typeof(Exponential)
+            };
+            var factory = new RulesFactory(rules, _activatorFactory);
 
             // Act
             var result = factory.Select(rule);
 
             // Assert
-            AreEqual(type, result.GetType());
+            Equal(type, result.GetType());
         }
 
-        [Test]
+        [Fact]
         public void ThrowsRuleNotFoundExceptionWhenRuleDoesNotExist()
         {
             // Arrange
-            var factory = new RulesFactory(_rules, _activatorFactory);
+            var rules = new List<Type>
+            {
+                typeof(Sequential),
+                typeof(Exponential)
+            };
+            var factory = new RulesFactory(rules, _activatorFactory);
 
             // Act
-            var exception = Throws<RuleNotFoundException>(() => factory.Select((Rules) 3));
+            var exception = Throws<RuleNotFoundException>(() => factory.Select((Rule)3));
 
             // Assert
-            AreEqual("Could not find rule.", exception.Message);
+            Equal("Could not find rule.", exception.Message);
         }
     }
 }
