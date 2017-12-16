@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines the retry rules which are available.
     /// </summary>
-    public enum Rules
+    public enum Rule
     {
         /// <summary>
         /// Defines a sequential retry technique.

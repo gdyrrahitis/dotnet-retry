@@ -13,36 +13,30 @@
     {
         private readonly IRulesFactory _factory;
         private static RetryRule _instance;
-        private static Rules _rule;
+        private static Rule _rule;
 
         private RetryRule(IRulesFactory factory)
         {
             _factory = factory;
         }
 
-        private static RetryRule Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    var entry = Startup.Configure();
-                    _instance = new RetryRule(entry);
-                }
+        private static RetryRule Instance => _instance ?? Instantiate();
 
-                return _instance;
-            }
+        private static RetryRule Instantiate()
+        {
+            var entry = Startup.Configure();
+            return _instance = new RetryRule(entry);
         }
 
         /// <summary>
         /// Builds the retry rules.
         /// </summary>
+        /// <param name="rule">Retry rule to enforce.</param>
         /// <returns>A new <see cref="RetryRule"/> instance.</returns>
-        public static RetryRule SetupRules(Rules rule)
+        public static RetryRule SetupRules(Rule rule)
         {
             _rule = rule;
-            var entry = Startup.Configure();
-            return _instance = new RetryRule(entry);
+            return Instantiate();
         }
 
         /// <summary>

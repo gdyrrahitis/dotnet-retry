@@ -34,7 +34,7 @@ namespace DotNetRetry
         /// <param name="rule">The rule to fetch.</param>
         /// <param name="parameter">The parameter for each rule.</param>
         /// <returns>An instance of <see cref="IRetry"/> rule.</returns>
-        public IRetry Select(Rules.Rules rule, Retriable parameter) => 
+        public IRetry Select(Rules.Rule rule, Retriable parameter) => 
             Select(rule, new object[] { parameter });
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace DotNetRetry
         /// <param name="rule">The rule to fetch.</param>
         /// <param name="parameters">The parameters for each rule.</param>
         /// <returns>An instance of <see cref="IRetry"/> rule.</returns>
-        public IRetry Select(Rules.Rules rule, params object[] parameters)
+        public IRetry Select(Rules.Rule rule, params object[] parameters)
         {
             var type = (from r in _rules
                         let t = r.Name
