@@ -3,22 +3,19 @@
     using System;
     using System.Diagnostics;
     using DotNetRetry.Rules;
-    using NUnit.Framework;
-    using static NUnit.Framework.Assert;
+    using Xunit;
+    using static Xunit.Assert;
 
-    [TestFixture]
     public class Attempt
     {
-        private IRetry _rules;
-
-        [SetUp]
-        public void Setup() => _rules = RetryRule.SetupRules();
-
-        [Test]
-        public void ReturnsListOfExceptionsAfterFailedInAllTries()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void ReturnsListOfExceptionsAfterFailedInAllTries(Rule input)
         {
             // Arrange
             var tries = 0;
+            var rules = RetryRule.SetupRules(input);
             Func<string> function = () =>
             {
                 tries++;
@@ -26,19 +23,21 @@
             };
 
             // Act
-            TestDelegate action = () => _rules.Attempt(function, 3, TimeSpan.FromSeconds(1));
+            var exception = Throws<AggregateException>(() => rules.Attempt(function, 3, TimeSpan.FromSeconds(1)));
 
             // Assert
-            var exception = Throws<AggregateException>(action);
-            AreEqual(3, exception.InnerExceptions.Count);
-            AreEqual(3, tries);
+            Equal(3, exception.InnerExceptions.Count);
+            Equal(3, tries);
         }
 
-        [Test]
-        public void TakesTwoSecondsToCompleteAfterThreeRetriesOneSecondEach()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void TakesTwoSecondsToCompleteAfterThreeRetriesOneSecondEach(Rule input)
         {
             // Arrange
             var stopwatch = Stopwatch.StartNew();
+            var rules = RetryRule.SetupRules(input);
             Func<string> function = () =>
             {
                 throw new Exception("Unhandled exception");
@@ -46,19 +45,22 @@
 
             // Act
             stopwatch.Start();
-            Throws<AggregateException>(() => _rules.Attempt(function, 3, TimeSpan.FromSeconds(1)));
+            Throws<AggregateException>(() => rules.Attempt(function, 3, TimeSpan.FromSeconds(1)));
             stopwatch.Stop();
-            var elapsed = stopwatch.Elapsed;
 
             // Assert
-            AreEqual(2, elapsed.Seconds);
+            var elapsed = stopwatch.Elapsed;
+            Equal(2, elapsed.Seconds);
         }
 
-        [Test]
-        public void FailsTheFirstTimeButSucceedsOnSecondTryReturningStringValue()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void FailsTheFirstTimeButSucceedsOnSecondTryReturningStringValue(Rule input)
         {
             // Arrange
             var tries = 0;
+            var rules = RetryRule.SetupRules(input);
             Func<string> function = () =>
             {
                 if (tries++ < 1)
@@ -70,18 +72,21 @@
             };
 
             // Act
-            var result = _rules.Attempt(function, 3, TimeSpan.FromSeconds(1));
+            var result = rules.Attempt(function, 3, TimeSpan.FromSeconds(1));
 
             // Assert
-            AreEqual(2, tries);
-            AreEqual("abc", result);
+            Equal(2, tries);
+            Equal("abc", result);
         }
 
-        [Test]
-        public void FailsTheSecondTimeButSucceedsOnThirdTryReturningStringValue()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void FailsTheSecondTimeButSucceedsOnThirdTryReturningStringValue(Rule input)
         {
             // Arrange
             var tries = 0;
+            var rules = RetryRule.SetupRules(input);
             Func<string> function = () =>
             {
                 if (tries++ < 2)
@@ -93,41 +98,56 @@
             };
 
             // Act
-            var result = _rules.Attempt(function, 3, TimeSpan.FromSeconds(1));
+            var result = rules.Attempt(function, 3, TimeSpan.FromSeconds(1));
 
             // Assert
-            AreEqual(3, tries);
-            AreEqual("abc", result);
+            Equal(3, tries);
+            Equal("abc", result);
         }
 
-        [Test]
-        public void ThrowsArgumentOutOfRangeExceptionForTriesBeingLessThanOne()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void ThrowsArgumentOutOfRangeExceptionForTriesBeingLessThanOne(Rule input)
         {
-            // Arrange | Act
-            TestDelegate action = () => _rules.Attempt(() => "abc", 0, TimeSpan.FromSeconds(1));
+            // Arrange
+            var rules = RetryRule.SetupRules(input);
+
+            // Act
+            var exception = Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => "abc", 0, TimeSpan.FromSeconds(1)));
 
             // Assert
-            Throws<ArgumentOutOfRangeException>(action);
+            Equal("", exception.Message);
         }
 
-        [Test]
-        public void ThrowsArgumentExceptionForTimespanBeingZero()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void ThrowsArgumentExceptionForTimespanBeingZero(Rule input)
         {
-            // Arrange | Act
-            TestDelegate action = () => _rules.Attempt(() => "abc", 3, TimeSpan.Zero);
+            // Arrange
+            var rules = RetryRule.SetupRules(input);
+
+            // Act
+            var exception = Throws<ArgumentException>(() => rules.Attempt(() => "abc", 3, TimeSpan.Zero));
 
             // Assert
-            Throws<ArgumentException>(action);
+            Equal("", exception.Message);
         }
 
-        [Test]
-        public void ThrowsArgumentExceptionForTimespanBeingMinValue()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void ThrowsArgumentExceptionForTimespanBeingMinValue(Rule input)
         {
-            // Arrange | Act
-            TestDelegate action = () => _rules.Attempt(() => "abc", 3, TimeSpan.MinValue);
+            // Arrange
+            var rules = RetryRule.SetupRules(input);
+
+            // Act
+            var exception = Throws<ArgumentException>(() => rules.Attempt(() => "abc", 3, TimeSpan.MinValue));
 
             // Assert
-            Throws<ArgumentException>(action);
+            Equal("", exception.Message);
         }
     }
 }

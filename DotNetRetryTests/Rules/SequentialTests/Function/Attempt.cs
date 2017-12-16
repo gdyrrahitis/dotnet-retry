@@ -3,22 +3,20 @@
     using System;
     using System.Diagnostics;
     using DotNetRetry.Rules;
-    using NUnit.Framework;
-    using static NUnit.Framework.Assert;
+    using Xunit;
+    using static Xunit.Assert;
 
-    [TestFixture]
     public class Attempt
     {
-        private Sequential _rule;
+        private readonly Sequential _rule;
 
-        [SetUp]
-        public void Setup()
+        public Attempt()
         {
-            var rule = RetryRule.SetupRules();
+            var rule = RetryRule.SetupRules(Rule.Sequential);
             _rule = new Sequential(rule);
         }
 
-        [Test]
+        [Fact]
         public void ReturnsListOfExceptionsAfterFailedInAllTries()
         {
             // Arrange
@@ -30,15 +28,14 @@
             };
 
             // Act
-            TestDelegate action = () => _rule.Attempt(function, 3, TimeSpan.FromSeconds(1));
+            var exception = Throws<AggregateException>(() => _rule.Attempt(function, 3, TimeSpan.FromSeconds(1)));
 
             // Assert
-            var exception = Throws<AggregateException>(action);
-            AreEqual(3, exception.InnerExceptions.Count);
-            AreEqual(3, tries);
+            Equal(3, exception.InnerExceptions.Count);
+            Equal(3, tries);
         }
 
-        [Test]
+        [Fact]
         public void TakesTwoSecondsToCompleteAfterThreeRetriesOneSecondEach()
         {
             // Arrange
@@ -55,10 +52,10 @@
             var elapsed = stopwatch.Elapsed;
 
             // Assert
-            AreEqual(2, elapsed.Seconds);
+            Equal(2, elapsed.Seconds);
         }
 
-        [Test]
+        [Fact]
         public void FailsTheFirstTimeButSucceedsOnSecondTryReturningStringValue()
         {
             // Arrange
@@ -77,11 +74,11 @@
             var result = _rule.Attempt(function, 3, TimeSpan.FromSeconds(1));
 
             // Assert
-            AreEqual(2, tries);
-            AreEqual("abc", result);
+            Equal(2, tries);
+            Equal("abc", result);
         }
 
-        [Test]
+        [Fact]
         public void FailsTheSecondTimeButSucceedsOnThirdTryReturningStringValue()
         {
             // Arrange
@@ -100,38 +97,38 @@
             var result = _rule.Attempt(function, 3, TimeSpan.FromSeconds(1));
 
             // Assert
-            AreEqual(3, tries);
-            AreEqual("abc", result);
+            Equal(3, tries);
+            Equal("abc", result);
         }
 
-        [Test]
+        [Fact]
         public void ThrowsArgumentOutOfRangeExceptionForTriesBeingLessThanOne()
         {
             // Arrange | Act
-            TestDelegate action = () => _rule.Attempt(() => "abc", 0, TimeSpan.FromSeconds(1));
+            var exception = Throws<ArgumentOutOfRangeException>(() => _rule.Attempt(() => "abc", 0, TimeSpan.FromSeconds(1)));
 
             // Assert
-            Throws<ArgumentOutOfRangeException>(action);
+            Equal("", exception.Message);
         }
 
-        [Test]
+        [Fact]
         public void ThrowsArgumentExceptionForTimespanBeingZero()
         {
             // Arrange | Act
-            TestDelegate action = () => _rule.Attempt(() => "abc", 3, TimeSpan.Zero);
+            var exception = Throws<ArgumentException>(() => _rule.Attempt(() => "abc", 3, TimeSpan.Zero));
 
             // Assert
-            Throws<ArgumentException>(action);
+            Equal("", exception.Message);
         }
 
-        [Test]
+        [Fact]
         public void ThrowsArgumentExceptionForTimespanBeingMinValue()
         {
             // Arrange | Act
-            TestDelegate action = () => _rule.Attempt(() => "abc", 3, TimeSpan.MinValue);
+            var exception = Throws<ArgumentException>(() => _rule.Attempt(() => "abc", 3, TimeSpan.MinValue));
 
             // Assert
-            Throws<ArgumentException>(action);
+            Equal("", exception.Message);
         }
     }
 }

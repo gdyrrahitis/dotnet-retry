@@ -1,24 +1,20 @@
 ﻿namespace DotNetRetry.Tests.Rules.RetryRuleTests.Action
 {
     using System;
-    using DotNetRetry;
     using DotNetRetry.Rules;
-    using NUnit.Framework;
-    using static NUnit.Framework.Assert;
+    using Xunit;
+    using static Xunit.Assert;
 
-    [TestFixture]
     public class Attempt
     {
-        private IRetry _rule;
-
-        [SetUp]
-        public void Setup() => _rule = RetryRule.SetupRules();
-
-        [Test]
-        public void SuccessAtFirstTry()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void SuccessAtFirstTry(Rule input)
         {
             // Arrange
             var actual = 0;
+            var rules = RetryRule.SetupRules(input);
             Action successFullAction = () =>
             {
                 const string intAsString = "15";
@@ -27,18 +23,21 @@
             };
 
             // Act
-            _rule.Attempt(successFullAction, 3, TimeSpan.FromSeconds(2));
+            rules.Attempt(successFullAction, 3, TimeSpan.FromSeconds(2));
 
             // Assert
-            AreEqual(15, actual);
+            Equal(15, actual);
         }
 
-        [Test]
-        public void SuccessAtSecondTry()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void SuccessAtSecondTry(Rule input)
         {
             // Arrange
             var actual = 0;
             var tries = 0;
+            var rules = RetryRule.SetupRules(input);
             Action successAtSecondTryAction = () =>
             {
                 const string invalidNumber = "ab123";
@@ -55,19 +54,22 @@
             };
 
             // Act
-            _rule.Attempt(successAtSecondTryAction, 5, TimeSpan.FromSeconds(1));
+            rules.Attempt(successAtSecondTryAction, 5, TimeSpan.FromSeconds(1));
 
             // Assert
-            AreEqual(2, tries);
-            AreEqual(123, actual);
+            Equal(2, tries);
+            Equal(123, actual);
         }
 
-        [Test]
-        public void SuccessAtThirdTry()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void SuccessAtThirdTry(Rule input)
         {
             // Arrange
             var actual = 0;
             var tries = 0;
+            var rules = RetryRule.SetupRules(input);
             Action successAtThirdTryAction = () =>
             {
                 const string invalidNumber = "ab123";
@@ -84,19 +86,22 @@
             };
 
             // Act
-            _rule.Attempt(successAtThirdTryAction, 5, TimeSpan.FromSeconds(1));
+            rules.Attempt(successAtThirdTryAction, 5, TimeSpan.FromSeconds(1));
 
             // Assert
-            AreEqual(3, tries);
-            AreEqual(123, actual);
+            Equal(3, tries);
+            Equal(123, actual);
         }
 
-        [Test]
-        public void FailureAfterAllTriesReturnsAggregateExceptionWithAllTheExceptionsOccurred()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void FailureAfterAllTriesReturnsAggregateExceptionWithAllTheExceptionsOccurred(Rule input)
         {
             // Arrange
             var actual = 0;
             var tries = 0;
+            var rules = RetryRule.SetupRules(input);
             Action failureAction = () =>
             {
                 tries++;
@@ -105,37 +110,42 @@
             };
 
             // Act
-            TestDelegate action = () => _rule.Attempt(failureAction, 3, TimeSpan.FromSeconds(1));
-            var exception = Throws<AggregateException>(action);
+            var exception = Throws<AggregateException>(() => rules.Attempt(failureAction, 3, TimeSpan.FromSeconds(1)));
 
             // Assert
-            AreEqual(3, exception.InnerExceptions.Count);
-            AreEqual(3, tries);
-            AreEqual(0, actual);
+            Equal(3, exception.InnerExceptions.Count);
+            Equal(3, tries);
+            Equal(0, actual);
         }
 
-        [Test]
-        public void SuccessAtFirstTryWithParameterPassed()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void SuccessAtFirstTryWithParameterPassed(Rule input)
         {
             // Arrange
-            const string parameter = "123456";
             var actual = 0;
+            const string parameter = "123456";
+            var rules = RetryRule.SetupRules(input);
             Action<string> convertToIntAction = s => actual = int.Parse(s);
 
             // Act
-            _rule.Attempt(() => convertToIntAction(parameter), 3, TimeSpan.FromSeconds(1));
+            rules.Attempt(() => convertToIntAction(parameter), 3, TimeSpan.FromSeconds(1));
 
             // Assert
-            AreEqual(123456, actual);
+            Equal(123456, actual);
         }
 
-        [Test]
-        public void SuccessAtSecondTryWithParameterPassed()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void SuccessAtSecondTryWithParameterPassed(Rule input)
         {
             // Arrange
-            const string parameter = "abc123456";
             var actual = 0;
             var tries = 0;
+            const string parameter = "abc123456";
+            var rules = RetryRule.SetupRules(input);
             Action<string> convertToIntAction = s =>
             {
                 if (tries == 2)
@@ -151,20 +161,23 @@
             };
 
             // Act
-            _rule.Attempt(() => convertToIntAction(parameter), 6, TimeSpan.FromSeconds(1));
+            rules.Attempt(() => convertToIntAction(parameter), 6, TimeSpan.FromSeconds(1));
 
             // Assert
-            AreEqual(2, tries);
-            AreEqual(123456, actual);
+            Equal(2, tries);
+            Equal(123456, actual);
         }
 
-        [Test]
-        public void FailureAfterAllTriesWithParameterPassed()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void FailureAfterAllTriesWithParameterPassed(Rule input)
         {
             // Arrange
-            const string parameter = "abcd123";
             var actual = 0;
             var tries = 0;
+            const string parameter = "abcd123";
+            var rules = RetryRule.SetupRules(input);
             Action<string> failureAction = s =>
             {
                 tries++;
@@ -172,43 +185,59 @@
             };
 
             // Act
-            TestDelegate action = () => _rule.Attempt(() => failureAction(parameter), 3, TimeSpan.FromSeconds(1));
-            var exception = Throws<AggregateException>(action);
+            var exception = Throws<AggregateException>(() => 
+                rules.Attempt(() => failureAction(parameter), 3, TimeSpan.FromSeconds(1)));
 
             // Assert
-            AreEqual(3, exception.InnerExceptions.Count);
-            AreEqual(3, tries);
-            AreEqual(0, actual);
+            Equal(3, exception.InnerExceptions.Count);
+            Equal(3, tries);
+            Equal(0, actual);
         }
 
-        [Test]
-        public void ThrowsArgumentOutOfRangeExceptionForTriesBeingLessThanOne()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void ThrowsArgumentOutOfRangeExceptionForTriesBeingLessThanOne(Rule input)
         {
-            // Arrange | Act
-            TestDelegate action = () => _rule.Attempt(() => { }, 0, TimeSpan.FromSeconds(1));
+            // Arrange
+            var rules = RetryRule.SetupRules(input);
+
+            // Act
+            var exception = Throws<ArgumentOutOfRangeException>(() => 
+                rules.Attempt(() => { }, 0, TimeSpan.FromSeconds(1)));
 
             // Assert
-            Throws<ArgumentOutOfRangeException>(action);
+            Equal("", exception.Message);
         }
 
-        [Test]
-        public void ThrowsArgumentExceptionForTimespanBeingZero()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void ThrowsArgumentExceptionForTimespanBeingZero(Rule input)
         {
-            // Arrange | Act
-            TestDelegate action = () => _rule.Attempt(() => { }, 3, TimeSpan.Zero);
+            // Arrange
+            var rules = RetryRule.SetupRules(input);
+
+            // Act
+            var exception = Throws<ArgumentException>(() => rules.Attempt(() => { }, 3, TimeSpan.Zero));
 
             // Assert
-            Throws<ArgumentException>(action);
+            Equal("", exception.Message);
         }
 
-        [Test]
-        public void ThrowsArgumentExceptionForTimespanBeingMinValue()
+        [Theory]
+        [InlineData(Rule.Sequential)]
+        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        public void ThrowsArgumentExceptionForTimespanBeingMinValue(Rule input)
         {
-            // Arrange | Act
-            TestDelegate action = () => _rule.Attempt(() => { }, 3, TimeSpan.MinValue);
+            // Arrange
+            var rules = RetryRule.SetupRules(input);
+
+            // Act
+            var exception = Throws<ArgumentException>(() => rules.Attempt(() => { }, 3, TimeSpan.MinValue));
 
             // Assert
-            Throws<ArgumentException>(action);
+            Equal("", exception.Message);
         }
     }
 }
