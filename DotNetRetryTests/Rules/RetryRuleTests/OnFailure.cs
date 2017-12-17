@@ -8,8 +8,7 @@
     public class OnFailure
     {
         [Theory]
-        [InlineData(Rule.Sequential)]
-        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
         public void ReturnsSelf(Rule input)
         {
             // Arrange 
@@ -23,8 +22,7 @@
         }
 
         [Theory]
-        [InlineData(Rule.Sequential)]
-        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
         public void EventShouldBeDispatchedWhenFailureOccursForAction(Rule input)
         {
             // Arrange
@@ -40,8 +38,7 @@
         }
 
         [Theory]
-        [InlineData(Rule.Sequential)]
-        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
         public void EventShouldBeDispatchedWhenFailureOccursForFunction(Rule input)
         {
             // Arrange
@@ -59,8 +56,7 @@
         }
 
         [Theory]
-        [InlineData(Rule.Sequential)]
-        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
         public void EventShouldNotBeDispatchedWhenThereIsNoFailureForAction(Rule input)
         {
             // Arrange
@@ -75,8 +71,7 @@
         }
 
         [Theory]
-        [InlineData(Rule.Sequential)]
-        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
         public void EventShouldNotBeDispatchedWhenThereIsNoFailureForFunction(Rule input)
         {
             // Arrange
@@ -91,8 +86,7 @@
         }
 
         [Theory]
-        [InlineData(Rule.Sequential)]
-        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
         public void EventShouldNotBeDispatchedByAnotherRuleForAction(Rule input)
         {
             // Arrange
@@ -107,8 +101,7 @@
         }
 
         [Theory]
-        [InlineData(Rule.Sequential)]
-        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
         public void EventShouldNotBeDispatchedByAnotherRuleForFunction(Rule input)
         {
             // Arrange

@@ -15,12 +15,12 @@ namespace DotNetRetry.Rules
             _retriable = retriable;
         }
 
-        public void Attempt(Action action, int tries, TimeSpan timeBetweenRetries)
+        public void Attempt(Action action, int attempts, TimeSpan timeBetweenRetries)
         {
             throw new NotImplementedException();
         }
 
-        public T Attempt<T>(Func<T> action, int times, TimeSpan timeBetweenRetries)
+        public T Attempt<T>(Func<T> action, int attempts, TimeSpan timeBetweenRetries)
         {
             throw new NotImplementedException();
         }

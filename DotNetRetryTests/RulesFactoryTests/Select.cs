@@ -2,8 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
-    using Exceptions;
-    using Rules;
+    using DotNetRetry.Exceptions;
+    using DotNetRetry.Rules;
+    using Events;
+    using Moq;
     using Strategy.Activators;
     using Xunit;
     using static Xunit.Assert;
@@ -35,9 +37,10 @@
                 typeof(Exponential)
             };
             var factory = new RulesFactory(rules, _activatorFactory);
+            var retriableMock = new Mock<Retriable>();
 
             // Act
-            var result = factory.Select(rule);
+            var result = factory.Select(rule, new object[] { retriableMock.Object });
 
             // Assert
             Equal(type, result.GetType());

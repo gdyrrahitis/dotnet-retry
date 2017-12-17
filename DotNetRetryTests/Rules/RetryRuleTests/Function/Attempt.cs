@@ -9,8 +9,7 @@
     public class Attempt
     {
         [Theory]
-        [InlineData(Rule.Sequential)]
-        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
         public void ReturnsListOfExceptionsAfterFailedInAllTries(Rule input)
         {
             // Arrange
@@ -31,8 +30,7 @@
         }
 
         [Theory]
-        [InlineData(Rule.Sequential)]
-        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
         public void TakesTwoSecondsToCompleteAfterThreeRetriesOneSecondEach(Rule input)
         {
             // Arrange
@@ -54,8 +52,7 @@
         }
 
         [Theory]
-        [InlineData(Rule.Sequential)]
-        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
         public void FailsTheFirstTimeButSucceedsOnSecondTryReturningStringValue(Rule input)
         {
             // Arrange
@@ -80,8 +77,7 @@
         }
 
         [Theory]
-        [InlineData(Rule.Sequential)]
-        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
         public void FailsTheSecondTimeButSucceedsOnThirdTryReturningStringValue(Rule input)
         {
             // Arrange
@@ -106,8 +102,7 @@
         }
 
         [Theory]
-        [InlineData(Rule.Sequential)]
-        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
         public void ThrowsArgumentOutOfRangeExceptionForTriesBeingLessThanOne(Rule input)
         {
             // Arrange
@@ -117,37 +112,35 @@
             var exception = Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => "abc", 0, TimeSpan.FromSeconds(1)));
 
             // Assert
-            Equal("", exception.Message);
+            Equal("Argument value <0> is less than <1>.\r\nParameter name: attempts", exception.Message);
         }
 
         [Theory]
-        [InlineData(Rule.Sequential)]
-        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
         public void ThrowsArgumentExceptionForTimespanBeingZero(Rule input)
         {
             // Arrange
             var rules = RetryRule.SetupRules(input);
 
             // Act
-            var exception = Throws<ArgumentException>(() => rules.Attempt(() => "abc", 3, TimeSpan.Zero));
+            var exception = Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => "abc", 3, TimeSpan.Zero));
 
             // Assert
-            Equal("", exception.Message);
+            Equal($"Argument value <{TimeSpan.Zero}> is less than or equal to <{TimeSpan.Zero}>.\r\nParameter name: timeBetweenRetries", exception.Message);
         }
 
         [Theory]
-        [InlineData(Rule.Sequential)]
-        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
         public void ThrowsArgumentExceptionForTimespanBeingMinValue(Rule input)
         {
             // Arrange
             var rules = RetryRule.SetupRules(input);
 
             // Act
-            var exception = Throws<ArgumentException>(() => rules.Attempt(() => "abc", 3, TimeSpan.MinValue));
+            var exception = Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => "abc", 3, TimeSpan.MinValue));
 
             // Assert
-            Equal("", exception.Message);
+            Equal($"Argument value <{TimeSpan.MinValue}> is less than or equal to <{TimeSpan.Zero}>.\r\nParameter name: timeBetweenRetries", exception.Message);
         }
     }
 }

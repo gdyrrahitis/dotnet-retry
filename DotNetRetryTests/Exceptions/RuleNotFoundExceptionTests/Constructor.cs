@@ -14,7 +14,7 @@
             var result = new RuleNotFoundException();
 
             // Assert
-            IsType<Exception>(result);
+            IsAssignableFrom<Exception>(result);
         }
 
         [Fact]
