@@ -8,8 +8,7 @@
     public class OnAfterRetry
     {
         [Theory]
-        [InlineData(Rule.Sequential)]
-        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
         public void ReturnsSelf(Rule input)
         {
             // Arrange 
@@ -23,8 +22,7 @@
         }
 
         [Theory]
-        [InlineData(Rule.Sequential)]
-        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
         public void EventShouldBeRaisedAfterTheRetry(Rule input)
         {
             // Arrange
@@ -39,8 +37,7 @@
         }
 
         [Theory]
-        [InlineData(Rule.Sequential)]
-        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
         public void EventShouldNotBeRaisedAsNoRetriesWherePerformed(Rule input)
         {
             // Arrange
@@ -56,8 +53,7 @@
         }
 
         [Theory]
-        [InlineData(Rule.Sequential)]
-        [InlineData(Rule.Exponential, Skip = "Not implemented")]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
         public void EventShouldNotBeDispatchedByAnotherRule(Rule input)
         {
             // Arrange

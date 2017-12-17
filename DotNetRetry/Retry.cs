@@ -25,16 +25,16 @@ namespace DotNetRetry
         /// Attempts to retry an action.
         /// </summary>
         /// <param name="action">The action to try execute</param>
-        /// <param name="tries">Total tries</param>
+        /// <param name="attempts">Total attempts</param>
         /// <param name="timeBetweenRetries">Time between retries</param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
-        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="tries"/> being less than 1</exception>
+        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="attempts"/> being less than 1</exception>
         /// <exception cref="ArgumentException">For parameter <paramref name="timeBetweenRetries"/> Timespan.Zero or Timespan.MinValue values</exception>
-        public void Attempt(Action action, int tries, TimeSpan timeBetweenRetries) => Do(() =>
+        public void Attempt(Action action, int attempts, TimeSpan timeBetweenRetries) => Do(() =>
         {
             action();
             _retriable.OnAfterRetryInvocation();
-        }, tries, timeBetweenRetries);
+        }, attempts, timeBetweenRetries);
 
         /// <summary>
         /// Retries an action and if something happens stores the exceptions to aggregate them
@@ -83,7 +83,7 @@ namespace DotNetRetry
         /// <summary>
         /// Validates arguments <paramref name="tries"/> and <paramref name="timeBetweenRetries"/>.
         /// </summary>
-        /// <param name="tries">Number of tries.</param>
+        /// <param name="tries">Number of attempts.</param>
         /// <param name="timeBetweenRetries">Time to wait between retries.</param>
         private void ValidateArguments(int tries, TimeSpan timeBetweenRetries)
         {
@@ -99,19 +99,19 @@ namespace DotNetRetry
         /// </summary>
         /// <typeparam name="T">The type of the return value the action returns</typeparam>
         /// <param name="function">The function to try execute</param>
-        /// <param name="tries">Total tries</param>
+        /// <param name="attempts">Total attempts</param>
         /// <param name="timeBetweenRetries">Time between retries</param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
-        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="tries"/> being less than 1</exception>
+        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="attempts"/> being less than 1</exception>
         /// <exception cref="ArgumentException">For parameter <paramref name="timeBetweenRetries"/> Timespan.Zero or Timespan.MinValue values</exception>
         /// <returns>The function return value</returns>
-        public T Attempt<T>(Func<T> function, int tries, TimeSpan timeBetweenRetries) => 
+        public T Attempt<T>(Func<T> function, int attempts, TimeSpan timeBetweenRetries) => 
             Do(() =>
             {
                 var result = function();
                 _retriable.OnAfterRetryInvocation();
                 return result;
-            }, tries, timeBetweenRetries);
+            }, attempts, timeBetweenRetries);
 
         /// <summary>
         /// Retries an action and if something happens stores the exceptions to aggregate them.

@@ -1,9 +1,6 @@
 ﻿namespace DotNetRetry.Rules
 {
     using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Bytes2you.Validation;
     using Events;
 
     /// <summary>
@@ -76,19 +73,19 @@
         /// Attempts to retry an action.
         /// </summary>
         /// <param name="action">The action to try execute</param>
-        /// <param name="tries">Total tries</param>
+        /// <param name="attempts">Total attempts</param>
         /// <param name="timeBetweenRetries">Time between retries</param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
-        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="tries"/> being less than 1</exception>
+        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="attempts"/> being less than 1</exception>
         /// <exception cref="ArgumentException">For parameter <paramref name="timeBetweenRetries"/> Timespan.Zero or Timespan.MinValue values</exception>
-        public void Attempt(Action action, int tries, TimeSpan timeBetweenRetries)
+        public void Attempt(Action action, int attempts, TimeSpan timeBetweenRetries)
         {
             var retry = _factory.Select(_rule, this);
             retry.Attempt(() =>
             {
                 action();
                 OnAfterRetryInvocation();
-            }, tries, timeBetweenRetries);
+            }, attempts, timeBetweenRetries);
         }
 
         /// <summary>
@@ -96,13 +93,13 @@
         /// </summary>
         /// <typeparam name="T">The type of the return value the action returns</typeparam>
         /// <param name="function">The function to try execute</param>
-        /// <param name="tries">Total tries</param>
+        /// <param name="attempts">Total attempts</param>
         /// <param name="timeBetweenRetries">Time between retries</param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
-        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="tries"/> being less than 1</exception>
+        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="attempts"/> being less than 1</exception>
         /// <exception cref="ArgumentException">For parameter <paramref name="timeBetweenRetries"/> Timespan.Zero or Timespan.MinValue values</exception>
         /// <returns>The function return value</returns>
-        public T Attempt<T>(Func<T> function, int tries, TimeSpan timeBetweenRetries)
+        public T Attempt<T>(Func<T> function, int attempts, TimeSpan timeBetweenRetries)
         {
             var retry = _factory.Select(_rule, this);
             return retry.Attempt(() =>
@@ -110,7 +107,7 @@
                 var result = function();
                 OnAfterRetryInvocation();
                 return result;
-            }, tries, timeBetweenRetries);
+            }, attempts, timeBetweenRetries);
         }
     }
 }
