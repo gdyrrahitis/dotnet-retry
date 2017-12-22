@@ -4,7 +4,8 @@
 namespace DotNetRetry.Rules
 {
     using System;
-    using Events;
+    using Core;
+    using Core.Abstractions;
 
     internal class Exponential : IRetry
     {

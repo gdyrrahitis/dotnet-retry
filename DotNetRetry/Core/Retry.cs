@@ -1,14 +1,13 @@
 ﻿using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("DotNetRetry.Tests")]
-namespace DotNetRetry
+namespace DotNetRetry.Core
 {
     using System;
     using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
+    using Abstractions;
     using Bytes2you.Validation;
-    using Events;
 
     internal class Retry: IRetry
     {

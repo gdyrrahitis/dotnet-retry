@@ -1,6 +1,7 @@
-﻿namespace DotNetRetry.Strategy.Activators
+﻿namespace DotNetRetry.Factories
 {
     using System;
+    using Core.Activators;
 
     /// <summary>
     /// Defined contract for Activators Factory.

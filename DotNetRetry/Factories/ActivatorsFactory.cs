@@ -1,8 +1,9 @@
-﻿namespace DotNetRetry.Strategy.Activators
+﻿namespace DotNetRetry.Factories
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Core.Activators;
 
     /// <summary>
     /// Factory class to create new activators.

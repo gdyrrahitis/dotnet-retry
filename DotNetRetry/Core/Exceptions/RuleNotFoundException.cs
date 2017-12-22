@@ -1,4 +1,4 @@
-﻿namespace DotNetRetry.Exceptions
+﻿namespace DotNetRetry.Core.Exceptions
 {
     using System;
 

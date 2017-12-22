@@ -1,7 +1,7 @@
 ﻿namespace DotNetRetry.Tests.Exceptions.RuleNotFoundExceptionTests
 {
     using System;
-    using DotNetRetry.Exceptions;
+    using Core.Exceptions;
     using Xunit;
     using static Xunit.Assert;
 

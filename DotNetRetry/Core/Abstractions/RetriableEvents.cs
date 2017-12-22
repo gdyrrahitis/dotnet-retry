@@ -1,11 +1,11 @@
-﻿namespace DotNetRetry.Events
+﻿namespace DotNetRetry.Core.Abstractions
 {
     using System;
 
     /// <summary>
     /// A base class for retriable 
     /// </summary>
-    public abstract class Retriable
+    public abstract partial class Retriable
     {
         /// <summary>
         /// The event which is fired before an attempt for a retry is made.

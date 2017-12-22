@@ -1,13 +1,13 @@
 ﻿using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("DotNetRetry.Tests")]
-namespace DotNetRetry
+namespace DotNetRetry.Factories
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Events;
-    using Strategy.Activators;
+    using Core;
+    using Core.Abstractions;
 
     /// <summary>
     /// Factory to instantiate retry rules

@@ -1,7 +1,9 @@
 ﻿namespace DotNetRetry.Rules
 {
     using System;
-    using Events;
+    using Cancellation;
+    using Core.Abstractions;
+    using Factories;
 
     /// <summary>
     /// Sets up rules for retry actions.
@@ -66,6 +68,19 @@
         public IRules OnFailure(EventHandler handler)
         {
             Failure += handler;
+            return Instance;
+        }
+
+        /// <summary>
+        /// Sets cancellation rules for current retry policy.
+        /// </summary>
+        /// <param name="cancellationRules">A builder object to build cancellation rules on.</param>
+        /// <returns>The same <see cref="IRules"/> instance.</returns>
+        public IRules Cancel(Action<CancellationRule> cancellationRules)
+        {
+            CancellationRule = new CancellationRule();
+            ExceptionRule = CancellationRule.ExceptionRule;
+            cancellationRules(CancellationRule);
             return Instance;
         }
 

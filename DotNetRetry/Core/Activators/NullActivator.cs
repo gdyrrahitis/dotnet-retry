@@ -1,7 +1,7 @@
-﻿namespace DotNetRetry.Strategy.Activators
+﻿namespace DotNetRetry.Core.Activators
 {
     using System;
-    using Exceptions;
+    using Core.Exceptions;
 
     /// <summary>
     /// Handles null types.

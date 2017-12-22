@@ -1,6 +1,8 @@
 ﻿namespace DotNetRetry.Rules
 {
     using System;
+    using Cancellation;
+    using Core;
 
     /// <summary>
     /// A contract for retry rules.
@@ -27,5 +29,12 @@
         /// <param name="handler">The <see cref="EventHandler"/> to handle the event.</param>
         /// <returns>The same <see cref="IRules"/> instance.</returns>
         IRules OnFailure(EventHandler handler);
+
+        /// <summary>
+        /// Sets cancellation rules for current retry policy.
+        /// </summary>
+        /// <param name="cancellationRules">A builder object to build cancellation rules on.</param>
+        /// <returns>The same <see cref="IRules"/> instance.</returns>
+        IRules Cancel(Action<CancellationRule> cancellationRules);
     }
 }

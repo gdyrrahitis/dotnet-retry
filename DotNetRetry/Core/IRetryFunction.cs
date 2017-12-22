@@ -1,4 +1,4 @@
-﻿namespace DotNetRetry
+﻿namespace DotNetRetry.Core
 {
     using System;
 

@@ -1,6 +1,7 @@
 ﻿namespace DotNetRetry.Tests.Rules.SequentialTests.Action
 {
     using System;
+    using System.Diagnostics;
     using DotNetRetry.Rules;
     using Xunit;
     using static Xunit.Assert;
@@ -15,81 +16,34 @@
             _rule = new Sequential(rule);
         }
 
-        [Fact]
-        public void SuccessAtFirstTry()
+        [Theory]
+        [InlineData(0, 3, 100, "Success")]
+        [InlineData(1, 3, 100, "Success")]
+        [InlineData(2, 3, 100, "Success")]
+        public void IsSuccessOnVariousRetryingScenarios(int whenSuccessful, int totalAttempts, 
+            int milliseconds, string returnValue)
         {
             // Arrange
-            var actual = 0;
+            var actual = "Not Implemented";
+            var attempt = 0;
             Action successFullAction = () =>
             {
-                const string intAsString = "15";
-                var stringToInt = int.Parse(intAsString);
-                actual = stringToInt;
+                if (whenSuccessful == attempt)
+                {
+                    actual = returnValue;
+                    return;
+                }
+
+                attempt += 1;
+                throw new Exception("Retry");
             };
 
             // Act
-            _rule.Attempt(successFullAction, 3, TimeSpan.FromSeconds(2));
+            _rule.Attempt(successFullAction, totalAttempts, TimeSpan.FromMilliseconds(milliseconds));
 
             // Assert
-            Equal(15, actual);
-        }
-
-        [Fact]
-        public void SuccessAtSecondTry()
-        {
-            // Arrange
-            var actual = 0;
-            var tries = 0;
-            Action successAtSecondTryAction = () =>
-            {
-                const string invalidNumber = "ab123";
-                if (tries == 2)
-                {
-                    var validNumber = invalidNumber.Replace("ab", "");
-                    actual = int.Parse(validNumber);
-                }
-                else
-                {
-                    tries++;
-                    actual = int.Parse(invalidNumber);
-                }
-            };
-
-            // Act
-            _rule.Attempt(successAtSecondTryAction, 5, TimeSpan.FromSeconds(1));
-
-            // Assert
-            Equal(2, tries);
-            Equal(123, actual);
-        }
-
-        [Fact]
-        public void SuccessAtThirdTry()
-        {
-            // Arrange
-            var actual = 0;
-            var tries = 0;
-            Action successAtThirdTryAction = () =>
-            {
-                const string invalidNumber = "ab123";
-                if (tries == 3)
-                {
-                    var validNumber = invalidNumber.Replace("ab", "");
-                    actual = int.Parse(validNumber);
-                }
-                else
-                {
-                    tries++;
-                    actual = int.Parse(invalidNumber);
-                }
-            };
-
-            // Act
-            _rule.Attempt(successAtThirdTryAction, 5, TimeSpan.FromSeconds(1));
-
-            // Assert
-            Equal(3, tries);
-            Equal(123, actual);
+            Equal(whenSuccessful, attempt);
+            Equal(actual, returnValue);
         }
 
         [Fact]
@@ -115,69 +69,23 @@
         }
 
         [Fact]
-        public void SuccessAtFirstTryWithParameterPassed()
+        public void TakesTwoSecondsToCompleteAfterThreeRetriesOneSecondEach()
         {
             // Arrange
-            const string parameter = "123456";
-            var actual = 0;
-            Action<string> convertToIntAction = s => actual = int.Parse(s);
-
-            // Act
-            _rule.Attempt(() => convertToIntAction(parameter), 3, TimeSpan.FromSeconds(1));
-
-            // Assert
-            Equal(123456, actual);
-        }
-
-        [Fact]
-        public void SuccessAtSecondTryWithParameterPassed()
-        {
-            // Arrange
-            const string parameter = "abc123456";
-            var actual = 0;
-            var tries = 0;
-            Action<string> convertToIntAction = s =>
+            var stopwatch = Stopwatch.StartNew();
+            Action action = () =>
             {
-                if (tries == 2)
-                {
-                    s = s.Replace("abc", "");
-                    actual = int.Parse(s);
-                }
-                else
-                {
-                    tries++;
-                    actual = int.Parse(s);
-                }
+                throw new Exception("Unhandled exception");
             };
 
             // Act
-            _rule.Attempt(() => convertToIntAction(parameter), 6, TimeSpan.FromSeconds(1));
+            stopwatch.Start();
+            Throws<AggregateException>(() => _rule.Attempt(action, 3, TimeSpan.FromSeconds(1)));
+            stopwatch.Stop();
+            var elapsed = stopwatch.Elapsed;
 
             // Assert
-            Equal(2, tries);
-            Equal(123456, actual);
-        }
-
-        [Fact]
-        public void FailureAfterAllTriesWithParameterPassed()
-        {
-            // Arrange
-            const string parameter = "abcd123";
-            var actual = 0;
-            var tries = 0;
-            Action<string> failureAction = s =>
-            {
-                tries++;
-                actual = int.Parse(s);
-            };
-
-            // Act
-            var exception = Throws<AggregateException>(() => _rule.Attempt(() => failureAction(parameter), 3, TimeSpan.FromSeconds(1)));
-
-            // Assert
-            Equal(3, exception.InnerExceptions.Count);
-            Equal(3, tries);
-            Equal(0, actual);
+            Equal(2, elapsed.Seconds);
         }
 
         [Fact]

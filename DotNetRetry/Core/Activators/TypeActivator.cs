@@ -1,4 +1,4 @@
-﻿namespace DotNetRetry.Strategy.Activators
+﻿namespace DotNetRetry.Core.Activators
 {
     using System;
     using System.Reflection;

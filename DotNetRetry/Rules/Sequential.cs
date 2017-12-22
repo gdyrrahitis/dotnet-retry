@@ -5,19 +5,22 @@ namespace DotNetRetry.Rules
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Bytes2you.Validation;
-    using Events;
+    using Core;
+    using Core.Abstractions;
+    using static Core.Auxiliery.Constants;
+    using static Core.Auxiliery.Guards;
 
     internal class Sequential: IRetry
     {
-        private const string InvalidOperationExceptionErrorMessage = "Fatal error in function retry. Reached unreachable code section.";
-
         private readonly Retriable _retriable;
+        private readonly ActionPolicy _actionPolicy;
+        private readonly FunctionPolicy _functionPolicy;
 
         internal Sequential(Retriable retriable)
         {
             _retriable = retriable;
+            _actionPolicy = new ActionPolicy(retriable);
+            _functionPolicy = new FunctionPolicy(retriable);
         }
 
         /// <summary>
@@ -43,53 +46,46 @@ namespace DotNetRetry.Rules
             ValidateArguments(attempts, timeBetweenRetries);
 
             var exceptions = new List<Exception>();
+            var time = TimeSpan.Zero;
+            _actionPolicy.Attempt(action, ref attempts, timeBetweenRetries, exceptions, time);
 
-            while (attempts > 0)
-            {
-                _retriable.OnBeforeRetryInvocation();
-                try
-                {
-                    action();
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    _retriable.OnFailureInvocation();
-                    exceptions.Add(ex);
-                    if (--attempts > 0)
-                        Task.Delay(timeBetweenRetries).Wait();
-                    else
-                        ThrowFlattenAggregateException(exceptions);
-                }
-                _retriable.OnAfterRetryInvocation();
-            }
-        }
+            //while (attempts > 0)
+            //{
+            //_retriable.OnBeforeRetryInvocation();
+            //try
+            //{
+            //    action();
+            //    return;
+            //}
+            //catch (Exception ex)
+            //{
+            //    _retriable.OnFailureInvocation();
+            //    exceptions.Add(ex);
 
-        /// <summary>
-        /// Throws a flatten aggregate exception to the caller.
-        /// </summary>
-        /// <param name="exceptions">An <see cref="IEnumerable{T}"/> of <see cref="Exception"/> objects.</param>
-        /// <remarks>
-        /// For more info on Flatten method see 
-        /// https://msdn.microsoft.com/en-us/library/system.aggregateexception.flatten(v=vs.110).aspx
-        /// </remarks>
-        private static void ThrowFlattenAggregateException(IEnumerable<Exception> exceptions)
-        {
-            var aggregateException = new AggregateException(exceptions);
-            throw aggregateException.Flatten();
-        }
+            //    if (_retriable.CancellationRule != null && _retriable.CancellationRule.IsIn(ex))
+            //    {
+            //        _retriable.OnAfterRetryInvocation();
+            //        ThrowFlattenAggregateException(exceptions);
+            //    }
 
-        /// <summary>
-        /// Validates arguments <paramref name="attempts"/> and <paramref name="timeBetweenRetries"/>.
-        /// </summary>
-        /// <param name="attempts">Number of attempts.</param>
-        /// <param name="timeBetweenRetries">Time to wait between retries.</param>
-        private void ValidateArguments(int attempts, TimeSpan timeBetweenRetries)
-        {
-            Guard.WhenArgument(attempts, nameof(attempts)).IsLessThan(1).Throw();
-            Guard.WhenArgument(timeBetweenRetries, nameof(timeBetweenRetries))
-                .IsLessThanOrEqual(TimeSpan.Zero)
-                .Throw();
+            //    if (--attempts > 0)
+            //    {
+            //        Task.Delay(timeBetweenRetries).Wait();
+            //        time = time.Add(timeBetweenRetries);
+            //    }
+            //    else
+            //    {
+            //        ThrowFlattenAggregateException(exceptions);
+            //    }
+
+            //    if (_retriable.CancellationRule != null && _retriable.CancellationRule.HasExceededMaxTime(time))
+            //    {
+            //        _retriable.OnAfterRetryInvocation();
+            //        ThrowFlattenAggregateException(exceptions);
+            //    }
+            //}
+            //_retriable.OnAfterRetryInvocation();
+            //}
         }
 
         /// <summary>
@@ -119,27 +115,9 @@ namespace DotNetRetry.Rules
             ValidateArguments(attempts, timeBetweenRetries);
 
             var exceptions = new List<Exception>();
-            while (attempts > 0)
-            {
-                _retriable.OnBeforeRetryInvocation();
-                try
-                {
-                    var result = function();
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    _retriable.OnFailureInvocation();
-                    exceptions.Add(ex);
-                    if (--attempts > 0)
-                        Task.Delay(timeBetweenRetries).Wait();
-                    else
-                        ThrowFlattenAggregateException(exceptions);
-                }
-                _retriable.OnAfterRetryInvocation();
-            }
+            var time = TimeSpan.Zero;
 
-            throw new InvalidOperationException(InvalidOperationExceptionErrorMessage);
+            return _functionPolicy.Attempt(function, ref attempts, timeBetweenRetries, exceptions, time);
         }
     }
 }
