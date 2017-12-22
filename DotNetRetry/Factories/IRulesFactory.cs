@@ -1,6 +1,7 @@
-﻿namespace DotNetRetry
+﻿namespace DotNetRetry.Factories
 {
-    using Events;
+    using Core;
+    using Core.Abstractions;
 
     /// <summary>
     /// Defines a contract for a rules factory

@@ -1,4 +1,4 @@
-﻿namespace DotNetRetry
+﻿namespace DotNetRetry.Core
 {
     /// <summary>
     /// A contract which derives from retry action and function contracts

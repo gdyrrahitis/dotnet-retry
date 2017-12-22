@@ -2,11 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
-    using DotNetRetry.Exceptions;
+    using Core.Abstractions;
+    using Core.Activators;
+    using Core.Exceptions;
     using DotNetRetry.Rules;
-    using Events;
+    using Factories;
     using Moq;
-    using Strategy.Activators;
     using Xunit;
     using static Xunit.Assert;
 

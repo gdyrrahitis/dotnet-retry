@@ -5,8 +5,9 @@ namespace DotNetRetry
 {
     using System;
     using System.Collections.Generic;
+    using Core.Activators;
+    using Factories;
     using Rules;
-    using Strategy.Activators;
 
     internal static class Startup
     {
