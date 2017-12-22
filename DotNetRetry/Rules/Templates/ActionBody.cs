@@ -1,21 +1,21 @@
-﻿namespace DotNetRetry.Rules
+﻿namespace DotNetRetry.Rules.Templates
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Core.Abstractions;
-    using static Core.Auxiliery.Exceptions;
+    using Core.Auxiliery;
 
     /// <summary>
     /// 
     /// </summary>
-    public class ActionPolicy: ActionPolicyBase
+    public class ActionBody: ActionBodyTemplate
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="retriable"></param>
-        public ActionPolicy(Retriable retriable) : base(retriable)
+        public ActionBody(Retriable retriable) : base(retriable)
         {
         }
 
@@ -44,7 +44,7 @@
                     if (Retriable.CancellationRule != null && Retriable.CancellationRule.IsIn(ex))
                     {
                         Retriable.OnAfterRetryInvocation();
-                        ThrowFlattenAggregateException(exceptions);
+                        Exceptions.ThrowFlattenAggregateException(exceptions);
                     }
 
                     if (--attempts > 0)
@@ -54,13 +54,13 @@
                     }
                     else
                     {
-                        ThrowFlattenAggregateException(exceptions);
+                        Exceptions.ThrowFlattenAggregateException(exceptions);
                     }
 
                     if (Retriable.CancellationRule != null && Retriable.CancellationRule.HasExceededMaxTime(time))
                     {
                         Retriable.OnAfterRetryInvocation();
-                        ThrowFlattenAggregateException(exceptions);
+                        Exceptions.ThrowFlattenAggregateException(exceptions);
                     }
                 }
             }

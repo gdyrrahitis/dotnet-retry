@@ -27,9 +27,9 @@
         }
 
         [Theory]
-        [InlineData(Rule.Sequential, typeof(Sequential))]
-        [InlineData(Rule.Exponential, typeof(Exponential))]
-        public void SelectRule(Rule rule, Type type)
+        [InlineData(Strategies.Sequential, typeof(Sequential))]
+        [InlineData(Strategies.Exponential, typeof(Exponential))]
+        public void SelectRule(Strategies strategies, Type type)
         {
             // Arrange
             var rules = new List<Type>
@@ -41,7 +41,7 @@
             var retriableMock = new Mock<Retriable>();
 
             // Act
-            var result = factory.Select(rule, new object[] { retriableMock.Object });
+            var result = factory.Select(strategies, new object[] { retriableMock.Object });
 
             // Assert
             Equal(type, result.GetType());
@@ -59,7 +59,7 @@
             var factory = new RulesFactory(rules, _activatorFactory);
 
             // Act
-            var exception = Throws<RuleNotFoundException>(() => factory.Select((Rule)3));
+            var exception = Throws<RuleNotFoundException>(() => factory.Select((Strategies)3));
 
             // Assert
             Equal("Could not find rule.", exception.Message);

@@ -12,7 +12,7 @@
 
         public Attempt()
         {
-            var rule = RetryRule.SetupRules(Rule.Sequential);
+            var rule = Rule.SetupRules(Strategies.Sequential);
             _rule = new Sequential(rule);
         }
 

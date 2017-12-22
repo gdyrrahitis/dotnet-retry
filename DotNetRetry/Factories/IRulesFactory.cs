@@ -6,22 +6,22 @@
     /// <summary>
     /// Defines a contract for a rules factory
     /// </summary>
-    public interface IRulesFactory
+    internal interface IRulesFactory
     {
         /// <summary>
-        /// Selects a concrete rule using the role hint technique.
+        /// Selects a concrete Strategies using the role hint technique.
         /// </summary>
-        /// <param name="rule">The rule to fetch.</param>
-        /// <param name="parameter">The parameter for each rule.</param>
-        /// <returns>An instance of <see cref="IRetry"/> rule.</returns>
-        IRetry Select(Rules.Rule rule, Retriable parameter);
+        /// <param name="strategies">The Strategies to fetch.</param>
+        /// <param name="parameter">The parameter for each Strategies.</param>
+        /// <returns>An instance of <see cref="IRetry"/> Strategies.</returns>
+        IRetry Select(Rules.Strategies strategies, Retriable parameter);
 
         /// <summary>
-        /// Selects a concrete rule using the role hint technique.
+        /// Selects a concrete Strategies using the role hint technique.
         /// </summary>
-        /// <param name="rule">The rule to fetch.</param>
-        /// <param name="parameters">The parameters for each rule.</param>
-        /// <returns>An instance of <see cref="IRetry"/> rule.</returns>
-        IRetry Select(Rules.Rule rule, params object[] parameters);
+        /// <param name="strategies">The Strategies to fetch.</param>
+        /// <param name="parameters">The parameters for each Strategies.</param>
+        /// <returns>An instance of <see cref="IRetry"/> Strategies.</returns>
+        IRetry Select(Rules.Strategies strategies, params object[] parameters);
     }
 }

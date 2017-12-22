@@ -10,11 +10,11 @@
     {
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void ReturnsListOfExceptionsAfterFailedInAllTries(Rule input)
+        public void ReturnsListOfExceptionsAfterFailedInAllTries(Strategies input)
         {
             // Arrange
             var tries = 0;
-            var rules = RetryRule.SetupRules(input);
+            var rules = Rule.SetupRules(input);
             Func<string> function = () =>
             {
                 tries++;
@@ -31,11 +31,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void TakesTwoSecondsToCompleteAfterThreeRetriesOneSecondEach(Rule input)
+        public void TakesTwoSecondsToCompleteAfterThreeRetriesOneSecondEach(Strategies input)
         {
             // Arrange
             var stopwatch = Stopwatch.StartNew();
-            var rules = RetryRule.SetupRules(input);
+            var rules = Rule.SetupRules(input);
             Func<string> function = () =>
             {
                 throw new Exception("Unhandled exception");
@@ -53,11 +53,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void FailsTheFirstTimeButSucceedsOnSecondTryReturningStringValue(Rule input)
+        public void FailsTheFirstTimeButSucceedsOnSecondTryReturningStringValue(Strategies input)
         {
             // Arrange
             var tries = 0;
-            var rules = RetryRule.SetupRules(input);
+            var rules = Rule.SetupRules(input);
             Func<string> function = () =>
             {
                 if (tries++ < 1)
@@ -78,11 +78,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void FailsTheSecondTimeButSucceedsOnThirdTryReturningStringValue(Rule input)
+        public void FailsTheSecondTimeButSucceedsOnThirdTryReturningStringValue(Strategies input)
         {
             // Arrange
             var tries = 0;
-            var rules = RetryRule.SetupRules(input);
+            var rules = Rule.SetupRules(input);
             Func<string> function = () =>
             {
                 if (tries++ < 2)
@@ -103,10 +103,10 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void ThrowsArgumentOutOfRangeExceptionForTriesBeingLessThanOne(Rule input)
+        public void ThrowsArgumentOutOfRangeExceptionForTriesBeingLessThanOne(Strategies input)
         {
             // Arrange
-            var rules = RetryRule.SetupRules(input);
+            var rules = Rule.SetupRules(input);
 
             // Act
             var exception = Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => "abc", 0, TimeSpan.FromSeconds(1)));
@@ -117,10 +117,10 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void ThrowsArgumentExceptionForTimespanBeingZero(Rule input)
+        public void ThrowsArgumentExceptionForTimespanBeingZero(Strategies input)
         {
             // Arrange
-            var rules = RetryRule.SetupRules(input);
+            var rules = Rule.SetupRules(input);
 
             // Act
             var exception = Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => "abc", 3, TimeSpan.Zero));
@@ -131,10 +131,10 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void ThrowsArgumentExceptionForTimespanBeingMinValue(Rule input)
+        public void ThrowsArgumentExceptionForTimespanBeingMinValue(Strategies input)
         {
             // Arrange
-            var rules = RetryRule.SetupRules(input);
+            var rules = Rule.SetupRules(input);
 
             // Act
             var exception = Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => "abc", 3, TimeSpan.MinValue));

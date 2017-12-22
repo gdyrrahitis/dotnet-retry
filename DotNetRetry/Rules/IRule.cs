@@ -7,34 +7,34 @@
     /// <summary>
     /// A contract for retry rules.
     /// </summary>
-    public interface IRules: IRetry
+    public interface IRule: IRetry
     {
         /// <summary>
         /// Sets an OnBeforeRetry event.
         /// </summary>
         /// <param name="handler">The <see cref="EventHandler"/> to handle the event.</param>
-        /// <returns>The same <see cref="IRules"/> instance.</returns>
-        IRules OnBeforeRetry(EventHandler handler);
+        /// <returns>The same <see cref="IRule"/> instance.</returns>
+        IRule OnBeforeRetry(EventHandler handler);
 
         /// <summary>
         /// Sets an OnAfterRetry event.
         /// </summary>
         /// <param name="handler">The <see cref="EventHandler"/> to handle the event.</param>
-        /// <returns>The same <see cref="IRules"/> instance.</returns>
-        IRules OnAfterRetry(EventHandler handler);
+        /// <returns>The same <see cref="IRule"/> instance.</returns>
+        IRule OnAfterRetry(EventHandler handler);
 
         /// <summary>
         /// Sets an OnFailure event.
         /// </summary>
         /// <param name="handler">The <see cref="EventHandler"/> to handle the event.</param>
-        /// <returns>The same <see cref="IRules"/> instance.</returns>
-        IRules OnFailure(EventHandler handler);
+        /// <returns>The same <see cref="IRule"/> instance.</returns>
+        IRule OnFailure(EventHandler handler);
 
         /// <summary>
         /// Sets cancellation rules for current retry policy.
         /// </summary>
         /// <param name="cancellationRules">A builder object to build cancellation rules on.</param>
-        /// <returns>The same <see cref="IRules"/> instance.</returns>
-        IRules Cancel(Action<CancellationRule> cancellationRules);
+        /// <returns>The same <see cref="IRule"/> instance.</returns>
+        IRule Cancel(Action<CancellationRule> cancellationRules);
     }
 }

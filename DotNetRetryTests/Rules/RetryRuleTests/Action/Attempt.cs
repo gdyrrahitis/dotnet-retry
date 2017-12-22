@@ -9,11 +9,11 @@
     {
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void SuccessAtFirstTry(Rule input)
+        public void SuccessAtFirstTry(Strategies input)
         {
             // Arrange
             var actual = 0;
-            var rules = RetryRule.SetupRules(input);
+            var rules = Rule.SetupRules(input);
             Action successFullAction = () =>
             {
                 const string intAsString = "15";
@@ -30,12 +30,12 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void SuccessAtSecondTry(Rule input)
+        public void SuccessAtSecondTry(Strategies input)
         {
             // Arrange
             var actual = 0;
             var tries = 0;
-            var rules = RetryRule.SetupRules(input);
+            var rules = Rule.SetupRules(input);
             Action successAtSecondTryAction = () =>
             {
                 const string invalidNumber = "ab123";
@@ -61,12 +61,12 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void SuccessAtThirdTry(Rule input)
+        public void SuccessAtThirdTry(Strategies input)
         {
             // Arrange
             var actual = 0;
             var tries = 0;
-            var rules = RetryRule.SetupRules(input);
+            var rules = Rule.SetupRules(input);
             Action successAtThirdTryAction = () =>
             {
                 const string invalidNumber = "ab123";
@@ -92,12 +92,12 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void FailureAfterAllTriesReturnsAggregateExceptionWithAllTheExceptionsOccurred(Rule input)
+        public void FailureAfterAllTriesReturnsAggregateExceptionWithAllTheExceptionsOccurred(Strategies input)
         {
             // Arrange
             var actual = 0;
             var tries = 0;
-            var rules = RetryRule.SetupRules(input);
+            var rules = Rule.SetupRules(input);
             Action failureAction = () =>
             {
                 tries++;
@@ -116,12 +116,12 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void SuccessAtFirstTryWithParameterPassed(Rule input)
+        public void SuccessAtFirstTryWithParameterPassed(Strategies input)
         {
             // Arrange
             var actual = 0;
             const string parameter = "123456";
-            var rules = RetryRule.SetupRules(input);
+            var rules = Rule.SetupRules(input);
             Action<string> convertToIntAction = s => actual = int.Parse(s);
 
             // Act
@@ -133,13 +133,13 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void SuccessAtSecondTryWithParameterPassed(Rule input)
+        public void SuccessAtSecondTryWithParameterPassed(Strategies input)
         {
             // Arrange
             var actual = 0;
             var tries = 0;
             const string parameter = "abc123456";
-            var rules = RetryRule.SetupRules(input);
+            var rules = Rule.SetupRules(input);
             Action<string> convertToIntAction = s =>
             {
                 if (tries == 2)
@@ -164,13 +164,13 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void FailureAfterAllTriesWithParameterPassed(Rule input)
+        public void FailureAfterAllTriesWithParameterPassed(Strategies input)
         {
             // Arrange
             var actual = 0;
             var tries = 0;
             const string parameter = "abcd123";
-            var rules = RetryRule.SetupRules(input);
+            var rules = Rule.SetupRules(input);
             Action<string> failureAction = s =>
             {
                 tries++;
@@ -189,10 +189,10 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void ThrowsArgumentOutOfRangeExceptionForTriesBeingLessThanOne(Rule input)
+        public void ThrowsArgumentOutOfRangeExceptionForTriesBeingLessThanOne(Strategies input)
         {
             // Arrange
-            var rules = RetryRule.SetupRules(input);
+            var rules = Rule.SetupRules(input);
 
             // Act
             var exception = Throws<ArgumentOutOfRangeException>(() => 
@@ -204,10 +204,10 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void ThrowsArgumentExceptionForTimespanBeingZero(Rule input)
+        public void ThrowsArgumentExceptionForTimespanBeingZero(Strategies input)
         {
             // Arrange
-            var rules = RetryRule.SetupRules(input);
+            var rules = Rule.SetupRules(input);
 
             // Act
             var exception = Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => { }, 3, TimeSpan.Zero));
@@ -218,10 +218,10 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void ThrowsArgumentExceptionForTimespanBeingMinValue(Rule input)
+        public void ThrowsArgumentExceptionForTimespanBeingMinValue(Strategies input)
         {
             // Arrange
-            var rules = RetryRule.SetupRules(input);
+            var rules = Rule.SetupRules(input);
 
             // Act
             var exception = Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => { }, 3, TimeSpan.MinValue));
