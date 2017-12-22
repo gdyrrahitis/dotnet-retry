@@ -14,7 +14,7 @@
         {
             // Arrange
             var type = typeof(Sequential);
-            var rules = RetryRule.SetupRules(Rule.Sequential);
+            var rules = Rule.SetupRules(Strategies.Sequential);
             var activator = new TypeActivator();
 
             // Act

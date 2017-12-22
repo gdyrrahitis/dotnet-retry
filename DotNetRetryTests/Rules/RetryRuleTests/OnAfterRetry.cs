@@ -9,10 +9,10 @@
     {
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void ReturnsSelf(Rule input)
+        public void ReturnsSelf(Strategies input)
         {
             // Arrange 
-            var rule = RetryRule.SetupRules(input);
+            var rule = Rule.SetupRules(input);
 
             // Act
             var result = rule.OnAfterRetry((sender, args) => { });
@@ -23,11 +23,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldBeRaisedAfterTheRetry(Rule input)
+        public void EventShouldBeRaisedAfterTheRetry(Strategies input)
         {
             // Arrange
             var dispatched = false;
-            var rule = RetryRule.SetupRules(input).OnAfterRetry((sender, args) => dispatched = true);
+            var rule = Rule.SetupRules(input).OnAfterRetry((sender, args) => dispatched = true);
 
             // Act
             rule.Attempt(() => { }, 1, TimeSpan.FromSeconds(1));
@@ -38,11 +38,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldNotBeRaisedAsNoRetriesWherePerformed(Rule input)
+        public void EventShouldNotBeRaisedAsNoRetriesWherePerformed(Strategies input)
         {
             // Arrange
             var dispatched = false;
-            var rule = RetryRule.SetupRules(input).OnAfterRetry((sender, args) => dispatched = true);
+            var rule = Rule.SetupRules(input).OnAfterRetry((sender, args) => dispatched = true);
 
             // Act
             Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom exception"); }, 1, 
@@ -54,14 +54,14 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldNotBeDispatchedByAnotherRule(Rule input)
+        public void EventShouldNotBeDispatchedByAnotherRule(Strategies input)
         {
             // Arrange
             var dispatched = false;
-            RetryRule.SetupRules(input).OnAfterRetry((sender, args) => dispatched = true);
+            Rule.SetupRules(input).OnAfterRetry((sender, args) => dispatched = true);
 
             // Act
-            RetryRule.SetupRules(input).Attempt(() => { }, 1, TimeSpan.FromSeconds(1));
+            Rule.SetupRules(input).Attempt(() => { }, 1, TimeSpan.FromSeconds(1));
 
             // Assert
             False(dispatched, "Event should not be dispatched");

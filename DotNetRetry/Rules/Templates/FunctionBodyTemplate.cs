@@ -1,4 +1,4 @@
-﻿namespace DotNetRetry.Rules
+﻿namespace DotNetRetry.Rules.Templates
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +7,7 @@
     /// <summary>
     /// 
     /// </summary>
-    public abstract class FunctionPolicyBase
+    public abstract class FunctionBodyTemplate
     {
         /// <summary>
         /// 
@@ -18,7 +18,7 @@
         /// 
         /// </summary>
         /// <param name="retriable"></param>
-        protected FunctionPolicyBase(Retriable retriable)
+        protected FunctionBodyTemplate(Retriable retriable)
         {
             Retriable = retriable;
         }

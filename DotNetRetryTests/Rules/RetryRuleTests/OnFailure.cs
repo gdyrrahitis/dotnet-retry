@@ -9,10 +9,10 @@
     {
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void ReturnsSelf(Rule input)
+        public void ReturnsSelf(Strategies input)
         {
             // Arrange 
-            var rule = RetryRule.SetupRules(input);
+            var rule = Rule.SetupRules(input);
 
             // Act
             var result = rule.OnFailure((sender, args) => { });
@@ -23,11 +23,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldBeDispatchedWhenFailureOccursForAction(Rule input)
+        public void EventShouldBeDispatchedWhenFailureOccursForAction(Strategies input)
         {
             // Arrange
             var dispatched = false;
-            var rule = RetryRule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
+            var rule = Rule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
 
             // Act
             Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom Exception"); }, 1,
@@ -39,11 +39,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldBeDispatchedWhenFailureOccursForFunction(Rule input)
+        public void EventShouldBeDispatchedWhenFailureOccursForFunction(Strategies input)
         {
             // Arrange
             var dispatched = false;
-            var rule = RetryRule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
+            var rule = Rule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
 
             // Act
             Throws<AggregateException>(() => rule.Attempt(() =>
@@ -57,11 +57,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldNotBeDispatchedWhenThereIsNoFailureForAction(Rule input)
+        public void EventShouldNotBeDispatchedWhenThereIsNoFailureForAction(Strategies input)
         {
             // Arrange
             var dispatched = false;
-            var rule = RetryRule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
+            var rule = Rule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
 
             // Act
             rule.Attempt(() => { }, 1, TimeSpan.FromSeconds(1));
@@ -72,11 +72,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldNotBeDispatchedWhenThereIsNoFailureForFunction(Rule input)
+        public void EventShouldNotBeDispatchedWhenThereIsNoFailureForFunction(Strategies input)
         {
             // Arrange
             var dispatched = false;
-            var rule = RetryRule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
+            var rule = Rule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
 
             // Act
             rule.Attempt(() => "Function Invocation", 1, TimeSpan.FromSeconds(1));
@@ -87,14 +87,14 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldNotBeDispatchedByAnotherRuleForAction(Rule input)
+        public void EventShouldNotBeDispatchedByAnotherRuleForAction(Strategies input)
         {
             // Arrange
             var dispatched = false;
-            RetryRule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
+            Rule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
 
             // Act
-            RetryRule.SetupRules(input).Attempt(() => { }, 1, TimeSpan.FromSeconds(1));
+            Rule.SetupRules(input).Attempt(() => { }, 1, TimeSpan.FromSeconds(1));
 
             // Assert
             False(dispatched, "Event should not be dispatched");
@@ -102,14 +102,14 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldNotBeDispatchedByAnotherRuleForFunction(Rule input)
+        public void EventShouldNotBeDispatchedByAnotherRuleForFunction(Strategies input)
         {
             // Arrange
             var dispatched = false;
-            RetryRule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
+            Rule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
 
             // Act
-            RetryRule.SetupRules(input).Attempt(() => "Function Invocation", 1, TimeSpan.FromSeconds(1));
+            Rule.SetupRules(input).Attempt(() => "Function Invocation", 1, TimeSpan.FromSeconds(1));
 
             // Assert
             False(dispatched, "Event should not be dispatched");

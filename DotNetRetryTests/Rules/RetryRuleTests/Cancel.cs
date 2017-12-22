@@ -13,7 +13,7 @@
         {
             // Arrange
             var attempts = 0;
-            var rule = RetryRule.SetupRules(Rule.Sequential);
+            var rule = Rule.SetupRules(Strategies.Sequential);
             rule.Cancel(c => c.OnFailure<Exception>());
 
             // Act
@@ -34,7 +34,7 @@
         {
             // Arrange
             var attempts = 0;
-            var rule = RetryRule.SetupRules(Rule.Sequential);
+            var rule = Rule.SetupRules(Strategies.Sequential);
             rule.Cancel(c => c.After(TimeSpan.FromMilliseconds(300)));
 
             // Act
@@ -58,7 +58,7 @@
         {
             // Arrange
             var attempts = 0;
-            var rule = RetryRule.SetupRules(Rule.Sequential);
+            var rule = Rule.SetupRules(Strategies.Sequential);
             rule.Cancel(c => c.After(TimeSpan.FromMilliseconds(cancelAfter)).OnFailure(type));
 
             // Act

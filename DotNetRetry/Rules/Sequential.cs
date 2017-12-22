@@ -7,20 +7,20 @@ namespace DotNetRetry.Rules
     using System.Collections.Generic;
     using Core;
     using Core.Abstractions;
-    using static Core.Auxiliery.Constants;
+    using Templates;
     using static Core.Auxiliery.Guards;
 
     internal class Sequential: IRetry
     {
         private readonly Retriable _retriable;
-        private readonly ActionPolicy _actionPolicy;
-        private readonly FunctionPolicy _functionPolicy;
+        private readonly ActionBody _actionBody;
+        private readonly FunctionBody _functionBody;
 
         internal Sequential(Retriable retriable)
         {
             _retriable = retriable;
-            _actionPolicy = new ActionPolicy(retriable);
-            _functionPolicy = new FunctionPolicy(retriable);
+            _actionBody = new ActionBody(retriable);
+            _functionBody = new FunctionBody(retriable);
         }
 
         /// <summary>
@@ -47,45 +47,8 @@ namespace DotNetRetry.Rules
 
             var exceptions = new List<Exception>();
             var time = TimeSpan.Zero;
-            _actionPolicy.Attempt(action, ref attempts, timeBetweenRetries, exceptions, time);
 
-            //while (attempts > 0)
-            //{
-            //_retriable.OnBeforeRetryInvocation();
-            //try
-            //{
-            //    action();
-            //    return;
-            //}
-            //catch (Exception ex)
-            //{
-            //    _retriable.OnFailureInvocation();
-            //    exceptions.Add(ex);
-
-            //    if (_retriable.CancellationRule != null && _retriable.CancellationRule.IsIn(ex))
-            //    {
-            //        _retriable.OnAfterRetryInvocation();
-            //        ThrowFlattenAggregateException(exceptions);
-            //    }
-
-            //    if (--attempts > 0)
-            //    {
-            //        Task.Delay(timeBetweenRetries).Wait();
-            //        time = time.Add(timeBetweenRetries);
-            //    }
-            //    else
-            //    {
-            //        ThrowFlattenAggregateException(exceptions);
-            //    }
-
-            //    if (_retriable.CancellationRule != null && _retriable.CancellationRule.HasExceededMaxTime(time))
-            //    {
-            //        _retriable.OnAfterRetryInvocation();
-            //        ThrowFlattenAggregateException(exceptions);
-            //    }
-            //}
-            //_retriable.OnAfterRetryInvocation();
-            //}
+            _actionBody.Attempt(action, ref attempts, timeBetweenRetries, exceptions, time);
         }
 
         /// <summary>
@@ -117,7 +80,7 @@ namespace DotNetRetry.Rules
             var exceptions = new List<Exception>();
             var time = TimeSpan.Zero;
 
-            return _functionPolicy.Attempt(function, ref attempts, timeBetweenRetries, exceptions, time);
+            return _functionBody.Attempt(function, ref attempts, timeBetweenRetries, exceptions, time);
         }
     }
 }

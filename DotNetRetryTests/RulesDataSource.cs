@@ -7,7 +7,7 @@
     {
         public static IEnumerable<object[]> Data => new List<object[]>
         {
-            new object[]{ Rule.Sequential }
+            new object[]{ Strategies.Sequential }
         };
     }
 }
