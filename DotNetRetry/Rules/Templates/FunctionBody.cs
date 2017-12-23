@@ -46,7 +46,7 @@
                     if (Retriable.CancellationRule != null && Retriable.CancellationRule.IsIn(ex))
                     {
                         Retriable.OnAfterRetryInvocation();
-                        Exceptions.ThrowFlattenAggregateException(exceptions);
+                        exceptions.ThrowFlattenAggregateException();
                     }
 
                     if (--attempts > 0)
@@ -56,13 +56,13 @@
                     }
                     else
                     {
-                        Exceptions.ThrowFlattenAggregateException(exceptions);
+                        exceptions.ThrowFlattenAggregateException();
                     }
 
                     if (Retriable.CancellationRule != null && Retriable.CancellationRule.HasExceededMaxTime(time))
                     {
                         Retriable.OnAfterRetryInvocation();
-                        Exceptions.ThrowFlattenAggregateException(exceptions);
+                        exceptions.ThrowFlattenAggregateException();
                     }
                 }
             }
