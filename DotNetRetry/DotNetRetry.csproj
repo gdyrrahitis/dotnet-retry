@@ -47,7 +47,7 @@
   <ItemGroup>
     <Compile Include="Core\Abstractions\RetriableEvents.cs" />
     <Compile Include="Core\Auxiliery\Constants.cs" />
-    <Compile Include="Core\Auxiliery\Exceptions.cs" />
+    <Compile Include="Core\Auxiliery\ExceptionsExtension.cs" />
     <Compile Include="Core\Auxiliery\Guards.cs" />
     <Compile Include="Core\Exceptions\RuleNotFoundException.cs" />
     <Compile Include="Core\IRetry.cs" />
