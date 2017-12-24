@@ -1,11 +1,10 @@
-﻿namespace DotNetRetry.Tests.Strategy.Activators.TypeActivatorTests
+﻿namespace DotNetRetry.Unit.Tests.Strategy.Activators.TypeActivatorTests
 {
     using System;
     using Core;
     using Core.Activators;
     using DotNetRetry.Rules;
     using Xunit;
-    using static Xunit.Assert;
 
     public class Activate
     {
@@ -21,8 +20,8 @@
             var result = activator.Activate<IRetry>(type, rules);
 
             // Assert
-            IsType<Sequential>(result);
-            IsAssignableFrom<IRetry>(result);
+            Assert.IsType<Sequential>(result);
+            Assert.IsAssignableFrom<IRetry>(result);
         }
 
         [Fact]
@@ -33,10 +32,10 @@
             var activator = new TypeActivator();
 
             // Act
-            var exception = Throws<MissingMethodException>(() => activator.Activate<IRetry>(type));
+            var exception = Assert.Throws<MissingMethodException>(() => activator.Activate<IRetry>(type));
 
             // Assert
-            Equal("Constructor on type 'DotNetRetry.Rules.Sequential' not found.", exception.Message);
+            Assert.Equal("Constructor on type 'DotNetRetry.Rules.Sequential' not found.", exception.Message);
         }
     }
 }

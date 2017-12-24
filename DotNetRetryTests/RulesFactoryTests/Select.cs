@@ -1,4 +1,4 @@
-﻿namespace DotNetRetry.Tests.RulesFactoryTests
+﻿namespace DotNetRetry.Unit.Tests.RulesFactoryTests
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +9,6 @@
     using Factories;
     using Moq;
     using Xunit;
-    using static Xunit.Assert;
 
     public class Select
     {
@@ -44,7 +43,7 @@
             var result = factory.Select(strategies, new object[] { retriableMock.Object });
 
             // Assert
-            Equal(type, result.GetType());
+            Assert.Equal(type, result.GetType());
         }
 
         [Fact]
@@ -59,10 +58,10 @@
             var factory = new RulesFactory(rules, _activatorFactory);
 
             // Act
-            var exception = Throws<RuleNotFoundException>(() => factory.Select((Strategies)3));
+            var exception = Assert.Throws<RuleNotFoundException>(() => factory.Select((Strategies)3));
 
             // Assert
-            Equal("Could not find rule.", exception.Message);
+            Assert.Equal("Could not find rule.", exception.Message);
         }
     }
 }

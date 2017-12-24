@@ -1,9 +1,8 @@
-﻿namespace DotNetRetry.Tests.Exceptions.RuleNotFoundExceptionTests
+﻿namespace DotNetRetry.Unit.Tests.Exceptions.RuleNotFoundExceptionTests
 {
     using System;
     using Core.Exceptions;
     using Xunit;
-    using static Xunit.Assert;
 
     public class Constructor
     {
@@ -14,7 +13,7 @@
             var result = new RuleNotFoundException();
 
             // Assert
-            IsAssignableFrom<Exception>(result);
+            Assert.IsAssignableFrom<Exception>(result);
         }
 
         [Fact]
@@ -27,7 +26,7 @@
             var result = new RuleNotFoundException(message);
 
             // Assert
-            Equal(message, result.Message);
+            Assert.Equal(message, result.Message);
         }
 
         [Fact]
@@ -42,9 +41,9 @@
             var result = new RuleNotFoundException(message, innerException);
 
             // Assert
-            Equal(message, result.Message);
-            NotNull(result.InnerException);
-            Equal(innerMessage, result.InnerException.Message);
+            Assert.Equal(message, result.Message);
+            Assert.NotNull(result.InnerException);
+            Assert.Equal(innerMessage, result.InnerException.Message);
         }
     }
 }

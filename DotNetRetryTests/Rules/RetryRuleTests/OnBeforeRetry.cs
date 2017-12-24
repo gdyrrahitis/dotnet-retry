@@ -1,9 +1,8 @@
-﻿namespace DotNetRetry.Tests.Rules.RetryRuleTests
+﻿namespace DotNetRetry.Unit.Tests.Rules.RetryRuleTests
 {
     using System;
     using DotNetRetry.Rules;
     using Xunit;
-    using static Xunit.Assert;
 
     public class OnBeforeRetry
     {
@@ -18,7 +17,7 @@
             var result = rule.OnBeforeRetry((sender, args) => { });
 
             // Assert
-            Same(rule, result);
+            Assert.Same(rule, result);
         }
 
         [Theory]
@@ -33,7 +32,7 @@
             rule.Attempt(() => { }, 1, TimeSpan.FromSeconds(1));
 
             // Assert
-            True(dispatched, "Event should be dispatched");
+            Assert.True(dispatched, "Event should be dispatched");
         }
 
         [Theory]
@@ -48,7 +47,7 @@
             Rule.SetupRules(input).Attempt(() => { }, 1, TimeSpan.FromSeconds(1));
 
             // Assert
-            False(dispatched, "Event should not be dispatched");
+            Assert.False(dispatched, "Event should not be dispatched");
         }
     }
 }
