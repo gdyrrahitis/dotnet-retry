@@ -1,4 +1,4 @@
-﻿namespace DotNetRetry.Tests.Rules.Cancellation.CancellationRuleTests
+﻿namespace DotNetRetry.Unit.Tests.Rules.Cancellation.CancellationRuleTests
 {
     public class OnFailure
     {

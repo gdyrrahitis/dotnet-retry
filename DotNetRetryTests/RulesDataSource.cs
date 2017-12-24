@@ -1,4 +1,4 @@
-﻿namespace DotNetRetry.Tests
+﻿namespace DotNetRetry.Unit.Tests
 {
     using System.Collections.Generic;
     using DotNetRetry.Rules;

@@ -1,9 +1,8 @@
-﻿namespace DotNetRetry.Tests.Rules.RetryRuleTests
+﻿namespace DotNetRetry.Unit.Tests.Rules.RetryRuleTests
 {
     using System;
     using DotNetRetry.Rules;
     using Xunit;
-    using static Xunit.Assert;
 
     public class Cancel
     {
@@ -17,15 +16,15 @@
             rule.Cancel(c => c.OnFailure<Exception>());
 
             // Act
-            var exception = Throws<AggregateException>(() => rule.Attempt(() =>
+            var exception = Assert.Throws<AggregateException>(() => rule.Attempt(() =>
             {
                 attempts++;
                throw new Exception("Custom Exception");
             }, 5, TimeSpan.FromMilliseconds(100)));
 
             // Assert
-            Equal(1, attempts);
-            Single(exception.InnerExceptions);
+            Assert.Equal(1, attempts);
+            Assert.Single(exception.InnerExceptions);
         }
 
         // Cancel for specified amount of time (data driven)
@@ -38,15 +37,15 @@
             rule.Cancel(c => c.After(TimeSpan.FromMilliseconds(300)));
 
             // Act
-            var exception = Throws<AggregateException>(() => rule.Attempt(() =>
+            var exception = Assert.Throws<AggregateException>(() => rule.Attempt(() =>
             {
                 attempts++;
                 throw new Exception("Custom Exception");
             }, 5, TimeSpan.FromMilliseconds(100)));
 
             // Assert
-            Equal(3, attempts);
-            Equal(3, exception.InnerExceptions.Count);
+            Assert.Equal(3, attempts);
+            Assert.Equal(3, exception.InnerExceptions.Count);
         }
 
         // Mix and match the above (data driven)
@@ -62,15 +61,15 @@
             rule.Cancel(c => c.After(TimeSpan.FromMilliseconds(cancelAfter)).OnFailure(type));
 
             // Act
-            var exception = Throws<AggregateException>(() => rule.Attempt(() =>
+            var exception = Assert.Throws<AggregateException>(() => rule.Attempt(() =>
             {
                 attempts++;
                 throw new Exception("Custom Exception");
             }, totalAttempts, TimeSpan.FromMilliseconds(timeToWait)));
 
             // Assert
-            Equal(expected, attempts);
-            Equal(expected, exception.InnerExceptions.Count);
+            Assert.Equal(expected, attempts);
+            Assert.Equal(expected, exception.InnerExceptions.Count);
         }
     }
 }

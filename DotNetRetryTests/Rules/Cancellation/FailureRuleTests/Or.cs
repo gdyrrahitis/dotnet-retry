@@ -1,4 +1,4 @@
-﻿namespace DotNetRetry.Tests.Rules.Cancellation.FailureRuleTests
+﻿namespace DotNetRetry.Unit.Tests.Rules.Cancellation.FailureRuleTests
 {
     public class Or
     {
