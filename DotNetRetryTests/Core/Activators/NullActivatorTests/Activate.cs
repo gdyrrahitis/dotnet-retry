@@ -1,9 +1,9 @@
-﻿namespace DotNetRetry.Unit.Tests.Strategy.Activators.NullActivatorTests
+﻿namespace DotNetRetry.Unit.Tests.Core.Activators.NullActivatorTests
 {
     using System;
-    using Core;
-    using Core.Activators;
-    using Core.Exceptions;
+    using DotNetRetry.Core;
+    using DotNetRetry.Core.Activators;
+    using DotNetRetry.Core.Exceptions;
     using DotNetRetry.Rules;
     using Xunit;
 

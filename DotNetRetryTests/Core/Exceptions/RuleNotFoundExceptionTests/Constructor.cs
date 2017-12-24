@@ -1,7 +1,7 @@
-﻿namespace DotNetRetry.Unit.Tests.Exceptions.RuleNotFoundExceptionTests
+﻿namespace DotNetRetry.Unit.Tests.Core.Exceptions.RuleNotFoundExceptionTests
 {
     using System;
-    using Core.Exceptions;
+    using DotNetRetry.Core.Exceptions;
     using Xunit;
 
     public class Constructor

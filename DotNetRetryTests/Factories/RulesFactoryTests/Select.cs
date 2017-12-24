@@ -1,12 +1,12 @@
-﻿namespace DotNetRetry.Unit.Tests.RulesFactoryTests
+﻿namespace DotNetRetry.Unit.Tests.Factories.RulesFactoryTests
 {
     using System;
     using System.Collections.Generic;
-    using Core.Abstractions;
-    using Core.Activators;
-    using Core.Exceptions;
+    using DotNetRetry.Core.Abstractions;
+    using DotNetRetry.Core.Activators;
+    using DotNetRetry.Core.Exceptions;
+    using DotNetRetry.Factories;
     using DotNetRetry.Rules;
-    using Factories;
     using Moq;
     using Xunit;
 
