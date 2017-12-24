@@ -1,4 +1,7 @@
-﻿namespace DotNetRetry.Rules.Templates
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("DotNetRetry.Tests")]
+namespace DotNetRetry.Rules.Templates
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +10,7 @@
     /// <summary>
     /// 
     /// </summary>
-    public abstract class FunctionBodyTemplate
+    internal abstract class FunctionBodyTemplate
     {
         /// <summary>
         /// 
@@ -39,11 +42,21 @@
         public T Attempt<T>(Func<T> function, ref int attempts, TimeSpan timeBetweenRetries,
             List<Exception> exceptions, TimeSpan time)
         {
-            Retriable.OnBeforeRetryInvocation();
+            BeforeRetry();
             var result = Do(function, ref attempts, timeBetweenRetries, exceptions, time);
-            Retriable.OnAfterRetryInvocation();
+            AfterRetry();
             return result;
         }
+
+        /// <summary>
+        /// Hook to execute before retry policy execution.
+        /// </summary>
+        protected virtual void BeforeRetry() => Retriable.OnBeforeRetryInvocation();
+
+        /// <summary>
+        /// Hook to execute after retry policy execution.
+        /// </summary>
+        protected virtual void AfterRetry() => Retriable.OnAfterRetryInvocation();
 
         /// <summary>
         /// Attempts to retry an a method that returns a result.

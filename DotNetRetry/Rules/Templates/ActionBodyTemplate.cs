@@ -1,4 +1,7 @@
-﻿namespace DotNetRetry.Rules.Templates
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("DotNetRetry.Tests")]
+namespace DotNetRetry.Rules.Templates
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +10,7 @@
     /// <summary>
     /// 
     /// </summary>
-    public abstract class ActionBodyTemplate
+    internal abstract class ActionBodyTemplate
     {
         /// <summary>
         /// 
@@ -37,10 +40,20 @@
         public void Attempt(Action action, ref int attempts, TimeSpan timeBetweenRetries,
             List<Exception> exceptions, TimeSpan time)
         {
-            Retriable.OnBeforeRetryInvocation();
+            BeforeRetry();
             Do(action, ref attempts, timeBetweenRetries, exceptions, time);
-            Retriable.OnAfterRetryInvocation();
+            AfterRetry();
         }
+
+        /// <summary>
+        /// Hook to execute before retry policy execution.
+        /// </summary>
+        protected virtual void BeforeRetry() => Retriable.OnBeforeRetryInvocation();
+
+        /// <summary>
+        /// Hook to execute after retry policy execution.
+        /// </summary>
+        protected virtual void AfterRetry() => Retriable.OnAfterRetryInvocation();
 
         /// <summary>
         /// 

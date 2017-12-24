@@ -1,4 +1,7 @@
-﻿namespace DotNetRetry.Rules.Templates
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("DotNetRetry.Tests")]
+namespace DotNetRetry.Rules.Templates
 {
     using System;
     using System.Collections.Generic;
@@ -9,13 +12,13 @@
     /// <summary>
     /// 
     /// </summary>
-    public class ActionBody: ActionBodyTemplate
+    internal class ActionBody: ActionBodyTemplate
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="retriable"></param>
-        public ActionBody(Retriable retriable) : base(retriable)
+        internal ActionBody(Retriable retriable) : base(retriable)
         {
         }
 
