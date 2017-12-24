@@ -8,7 +8,7 @@
     /// <summary>
     /// Factory class to create new activators.
     /// </summary>
-    public class ActivatorsFactory: IActivatorsFactory
+    internal class ActivatorsFactory: IActivatorsFactory
     {
         private readonly IEnumerable<IActivator> _activators;
 
@@ -16,7 +16,7 @@
         /// Initializes a new instance of <see cref="ActivatorsFactory"/>.
         /// </summary>
         /// <param name="activators">The list of available <see cref="IActivator"/>.</param>
-        public ActivatorsFactory(IEnumerable<IActivator> activators)
+        internal ActivatorsFactory(IEnumerable<IActivator> activators)
         {
             _activators = activators;
         }

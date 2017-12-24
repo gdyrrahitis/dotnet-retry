@@ -22,7 +22,7 @@ namespace DotNetRetry.Factories
         /// </summary>
         /// <param name="rules">All current registered rules</param>
         /// <param name="factory">The factory to pick activators.</param>
-        public RulesFactory(IEnumerable<Type> rules, IActivatorsFactory factory)
+        internal RulesFactory(IEnumerable<Type> rules, IActivatorsFactory factory)
         {
             _rules = rules;
             _factory = factory;

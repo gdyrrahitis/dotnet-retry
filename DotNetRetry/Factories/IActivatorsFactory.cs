@@ -6,7 +6,7 @@
     /// <summary>
     /// Defined contract for Activators Factory.
     /// </summary>
-    public interface IActivatorsFactory
+    internal interface IActivatorsFactory
     {
         /// <summary>
         /// Selects an activator based on given type.
