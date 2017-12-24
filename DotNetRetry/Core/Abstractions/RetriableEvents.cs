@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// A base class for retriable 
+    /// A base class for retriable.
     /// </summary>
     public abstract partial class Retriable
     {

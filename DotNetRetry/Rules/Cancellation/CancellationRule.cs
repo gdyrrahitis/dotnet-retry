@@ -58,9 +58,20 @@
             return ExceptionRule;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TException"></typeparam>
+        /// <param name="ex"></param>
+        /// <returns></returns>
         internal bool IsIn<TException>(TException ex) => 
             _exceptions.Any(x => x == ex.GetType());
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="current"></param>
+        /// <returns></returns>
         internal bool HasExceededMaxTime(TimeSpan current)
         {
             if (!_time.HasValue)
@@ -72,6 +83,10 @@
             return result <= TimeSpan.Zero;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
         internal void AddInExceptionList(Type type) => _exceptions.Add(type);
     }
 }

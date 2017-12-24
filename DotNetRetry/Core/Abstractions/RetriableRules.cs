@@ -2,6 +2,9 @@
 {
     using Rules.Cancellation;
 
+    /// <summary>
+    /// A base class for retriable.
+    /// </summary>
     public abstract partial class Retriable
     {
         /// <summary>

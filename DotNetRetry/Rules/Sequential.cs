@@ -10,6 +10,9 @@ namespace DotNetRetry.Rules
     using Templates;
     using static Core.Auxiliery.Guards;
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal class Sequential: IRetry
     {
         private readonly Retriable _retriable;
