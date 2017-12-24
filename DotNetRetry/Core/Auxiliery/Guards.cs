@@ -1,4 +1,8 @@
-﻿namespace DotNetRetry.Core.Auxiliery
+﻿using System.Runtime.CompilerServices;
+using DotNetRetry.Core.Auxiliery;
+
+[assembly: InternalsVisibleTo(Constants.TestProject)]
+namespace DotNetRetry.Core.Auxiliery
 {
     using System;
     using Bytes2you.Validation;
