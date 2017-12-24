@@ -1,8 +1,8 @@
-﻿namespace DotNetRetry.Unit.Tests.Strategy.Activators.TypeActivatorTests
+﻿namespace DotNetRetry.Unit.Tests.Core.Activators.TypeActivatorTests
 {
     using System;
-    using Core;
-    using Core.Activators;
+    using DotNetRetry.Core;
+    using DotNetRetry.Core.Activators;
     using DotNetRetry.Rules;
     using Xunit;
 

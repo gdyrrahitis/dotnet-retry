@@ -1,4 +1,4 @@
-﻿namespace DotNetRetry.Unit.Tests.Rules.RetryRuleTests.Function
+﻿namespace DotNetRetry.Unit.Tests.Rules.RuleTests.Function
 {
     using System;
     using System.Diagnostics;
