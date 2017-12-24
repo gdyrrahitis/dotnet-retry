@@ -6,7 +6,7 @@
     /// <summary>
     /// Handles null types.
     /// </summary>
-    public class NullActivator: IActivator
+    internal class NullActivator: IActivator
     {
         private const string CouldNotFindRuleErrorMessage = "Could not find rule.";
 

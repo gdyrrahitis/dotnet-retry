@@ -3,7 +3,7 @@
     /// <summary>
     /// 
     /// </summary>
-    public class Constants
+    internal class Constants
     {
         /// <summary>
         /// 

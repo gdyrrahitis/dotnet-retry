@@ -5,7 +5,7 @@
     /// <summary>
     /// Activates a rule type.
     /// </summary>
-    public interface IActivator
+    internal interface IActivator
     {
         /// <summary>
         /// Activates a rule type to the generic T provided.
