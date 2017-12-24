@@ -76,24 +76,29 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Exceptions\RuleNotFoundExceptionTests\Constructor.cs" />
+    <Compile Include="Core\Auxiliery\ConstantsTests\Fields.cs" />
+    <Compile Include="Core\Auxiliery\ExceptionsExtensionTests\ThrowFlattenAggregateException.cs" />
+    <Compile Include="Core\Auxiliery\GuardsTests\ValidateArguments.cs" />
+    <Compile Include="Core\Exceptions\RuleNotFoundExceptionTests\Constructor.cs" />
+    <Compile Include="Factories\ActivatorsFactoryTests\Select.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RulesDataSource.cs" />
-    <Compile Include="RulesFactoryTests\Select.cs" />
+    <Compile Include="Factories\RulesFactoryTests\Select.cs" />
     <Compile Include="Rules\Cancellation\CancellationRuleTests\After.cs" />
     <Compile Include="Rules\Cancellation\CancellationRuleTests\OnFailure.cs" />
     <Compile Include="Rules\Cancellation\FailureRuleTests\End.cs" />
     <Compile Include="Rules\Cancellation\FailureRuleTests\Or.cs" />
-    <Compile Include="Rules\RetryRuleTests\Action\Attempt.cs" />
-    <Compile Include="Rules\RetryRuleTests\Cancel.cs" />
-    <Compile Include="Rules\RetryRuleTests\Function\Attempt.cs" />
-    <Compile Include="Rules\RetryRuleTests\OnAfterRetry.cs" />
-    <Compile Include="Rules\RetryRuleTests\OnBeforeRetry.cs" />
-    <Compile Include="Rules\RetryRuleTests\OnFailure.cs" />
+    <Compile Include="Rules\RuleTests\Action\Attempt.cs" />
+    <Compile Include="Rules\RuleTests\Cancel.cs" />
+    <Compile Include="Rules\RuleTests\Function\Attempt.cs" />
+    <Compile Include="Rules\RuleTests\OnAfterRetry.cs" />
+    <Compile Include="Rules\RuleTests\OnBeforeRetry.cs" />
+    <Compile Include="Rules\RuleTests\OnFailure.cs" />
     <Compile Include="Rules\SequentialTests\Action\Attempt.cs" />
     <Compile Include="Rules\SequentialTests\Function\Attempt.cs" />
-    <Compile Include="Strategy\Activators\NullActivatorTests\Activate.cs" />
-    <Compile Include="Strategy\Activators\TypeActivatorTests\Activate.cs" />
+    <Compile Include="StartupTests\Configure.cs" />
+    <Compile Include="Core\Activators\NullActivatorTests\Activate.cs" />
+    <Compile Include="Core\Activators\TypeActivatorTests\Activate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNetRetry\DotNetRetry.csproj">
@@ -102,8 +107,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Core\" />
-    <Folder Include="Factories\" />
     <Folder Include="Rules\ExponentialTests\Action\" />
     <Folder Include="Rules\ExponentialTests\Function\" />
   </ItemGroup>
