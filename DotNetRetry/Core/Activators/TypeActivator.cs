@@ -1,4 +1,8 @@
-﻿namespace DotNetRetry.Core.Activators
+﻿using System.Runtime.CompilerServices;
+using DotNetRetry.Core.Auxiliery;
+
+[assembly: InternalsVisibleTo(Constants.TestProject)]
+namespace DotNetRetry.Core.Activators
 {
     using System;
     using System.Reflection;

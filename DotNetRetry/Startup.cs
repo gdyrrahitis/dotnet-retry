@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
+using DotNetRetry.Core.Auxiliery;
 
-[assembly:InternalsVisibleTo("DotNetRetry.Tests")]
+[assembly:InternalsVisibleTo(Constants.TestProject)]
 namespace DotNetRetry
 {
     using System;

@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetRetry", "DotNetRetry\DotNetRetry.csproj", "{D51A36F4-4F6F-4E99-94C1-CFAFFF637A36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetRetry.Tests", "DotNetRetryTests\DotNetRetry.Tests.csproj", "{5DCEF3A0-AADF-4722-B4F7-2DF464B52698}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetRetry.Unit.Tests", "DotNetRetryTests\DotNetRetry.Unit.Tests.csproj", "{5DCEF3A0-AADF-4722-B4F7-2DF464B52698}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5F81100D-3BC4-4206-B545-25F6B61F0C5B}"
 	ProjectSection(SolutionItems) = preProject

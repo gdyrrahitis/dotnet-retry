@@ -1,4 +1,8 @@
-﻿namespace DotNetRetry.Factories
+﻿using System.Runtime.CompilerServices;
+using DotNetRetry.Core.Auxiliery;
+
+[assembly: InternalsVisibleTo(Constants.TestProject)]
+namespace DotNetRetry.Factories
 {
     using System;
     using System.Collections.Generic;
