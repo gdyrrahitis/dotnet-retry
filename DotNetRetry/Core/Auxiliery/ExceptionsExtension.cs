@@ -6,7 +6,7 @@
     /// <summary>
     /// 
     /// </summary>
-    public static class ExceptionsExtension
+    internal static class ExceptionsExtension
     {
         /// <summary>
         /// Throws a flatten aggregate exception to the caller.
@@ -16,7 +16,7 @@
         /// For more info on Flatten method see 
         /// https://msdn.microsoft.com/en-us/library/system.aggregateexception.flatten(v=vs.110).aspx
         /// </remarks>
-        public static void ThrowFlattenAggregateException(this IEnumerable<Exception> exceptions)
+        internal static void ThrowFlattenAggregateException(this IEnumerable<Exception> exceptions)
         {
             var aggregateException = new AggregateException(exceptions);
             throw aggregateException.Flatten();

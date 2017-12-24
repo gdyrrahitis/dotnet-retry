@@ -6,7 +6,7 @@
     /// <summary>
     /// Activates the given specified type.
     /// </summary>
-    public class TypeActivator: IActivator
+    internal class TypeActivator: IActivator
     {
         /// <summary>
         /// Returns a new instance of T for the specified type.
