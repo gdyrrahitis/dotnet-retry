@@ -5,37 +5,39 @@
     using DotNetRetry.Core.Activators;
     using DotNetRetry.Rules;
     using Xunit;
+    using static Xunit.Assert;
 
     public class Activate
     {
-        [Fact]
-        public void CreatesInstanceOfType()
+        [Theory]
+        [InlineData(typeof(Sequential), Strategies.Sequential)]
+        [InlineData(typeof(Exponential), Strategies.Exponential)]
+        public void CreatesInstanceOfType(Type type, Strategies strategy)
         {
             // Arrange
-            var type = typeof(Sequential);
-            var rules = Rule.SetupRules(Strategies.Sequential);
+            var rules = Rule.SetupRules(strategy);
             var activator = new TypeActivator();
 
             // Act
             var result = activator.Activate<IRetry>(type, rules);
 
             // Assert
-            Assert.IsType<Sequential>(result);
-            Assert.IsAssignableFrom<IRetry>(result);
+            IsType(type, result);
+            IsAssignableFrom<IRetry>(result);
         }
 
-        [Fact]
-        public void ThrowsMissingMethodExceptionWhenRequiredParametersAreNotPassed()
+        [Theory]
+        [InlineData(typeof(Sequential), "Sequential")]
+        public void ThrowsMissingMethodExceptionWhenRequiredParametersAreNotPassed(Type type, string rule)
         {
             // Arrange
-            var type = typeof(Sequential);
             var activator = new TypeActivator();
 
             // Act
-            var exception = Assert.Throws<MissingMethodException>(() => activator.Activate<IRetry>(type));
+            var exception = Throws<MissingMethodException>(() => activator.Activate<IRetry>(type));
 
             // Assert
-            Assert.Equal("Constructor on type 'DotNetRetry.Rules.Sequential' not found.", exception.Message);
+            Equal($"Constructor on type 'DotNetRetry.Rules.{rule}' not found.", exception.Message);
         }
     }
 }

@@ -6,6 +6,9 @@ namespace DotNetRetry
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using Core;
     using Core.Activators;
     using Factories;
     using Rules;
@@ -14,21 +17,34 @@ namespace DotNetRetry
     {
         internal static IRulesFactory Configure()
         {
-            var activators = new List<IActivator>
+            var activatorsFactory = new ActivatorsFactory(Activators);
+            return new RulesFactory(Rules, activatorsFactory);
+        }
+
+        internal static IEnumerable<Type> Rules
+        {
+            get
             {
-                new NullActivator(),
-                new TypeActivator()
-            };
+                var type = typeof (IRetry);
+                var assembly = Assembly.GetAssembly(typeof(Startup));
+                var rules = assembly.GetTypes().Where(t => type.IsAssignableFrom(t) &&
+                    !t.IsInterface &&
+                    t != typeof(Rule));
+                return rules;
+            }
+        }
 
-            var activatorsFactory = new ActivatorsFactory(activators);
-
-            var rules = new List<Type>
+        internal static IEnumerable<IActivator> Activators
+        {
+            get
             {
-                typeof(Sequential),
-                typeof(Exponential)
-            };
-
-            return new RulesFactory(rules, activatorsFactory);
+                var activators = new List<IActivator>
+                {
+                    new NullActivator(),
+                    new TypeActivator()
+                };
+                return activators;
+            }
         }
     }
 }

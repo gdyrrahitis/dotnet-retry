@@ -8,7 +8,7 @@ namespace DotNetRetry.Core.Auxiliery
     using System.Collections.Generic;
 
     /// <summary>
-    /// 
+    /// Extension for exception collection.
     /// </summary>
     internal static class ExceptionsExtension
     {

@@ -8,7 +8,7 @@ namespace DotNetRetry.Core.Auxiliery
     using Bytes2you.Validation;
 
     /// <summary>
-    /// 
+    /// Guard class for internal validation.
     /// </summary>
     internal static class Guards
     {

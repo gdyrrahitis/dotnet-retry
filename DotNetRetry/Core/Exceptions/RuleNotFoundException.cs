@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// Exception when rule cannot be found
+    /// Exception when rule cannot be found.
     /// </summary>
     public class RuleNotFoundException : Exception
     {
