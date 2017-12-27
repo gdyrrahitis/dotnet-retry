@@ -9,41 +9,47 @@ namespace DotNetRetry.Rules
     using Core.Abstractions;
 
     /// <summary>
-    /// 
+    /// An exponential retry technique.
     /// </summary>
     internal class Exponential : IRetry
     {
         private readonly Retriable _retriable;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of <see cref="Exponential"/> object.
         /// </summary>
-        /// <param name="retriable"></param>
+        /// <param name="retriable">A <see cref="Retriable"/> object with global rules.</param>
         internal Exponential(Retriable retriable)
         {
             _retriable = retriable;
         }
 
         /// <summary>
-        /// 
+        /// Attempts to retry an action.
         /// </summary>
-        /// <param name="action"></param>
-        /// <param name="attempts"></param>
-        /// <param name="timeBetweenRetries"></param>
+        /// <param name="action">The action to try execute</param>
+        /// <param name="attempts">Total attempts</param>
+        /// <param name="timeBetweenRetries">Time between retries</param>
+        /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
+        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="attempts"/> being less than 1</exception>
+        /// <exception cref="ArgumentException">For parameter <paramref name="timeBetweenRetries"/> Timespan.Zero or Timespan.MinValue values</exception>
         public void Attempt(Action action, int attempts, TimeSpan timeBetweenRetries)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// 
+        /// Attempts to retry an a method that returns a result.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="attempts"></param>
-        /// <param name="timeBetweenRetries"></param>
-        /// <returns></returns>
-        public T Attempt<T>(Func<T> action, int attempts, TimeSpan timeBetweenRetries)
+        /// <typeparam name="T">The type of the return value the action returns</typeparam>
+        /// <param name="function">The function to try execute</param>
+        /// <param name="attempts">Total attempts</param>
+        /// <param name="timeBetweenRetries">Time between retries</param>
+        /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
+        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="attempts"/> being less than 1</exception>
+        /// <exception cref="ArgumentException">For parameter <paramref name="timeBetweenRetries"/> Timespan.Zero or Timespan.MinValue values</exception>
+        /// <returns>The function return value</returns>
+        public T Attempt<T>(Func<T> function, int attempts, TimeSpan timeBetweenRetries)
         {
             throw new NotImplementedException();
         }

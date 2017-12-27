@@ -3,16 +3,16 @@
     using System;
 
     /// <summary>
-    /// 
+    /// Rules for exception objects.
     /// </summary>
     public class ExceptionRule
     {
         private readonly CancellationRule _cancellationRule;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of <see cref="ExceptionRule"/>.
         /// </summary>
-        /// <param name="cancellationRule"></param>
+        /// <param name="cancellationRule">A parent <see cref="CancellationRule"/>.</param>
         public ExceptionRule(CancellationRule cancellationRule)
         {
             _cancellationRule = cancellationRule;
@@ -26,7 +26,7 @@
         /// <returns>An <see cref="ExceptionRule"/> instance.</returns>
         public ExceptionRule Or<TException>()
         {
-            _cancellationRule.AddInExceptionList(typeof(TException));
+            _cancellationRule.AddExceptionType(typeof(TException));
             return this;
         }
 
@@ -38,7 +38,7 @@
         /// <returns>An <see cref="ExceptionRule"/> instance.</returns>
         public ExceptionRule Or(Type type)
         {
-            _cancellationRule.AddInExceptionList(type);
+            _cancellationRule.AddExceptionType(type);
             return this;
         }
 

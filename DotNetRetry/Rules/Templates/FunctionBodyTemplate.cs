@@ -9,26 +9,26 @@ namespace DotNetRetry.Rules.Templates
     using Core.Abstractions;
 
     /// <summary>
-    /// 
+    /// Template class for returnable functions.
     /// </summary>
     internal abstract class FunctionBodyTemplate
     {
         /// <summary>
-        /// 
+        /// The rules object.
         /// </summary>
         protected readonly Retriable Retriable;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of <see cref="FunctionBodyTemplate"/>.
         /// </summary>
-        /// <param name="retriable"></param>
+        /// <param name="retriable">The <see cref="Retriable"/> rules object.</param>
         protected FunctionBodyTemplate(Retriable retriable)
         {
             Retriable = retriable;
         }
 
         /// <summary>
-        /// Attempts to retry an a method that returns a result.
+        /// Attempts to retry an method that returns a result.
         /// </summary>
         /// <typeparam name="T">The type of the return value the action returns</typeparam>
         /// <param name="function">The function to try execute</param>
@@ -60,7 +60,7 @@ namespace DotNetRetry.Rules.Templates
         protected virtual void AfterRetry() => Retriable.OnAfterRetryInvocation();
 
         /// <summary>
-        /// Attempts to retry an a method that returns a result.
+        /// Attempts to retry an method that returns a result.
         /// </summary>
         /// <typeparam name="T">The type of the return value the action returns</typeparam>
         /// <param name="function">The function to try execute</param>

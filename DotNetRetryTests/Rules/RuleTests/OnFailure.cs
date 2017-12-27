@@ -3,6 +3,7 @@
     using System;
     using DotNetRetry.Rules;
     using Xunit;
+    using static Xunit.Assert;
 
     public class OnFailure
     {
@@ -17,7 +18,7 @@
             var result = rule.OnFailure((sender, args) => { });
 
             // Assert
-            Assert.Same(rule, result);
+            Same(rule, result);
         }
 
         [Theory]
@@ -29,11 +30,11 @@
             var rule = Rule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
 
             // Act
-            Assert.Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom Exception"); }, 1,
+            Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom Exception"); }, 1,
                 TimeSpan.FromSeconds(1)));
 
             // Assert
-            Assert.True(dispatched, "Event should be dispatched");
+            True(dispatched, "Event should be dispatched");
         }
 
         [Theory]
@@ -45,13 +46,13 @@
             var rule = Rule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
 
             // Act
-            Assert.Throws<AggregateException>(() => rule.Attempt(() =>
+            Throws<AggregateException>(() => rule.Attempt(() =>
             {
                 throw new Exception("Custom Exception");
             }, 1, TimeSpan.FromSeconds(1)));
 
             // Assert
-            Assert.True(dispatched, "Event should be dispatched");
+            True(dispatched, "Event should be dispatched");
         }
 
         [Theory]
@@ -66,7 +67,7 @@
             rule.Attempt(() => { }, 1, TimeSpan.FromSeconds(1));
 
             // Assert
-            Assert.False(dispatched, "Event should not be dispatched");
+            False(dispatched, "Event should not be dispatched");
         }
 
         [Theory]
@@ -81,7 +82,7 @@
             rule.Attempt(() => "Function Invocation", 1, TimeSpan.FromSeconds(1));
 
             // Assert
-            Assert.False(dispatched, "Event should not be dispatched");
+            False(dispatched, "Event should not be dispatched");
         }
 
         [Theory]
@@ -96,7 +97,7 @@
             Rule.SetupRules(input).Attempt(() => { }, 1, TimeSpan.FromSeconds(1));
 
             // Assert
-            Assert.False(dispatched, "Event should not be dispatched");
+            False(dispatched, "Event should not be dispatched");
         }
 
         [Theory]
@@ -111,7 +112,7 @@
             Rule.SetupRules(input).Attempt(() => "Function Invocation", 1, TimeSpan.FromSeconds(1));
 
             // Assert
-            Assert.False(dispatched, "Event should not be dispatched");
+            False(dispatched, "Event should not be dispatched");
         }
     }
 }

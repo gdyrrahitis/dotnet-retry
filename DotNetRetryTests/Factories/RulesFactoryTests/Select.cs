@@ -9,6 +9,7 @@
     using DotNetRetry.Rules;
     using Moq;
     using Xunit;
+    using static Xunit.Assert;
 
     public class Select
     {
@@ -37,7 +38,7 @@
             var result = factory.Select(strategies, new object[] { retriableMock.Object });
 
             // Assert
-            Assert.Equal(type, result.GetType());
+            Equal(type, result.GetType());
         }
 
         [Fact]
@@ -52,10 +53,10 @@
             var factory = new RulesFactory(rules, _activatorFactory);
 
             // Act
-            var exception = Assert.Throws<RuleNotFoundException>(() => factory.Select((Strategies)3));
+            var exception = Throws<RuleNotFoundException>(() => factory.Select((Strategies)3));
 
             // Assert
-            Assert.Equal("Could not find rule.", exception.Message);
+            Equal("Could not find rule.", exception.Message);
         }
     }
 }

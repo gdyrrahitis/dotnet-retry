@@ -85,10 +85,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RulesDataSource.cs" />
     <Compile Include="Factories\RulesFactoryTests\Select.cs" />
+    <Compile Include="Rules\Cancellation\CancellationRuleTests\AddInExceptionList.cs" />
     <Compile Include="Rules\Cancellation\CancellationRuleTests\After.cs" />
+    <Compile Include="Rules\Cancellation\CancellationRuleTests\HasExceededMaxTime.cs" />
+    <Compile Include="Rules\Cancellation\CancellationRuleTests\IsIn.cs" />
     <Compile Include="Rules\Cancellation\CancellationRuleTests\OnFailure.cs" />
-    <Compile Include="Rules\Cancellation\FailureRuleTests\End.cs" />
-    <Compile Include="Rules\Cancellation\FailureRuleTests\Or.cs" />
+    <Compile Include="Rules\Cancellation\ExceptionRuleTests\End.cs" />
+    <Compile Include="Rules\Cancellation\ExceptionRuleTests\Or.cs" />
     <Compile Include="Rules\RuleTests\Action\Attempt.cs" />
     <Compile Include="Rules\RuleTests\Cancel.cs" />
     <Compile Include="Rules\RuleTests\Function\Attempt.cs" />
