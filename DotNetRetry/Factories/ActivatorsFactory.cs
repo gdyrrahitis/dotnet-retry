@@ -8,6 +8,7 @@ namespace DotNetRetry.Factories
     using System.Collections.Generic;
     using System.Linq;
     using Core.Activators;
+    using Core.Exceptions;
 
     /// <summary>
     /// Factory class to create new activators.
@@ -33,10 +34,19 @@ namespace DotNetRetry.Factories
         public IActivator Select(Type type)
         {
             return type == null ? GetActivatorThatStartsWith("Null") :
-                GetActivatorThatStartsWith("Type");
+                GetActivatorThatStartsWith(type.Name);
         }
 
-        private IActivator GetActivatorThatStartsWith(string name) => 
-            _activators.First(a => a.GetType().Name.StartsWith(name));
+        private IActivator GetActivatorThatStartsWith(string name)
+        {
+            try
+            {
+                return _activators.First(a => a.GetType().Name.StartsWith(name));
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new ActivatorNotFoundException(Constants.ActivatorNotFoundErrorMessage, ex.InnerException);
+            }
+        }
     }
 }

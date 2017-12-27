@@ -9,7 +9,7 @@ namespace DotNetRetry.Rules
     using Core;
     using Core.Abstractions;
     using Templates;
-    using static Core.Auxiliery.Guards;
+    using static Guards;
 
     /// <summary>
     /// 

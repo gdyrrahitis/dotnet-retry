@@ -1,4 +1,4 @@
-﻿namespace DotNetRetry.Unit.Tests.Core.Exceptions.RuleNotFoundExceptionTests
+﻿namespace DotNetRetry.Unit.Tests.Core.Exceptions.ActivatorNotFoundException
 {
     using System;
     using DotNetRetry.Core.Exceptions;
@@ -11,7 +11,7 @@
         public void CreatesInstanceWithParameterlessConstructor()
         {
             // Arrange | Act
-            var result = new RuleNotFoundException();
+            var result = new ActivatorNotFoundException();
 
             // Assert
             IsAssignableFrom<Exception>(result);
@@ -24,7 +24,7 @@
             const string message = "Custom Message";
 
             // Act
-            var result = new RuleNotFoundException(message);
+            var result = new ActivatorNotFoundException(message);
 
             // Assert
             Equal(message, result.Message);
@@ -39,7 +39,7 @@
             var innerException = new Exception(innerMessage);
 
             // Act
-            var result = new RuleNotFoundException(message, innerException);
+            var result = new ActivatorNotFoundException(message, innerException);
 
             // Assert
             Equal(message, result.Message);

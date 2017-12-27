@@ -1,6 +1,7 @@
 ﻿namespace DotNetRetry.Unit.Tests
 {
     using System.Collections.Generic;
+    using DotNetRetry.Core.Activators;
     using DotNetRetry.Rules;
 
     public static class RulesDataSource
@@ -9,5 +10,18 @@
         {
             new object[]{ Strategies.Sequential }
         };
+
+        internal static IEnumerable<IActivator> Activators
+        {
+            get
+            {
+                var activators = new List<IActivator>
+                {
+                    new NullActivator(),
+                    new TypeActivator()
+                };
+                return activators;
+            }
+        }
     }
 }

@@ -88,7 +88,7 @@ var rule = RetryRule.SetupRules()
 ```
 
 ### Tests
-Tests under `DotNetRetry.Tests` project, using `NUnit 3` framework.
+Tests under `DotNetRetry.Tests` project, using the `XUnit` test framework.
 
 #### Running from command line
 If you have dotnet cli installed, you can build the project from the solution folder, and then run the tests

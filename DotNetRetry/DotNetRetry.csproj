@@ -49,6 +49,7 @@
     <Compile Include="Core\Auxiliery\Constants.cs" />
     <Compile Include="Core\Auxiliery\ExceptionsExtension.cs" />
     <Compile Include="Core\Auxiliery\Guards.cs" />
+    <Compile Include="Core\Exceptions\ActivatorNotFoundException.cs" />
     <Compile Include="Core\Exceptions\RuleNotFoundException.cs" />
     <Compile Include="Core\IRetry.cs" />
     <Compile Include="Core\IRetryAction.cs" />

@@ -79,6 +79,7 @@
     <Compile Include="Core\Auxiliery\ConstantsTests\Fields.cs" />
     <Compile Include="Core\Auxiliery\ExceptionsExtensionTests\ThrowFlattenAggregateException.cs" />
     <Compile Include="Core\Auxiliery\GuardsTests\ValidateArguments.cs" />
+    <Compile Include="Core\Exceptions\ActivatorNotFoundException\Constructor.cs" />
     <Compile Include="Core\Exceptions\RuleNotFoundExceptionTests\Constructor.cs" />
     <Compile Include="Factories\ActivatorsFactoryTests\Select.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -96,9 +97,11 @@
     <Compile Include="Rules\RuleTests\OnFailure.cs" />
     <Compile Include="Rules\SequentialTests\Action\Attempt.cs" />
     <Compile Include="Rules\SequentialTests\Function\Attempt.cs" />
+    <Compile Include="StartupTests\Activators.cs" />
     <Compile Include="StartupTests\Configure.cs" />
     <Compile Include="Core\Activators\NullActivatorTests\Activate.cs" />
     <Compile Include="Core\Activators\TypeActivatorTests\Activate.cs" />
+    <Compile Include="StartupTests\Rules.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNetRetry\DotNetRetry.csproj">

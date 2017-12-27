@@ -16,13 +16,7 @@
 
         public Select()
         {
-            var activators = new List<IActivator>
-            {
-                new NullActivator(),
-                new TypeActivator()
-            };
-
-            _activatorFactory = new ActivatorsFactory(activators);
+            _activatorFactory = new ActivatorsFactory(RulesDataSource.Activators);
         }
 
         [Theory]
