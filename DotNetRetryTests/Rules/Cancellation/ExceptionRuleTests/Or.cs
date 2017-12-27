@@ -1,23 +1,23 @@
-﻿namespace DotNetRetry.Unit.Tests.Rules.Cancellation.CancellationRuleTests
+﻿namespace DotNetRetry.Unit.Tests.Rules.Cancellation.ExceptionRuleTests
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using DotNetRetry.Core.Exceptions;
     using DotNetRetry.Rules.Cancellation;
     using Xunit;
     using static Xunit.Assert;
 
-    public class OnFailure
+    public class Or
     {
         [Fact]
         public void ForGenericMethodAddsExceptionIntoListAndReturnsAnInstanceOfExceptionRule()
         {
             // Arrange
             var cancellationRule = new CancellationRule();
+            var exceptionRule = new ExceptionRule(cancellationRule);
 
             // Act
-            var result = cancellationRule.OnFailure<Exception>();
+            var result = exceptionRule.Or<Exception>();
 
             // Assert
             IsType<ExceptionRule>(result);
@@ -36,9 +36,10 @@
         {
             // Arrange
             var cancellationRule = new CancellationRule();
+            var exceptionRule = new ExceptionRule(cancellationRule);
 
             // Act
-            var result = cancellationRule.OnFailure(type);
+            var result = exceptionRule.Or(type);
 
             // Assert
             IsType<ExceptionRule>(result);

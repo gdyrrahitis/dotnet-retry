@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using DotNetRetry.Rules;
     using Xunit;
+    using static Xunit.Assert;
 
     public class Attempt
     {
@@ -21,11 +22,11 @@
             };
 
             // Act
-            var exception = Assert.Throws<AggregateException>(() => rules.Attempt(function, 3, TimeSpan.FromSeconds(1)));
+            var exception = Throws<AggregateException>(() => rules.Attempt(function, 3, TimeSpan.FromSeconds(1)));
 
             // Assert
-            Assert.Equal(3, exception.InnerExceptions.Count);
-            Assert.Equal(3, tries);
+            Equal(3, exception.InnerExceptions.Count);
+            Equal(3, tries);
         }
 
         [Theory]
@@ -42,12 +43,12 @@
 
             // Act
             stopwatch.Start();
-            Assert.Throws<AggregateException>(() => rules.Attempt(function, 3, TimeSpan.FromSeconds(1)));
+            Throws<AggregateException>(() => rules.Attempt(function, 3, TimeSpan.FromSeconds(1)));
             stopwatch.Stop();
 
             // Assert
             var elapsed = stopwatch.Elapsed;
-            Assert.Equal(2, elapsed.Seconds);
+            Equal(2, elapsed.Seconds);
         }
 
         [Theory]
@@ -71,8 +72,8 @@
             var result = rules.Attempt(function, 3, TimeSpan.FromSeconds(1));
 
             // Assert
-            Assert.Equal(2, tries);
-            Assert.Equal("abc", result);
+            Equal(2, tries);
+            Equal("abc", result);
         }
 
         [Theory]
@@ -96,8 +97,8 @@
             var result = rules.Attempt(function, 3, TimeSpan.FromSeconds(1));
 
             // Assert
-            Assert.Equal(3, tries);
-            Assert.Equal("abc", result);
+            Equal(3, tries);
+            Equal("abc", result);
         }
 
         [Theory]
@@ -108,10 +109,11 @@
             var rules = Rule.SetupRules(input);
 
             // Act
-            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => "abc", 0, TimeSpan.FromSeconds(1)));
+            var exception = Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => "abc", 0, 
+                TimeSpan.FromSeconds(1)));
 
             // Assert
-            Assert.Equal("Argument value <0> is less than <1>.\r\nParameter name: attempts", exception.Message);
+            Equal("Argument value <0> is less than <1>.\r\nParameter name: attempts", exception.Message);
         }
 
         [Theory]
@@ -122,10 +124,11 @@
             var rules = Rule.SetupRules(input);
 
             // Act
-            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => "abc", 3, TimeSpan.Zero));
+            var exception = Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => "abc", 3, TimeSpan.Zero));
 
             // Assert
-            Assert.Equal($"Argument value <{TimeSpan.Zero}> is less than or equal to <{TimeSpan.Zero}>.\r\nParameter name: timeBetweenRetries", exception.Message);
+            Equal($"Argument value <{TimeSpan.Zero}> is less than or equal to <{TimeSpan.Zero}>.\r\nParameter name: timeBetweenRetries", 
+                exception.Message);
         }
 
         [Theory]
@@ -136,10 +139,11 @@
             var rules = Rule.SetupRules(input);
 
             // Act
-            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => "abc", 3, TimeSpan.MinValue));
+            var exception = Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => "abc", 3, TimeSpan.MinValue));
 
             // Assert
-            Assert.Equal($"Argument value <{TimeSpan.MinValue}> is less than or equal to <{TimeSpan.Zero}>.\r\nParameter name: timeBetweenRetries", exception.Message);
+            Equal($"Argument value <{TimeSpan.MinValue}> is less than or equal to <{TimeSpan.Zero}>.\r\nParameter name: timeBetweenRetries", 
+                exception.Message);
         }
     }
 }

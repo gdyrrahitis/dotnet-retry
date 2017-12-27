@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
 
     /// <summary>
@@ -9,8 +10,8 @@
     /// </summary>
     public class CancellationRule
     {
-        private readonly IList<Type> _exceptions = new List<Type>();
         private TimeSpan? _time;
+        private readonly HashSet<Type> _exceptions = new HashSet<Type>();
 
         /// <summary>
         /// The child exception rule.
@@ -24,6 +25,16 @@
         {
             ExceptionRule = new ExceptionRule(this);
         }
+
+        /// <summary>
+        /// Stored time limit.
+        /// </summary>
+        public TimeSpan? StoredTime => _time;
+
+        /// <summary>
+        /// The stored exceptions.
+        /// </summary>
+        public IReadOnlyList<Type> StoredExceptions => new ReadOnlyCollection<Type>(_exceptions.ToList()); 
 
         /// <summary>
         /// Stops retrying after a specified time has passed.
@@ -59,19 +70,30 @@
         }
 
         /// <summary>
-        /// 
+        /// Tests if certain exception is contained in the list.
         /// </summary>
-        /// <typeparam name="TException"></typeparam>
-        /// <param name="ex"></param>
-        /// <returns></returns>
-        internal bool IsIn<TException>(TException ex) => 
-            _exceptions.Any(x => x == ex.GetType());
+        /// <typeparam name="TException">The exception type.</typeparam>
+        /// <param name="ex">The exception to test against.</param>
+        /// <returns>
+        /// Boolean value, <value>true</value> when exception object exists,
+        /// <value>false</value> when does not exist.
+        /// </returns>
+        internal bool IsIn<TException>(TException ex)
+        {
+            //var result = _exceptions.Any(x => string.Equals(x.FullName, ex.GetType().FullName));
+            //var result = _exceptions.Any(e => e.IsEquivalentTo(typeof(TException)));
+            var result = _exceptions.Any(e => e.IsEquivalentTo(ex.GetType()));
+            return result;
+        }
 
         /// <summary>
-        /// 
+        /// Tests if timespan provided exceeds stored time.
         /// </summary>
-        /// <param name="current"></param>
-        /// <returns></returns>
+        /// <param name="current">Current time.</param>
+        /// <returns>
+        /// Boolean value, <value>true</value> when <paramref name="current"/>
+        /// has exceeded stored time, <value>false</value> when it hasn't.
+        /// </returns>
         internal bool HasExceededMaxTime(TimeSpan current)
         {
             if (!_time.HasValue)
@@ -84,9 +106,9 @@
         }
 
         /// <summary>
-        /// 
+        /// Adds exception in list.
         /// </summary>
-        /// <param name="type"></param>
-        internal void AddInExceptionList(Type type) => _exceptions.Add(type);
+        /// <param name="type">The type to add.</param>
+        internal void AddExceptionType(Type type) => _exceptions.Add(type);
     }
 }

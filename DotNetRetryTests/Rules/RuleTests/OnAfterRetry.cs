@@ -3,6 +3,7 @@
     using System;
     using DotNetRetry.Rules;
     using Xunit;
+    using static Xunit.Assert;
 
     public class OnAfterRetry
     {
@@ -17,12 +18,12 @@
             var result = rule.OnAfterRetry((sender, args) => { });
 
             // Assert
-            Assert.Same(rule, result);
+            Same(rule, result);
         }
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldBeRaisedAfterTheRetry(Strategies input)
+        public void EventShouldBeRaisedAfterTheRetryForNonReturnableMethod(Strategies input)
         {
             // Arrange
             var dispatched = false;
@@ -32,28 +33,66 @@
             rule.Attempt(() => { }, 1, TimeSpan.FromSeconds(1));
 
             // Assert
-            Assert.True(dispatched, "Event should be dispatched");
+            True(dispatched, "Event should be dispatched");
         }
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldNotBeRaisedAsNoRetriesWherePerformed(Strategies input)
+        public void EventShouldBeRaisedAfterTheRetryForReturnableMethod(Strategies input)
         {
             // Arrange
             var dispatched = false;
             var rule = Rule.SetupRules(input).OnAfterRetry((sender, args) => dispatched = true);
 
             // Act
-            Assert.Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom exception"); }, 1, 
-                TimeSpan.FromSeconds(1)));
+            var result = rule.Attempt(() => "Return value", 1, TimeSpan.FromSeconds(1));
 
             // Assert
-            Assert.False(dispatched, "Event should not be dispatched");
+            True(dispatched, "Event should be dispatched");
+            Equal("Return value", result);
         }
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldNotBeDispatchedByAnotherRule(Strategies input)
+        public void EventShouldNotBeRaisedAsNoRetriesWherePerformedForNonReturnableMethod(Strategies input)
+        {
+            // Arrange
+            var dispatched = false;
+            var rule = Rule.SetupRules(input).OnAfterRetry((sender, args) => dispatched = true);
+
+            // Act
+            Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom exception"); }, 1, 
+                TimeSpan.FromSeconds(1)));
+
+            // Assert
+            False(dispatched, "Event should not be dispatched");
+        }
+
+        [Theory]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
+        public void EventShouldNotBeRaisedAsNoRetriesWherePerformedForReturnableMethod(Strategies input)
+        {
+            // Arrange
+            var dispatched = false;
+            var rule = Rule.SetupRules(input).OnAfterRetry((sender, args) => dispatched = true);
+
+            // Act
+            Throws<AggregateException>(() => rule.Attempt(() =>
+            {
+                throw new Exception("Custom exception");
+#pragma warning disable 162
+                return "Return value";
+#pragma warning restore 162
+            }, 1,
+                TimeSpan.FromSeconds(1)));
+
+            // Assert
+            False(dispatched, "Event should not be dispatched");
+        }
+
+        [Theory]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
+        public void EventShouldNotBeDispatchedByAnotherRuleForNonReturnableMethod(Strategies input)
         {
             // Arrange
             var dispatched = false;
@@ -63,7 +102,22 @@
             Rule.SetupRules(input).Attempt(() => { }, 1, TimeSpan.FromSeconds(1));
 
             // Assert
-            Assert.False(dispatched, "Event should not be dispatched");
+            False(dispatched, "Event should not be dispatched");
+        }
+
+        [Theory]
+        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
+        public void EventShouldNotBeDispatchedByAnotherRuleForReturnableMethod(Strategies input)
+        {
+            // Arrange
+            var dispatched = false;
+            Rule.SetupRules(input).OnAfterRetry((sender, args) => dispatched = true);
+
+            // Act
+            Rule.SetupRules(input).Attempt(() => "Return value", 1, TimeSpan.FromSeconds(1));
+
+            // Assert
+            False(dispatched, "Event should not be dispatched");
         }
     }
 }
