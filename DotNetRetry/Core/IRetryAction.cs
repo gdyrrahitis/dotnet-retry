@@ -12,7 +12,7 @@
         /// </summary>
         /// <param name="action">The method to call.</param>
         /// <param name="attempts">The number of retries.</param>
-        /// <param name="timeBetweenRetries">The time between each retry.</param>
-        void Attempt(Action action, int attempts, TimeSpan timeBetweenRetries);
+        /// <param name="time">The time between each retry.</param>
+        void Attempt(Action action, int attempts, TimeSpan time);
     }
 }

@@ -2,6 +2,8 @@
 {
     using System;
     using Cancellation;
+    using Configuration;
+    using Core;
     using Core.Abstractions;
     using Factories;
 
@@ -10,14 +12,14 @@
     /// </summary>
     public class Rule : Retriable, IRule
     {
-        private readonly IRulesFactory _factory;
         private static Rule _instance;
         private static Strategies _strategies;
         private static IRulesFactory _configuration;
+        private readonly IRetry _retry;
 
         private Rule(IRulesFactory factory)
         {
-            _factory = factory;
+            _retry = factory.Select(_strategies, this);
         }
 
         private static Rule Instance => _instance ?? Instantiate();
@@ -85,42 +87,40 @@
         /// <summary>
         /// Attempts to retry an action.
         /// </summary>
-        /// <param name="action">The action to try execute</param>
-        /// <param name="attempts">Total attempts</param>
-        /// <param name="timeBetweenRetries">Time between retries</param>
-        /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
-        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="attempts"/> being less than 1</exception>
-        /// <exception cref="ArgumentException">For parameter <paramref name="timeBetweenRetries"/> Timespan.Zero or Timespan.MinValue values</exception>
-        public void Attempt(Action action, int attempts, TimeSpan timeBetweenRetries)
+        /// <param name="action">The action to try execute.</param>
+        /// <param name="attempts">Total attempts.</param>
+        /// <param name="time">Time between retries.</param>
+        /// <exception cref="AggregateException">All exceptions logged from action(s) executed.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="attempts"/> being less than 1.</exception>
+        /// <exception cref="ArgumentException">For parameter <paramref name="time"/> Timespan.Zero or Timespan.MinValue values.</exception>
+        public void Attempt(Action action, int attempts, TimeSpan time)
         {
-            var retry = _factory.Select(_strategies, this);
-            retry.Attempt(() =>
+            _retry.Attempt(() =>
             {
                 action();
                 OnAfterRetryInvocation();
-            }, attempts, timeBetweenRetries);
+            }, attempts, time);
         }
 
         /// <summary>
         /// Attempts to retry an a method that returns a result.
         /// </summary>
-        /// <typeparam name="T">The type of the return value the action returns</typeparam>
-        /// <param name="function">The function to try execute</param>
-        /// <param name="attempts">Total attempts</param>
-        /// <param name="timeBetweenRetries">Time between retries</param>
-        /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
-        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="attempts"/> being less than 1</exception>
-        /// <exception cref="ArgumentException">For parameter <paramref name="timeBetweenRetries"/> Timespan.Zero or Timespan.MinValue values</exception>
-        /// <returns>The function return value</returns>
-        public T Attempt<T>(Func<T> function, int attempts, TimeSpan timeBetweenRetries)
+        /// <typeparam name="T">The type of the return value the action returns.</typeparam>
+        /// <param name="function">The function to try execute.</param>
+        /// <param name="attempts">Total attempts.</param>
+        /// <param name="time">Time between retries.</param>
+        /// <exception cref="AggregateException">All exceptions logged from action(s) executed.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="attempts"/> being less than 1.</exception>
+        /// <exception cref="ArgumentException">For parameter <paramref name="time"/> Timespan.Zero or Timespan.MinValue values/</exception>
+        /// <returns>The function return value.</returns>
+        public T Attempt<T>(Func<T> function, int attempts, TimeSpan time)
         {
-            var retry = _factory.Select(_strategies, this);
-            return retry.Attempt(() =>
+            return _retry.Attempt(() =>
             {
                 var result = function();
                 OnAfterRetryInvocation();
                 return result;
-            }, attempts, timeBetweenRetries);
+            }, attempts, time);
         }
     }
 }

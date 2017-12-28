@@ -56,6 +56,8 @@
     <Compile Include="Core\IRetryFunction.cs" />
     <Compile Include="Factories\IRulesFactory.cs" />
     <Compile Include="Factories\RulesFactory.cs" />
+    <Compile Include="Rules\Configuration\Options.cs" />
+    <Compile Include="Rules\Configuration\RuleOptions.cs" />
     <Compile Include="Rules\Templates\ActionBody.cs" />
     <Compile Include="Rules\Cancellation\CancellationRule.cs" />
     <Compile Include="Rules\Cancellation\ExceptionRule.cs" />
