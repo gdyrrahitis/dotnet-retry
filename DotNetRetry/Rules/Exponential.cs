@@ -29,11 +29,11 @@ namespace DotNetRetry.Rules
         /// </summary>
         /// <param name="action">The action to try execute</param>
         /// <param name="attempts">Total attempts</param>
-        /// <param name="timeBetweenRetries">Time between retries</param>
+        /// <param name="maxBackoffTime">Time between retries</param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
         /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="attempts"/> being less than 1</exception>
-        /// <exception cref="ArgumentException">For parameter <paramref name="timeBetweenRetries"/> Timespan.Zero or Timespan.MinValue values</exception>
-        public void Attempt(Action action, int attempts, TimeSpan timeBetweenRetries)
+        /// <exception cref="ArgumentException">For parameter <paramref name="maxBackoffTime"/> Timespan.Zero or Timespan.MinValue values</exception>
+        public void Attempt(Action action, int attempts, TimeSpan maxBackoffTime)
         {
             throw new NotImplementedException();
         }
@@ -44,12 +44,12 @@ namespace DotNetRetry.Rules
         /// <typeparam name="T">The type of the return value the action returns</typeparam>
         /// <param name="function">The function to try execute</param>
         /// <param name="attempts">Total attempts</param>
-        /// <param name="timeBetweenRetries">Time between retries</param>
+        /// <param name="maxBackoffTime">Time between retries</param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
         /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="attempts"/> being less than 1</exception>
-        /// <exception cref="ArgumentException">For parameter <paramref name="timeBetweenRetries"/> Timespan.Zero or Timespan.MinValue values</exception>
+        /// <exception cref="ArgumentException">For parameter <paramref name="maxBackoffTime"/> Timespan.Zero or Timespan.MinValue values</exception>
         /// <returns>The function return value</returns>
-        public T Attempt<T>(Func<T> function, int attempts, TimeSpan timeBetweenRetries)
+        public T Attempt<T>(Func<T> function, int attempts, TimeSpan maxBackoffTime)
         {
             throw new NotImplementedException();
         }
