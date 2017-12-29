@@ -2,6 +2,7 @@
 {
     using System;
     using DotNetRetry.Rules;
+    using DotNetRetry.Rules.Configuration;
     using Xunit;
     using static Xunit.Assert;
 
@@ -12,7 +13,8 @@
         public void ReturnsSelf(Strategies input)
         {
             // Arrange 
-            var rule = Rule.SetupRules(input);
+            var rule = Rule.SetupRules(input)
+                .Config(new Options(3, TimeSpan.FromMilliseconds(1)));
 
             // Act
             var result = rule.OnAfterRetry((sender, args) => { });
@@ -27,10 +29,12 @@
         {
             // Arrange
             var dispatched = false;
-            var rule = Rule.SetupRules(input).OnAfterRetry((sender, args) => dispatched = true);
+            var rule = Rule.SetupRules(input)
+                .Config(new Options(3, TimeSpan.FromMilliseconds(1)))
+                .OnAfterRetry((sender, args) => dispatched = true);
 
             // Act
-            rule.Attempt(() => { }, 1, TimeSpan.FromSeconds(1));
+            rule.Attempt(() => { });
 
             // Assert
             True(dispatched, "Event should be dispatched");
@@ -42,10 +46,12 @@
         {
             // Arrange
             var dispatched = false;
-            var rule = Rule.SetupRules(input).OnAfterRetry((sender, args) => dispatched = true);
+            var rule = Rule.SetupRules(input)
+                .Config(new Options(3, TimeSpan.FromMilliseconds(1)))
+                .OnAfterRetry((sender, args) => dispatched = true);
 
             // Act
-            var result = rule.Attempt(() => "Return value", 1, TimeSpan.FromSeconds(1));
+            var result = rule.Attempt(() => "Return value");
 
             // Assert
             True(dispatched, "Event should be dispatched");
@@ -58,11 +64,12 @@
         {
             // Arrange
             var dispatched = false;
-            var rule = Rule.SetupRules(input).OnAfterRetry((sender, args) => dispatched = true);
+            var rule = Rule.SetupRules(input)
+                .Config(new Options(3, TimeSpan.FromMilliseconds(1)))
+                .OnAfterRetry((sender, args) => dispatched = true);
 
             // Act
-            Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom exception"); }, 1, 
-                TimeSpan.FromSeconds(1)));
+            Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom exception"); }));
 
             // Assert
             False(dispatched, "Event should not be dispatched");
@@ -74,7 +81,9 @@
         {
             // Arrange
             var dispatched = false;
-            var rule = Rule.SetupRules(input).OnAfterRetry((sender, args) => dispatched = true);
+            var rule = Rule.SetupRules(input)
+                .Config(new Options(3, TimeSpan.FromMilliseconds(1)))
+                .OnAfterRetry((sender, args) => dispatched = true);
 
             // Act
             Throws<AggregateException>(() => rule.Attempt(() =>
@@ -83,8 +92,7 @@
 #pragma warning disable 162
                 return "Return value";
 #pragma warning restore 162
-            }, 1,
-                TimeSpan.FromSeconds(1)));
+            }));
 
             // Assert
             False(dispatched, "Event should not be dispatched");
@@ -96,10 +104,14 @@
         {
             // Arrange
             var dispatched = false;
-            Rule.SetupRules(input).OnAfterRetry((sender, args) => dispatched = true);
+            Rule.SetupRules(input)
+                .Config(new Options(3, TimeSpan.FromMilliseconds(1)))
+                .OnAfterRetry((sender, args) => dispatched = true);
 
             // Act
-            Rule.SetupRules(input).Attempt(() => { }, 1, TimeSpan.FromSeconds(1));
+            Rule.SetupRules(input)
+                .Config(new Options(3, TimeSpan.FromMilliseconds(1)))
+                .Attempt(() => { });
 
             // Assert
             False(dispatched, "Event should not be dispatched");
@@ -111,10 +123,14 @@
         {
             // Arrange
             var dispatched = false;
-            Rule.SetupRules(input).OnAfterRetry((sender, args) => dispatched = true);
+            Rule.SetupRules(input)
+                .Config(new Options(3, TimeSpan.FromMilliseconds(1)))
+                .OnAfterRetry((sender, args) => dispatched = true);
 
             // Act
-            Rule.SetupRules(input).Attempt(() => "Return value", 1, TimeSpan.FromSeconds(1));
+            Rule.SetupRules(input)
+                .Config(new Options(3, TimeSpan.FromMilliseconds(1)))
+                .Attempt(() => "Return value");
 
             // Assert
             False(dispatched, "Event should not be dispatched");

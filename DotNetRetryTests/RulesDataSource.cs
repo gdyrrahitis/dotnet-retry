@@ -8,7 +8,8 @@
     {
         public static IEnumerable<object[]> Data => new List<object[]>
         {
-            new object[]{ Strategies.Sequential }
+            new object[]{ Strategies.Sequential },
+            new object[]{ Strategies.Exponential }
         };
 
         internal static IEnumerable<IActivator> Activators

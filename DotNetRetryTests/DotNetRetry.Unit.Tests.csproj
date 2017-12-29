@@ -92,6 +92,9 @@
     <Compile Include="Rules\Cancellation\CancellationRuleTests\OnFailure.cs" />
     <Compile Include="Rules\Cancellation\ExceptionRuleTests\End.cs" />
     <Compile Include="Rules\Cancellation\ExceptionRuleTests\Or.cs" />
+    <Compile Include="Rules\Configuration\OptionsTests\Constructor.cs" />
+    <Compile Include="Rules\ExponentialTests\Action\Attempt.cs" />
+    <Compile Include="Rules\ExponentialTests\Function\Attempt.cs" />
     <Compile Include="Rules\RuleTests\Action\Attempt.cs" />
     <Compile Include="Rules\RuleTests\Cancel.cs" />
     <Compile Include="Rules\RuleTests\Function\Attempt.cs" />
@@ -112,10 +115,7 @@
       <Name>DotNetRetry</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Rules\ExponentialTests\Action\" />
-    <Folder Include="Rules\ExponentialTests\Function\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

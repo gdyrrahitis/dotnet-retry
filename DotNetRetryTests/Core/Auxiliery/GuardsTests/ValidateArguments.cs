@@ -21,6 +21,20 @@
             Equal($"Argument value <{value}> is less than <1>.\r\nParameter name: attempts", result.Message);
         }
 
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-10)]
+        public void ThrowsArgumentOutOfRangeExceptionForAttemptValuesLessThanOneForAttemptOnly(int value)
+        {
+            // Arrange | Act
+            var result =
+                Throws<ArgumentOutOfRangeException>(
+                    () => Guards.ValidateArguments(value));
+
+            // Assert
+            Equal($"Argument value <{value}> is less than <1>.\r\nParameter name: attempts", result.Message);
+        }
+
         [Fact]
         public void ThrowsArgumentOutOfRangeExceptionForTimespanValuesLessOrEqualToZero()
         {
@@ -31,6 +45,19 @@
 
             // Assert
             Equal($"Argument value <{TimeSpan.Zero}> is less than or equal to <{TimeSpan.Zero}>.\r\nParameter name: timeBetweenRetries", 
+                result.Message);
+        }
+
+        [Fact]
+        public void ThrowsArgumentOutOfRangeExceptionForTimespanValuesLessOrEqualToZeroForTimeOnly()
+        {
+            // Arrange | Act
+            var result =
+                Throws<ArgumentOutOfRangeException>(
+                    () => Guards.ValidateArguments(TimeSpan.Zero));
+
+            // Assert
+            Equal($"Argument value <{TimeSpan.Zero}> is less than or equal to <{TimeSpan.Zero}>.\r\nParameter name: timeBetweenRetries",
                 result.Message);
         }
     }

@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using DotNetRetry.Rules;
+    using DotNetRetry.Rules.Configuration;
     using Xunit;
     using static Xunit.Assert;
 
@@ -14,7 +15,8 @@
         {
             // Arrange
             var attempts = 0;
-            var rule = Rule.SetupRules(Strategies.Sequential);
+            var rule = Rule.SetupRules(Strategies.Sequential)
+                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             rule.Cancel(c => c.OnFailure<Exception>());
 
             // Act
@@ -22,7 +24,7 @@
             {
                 attempts++;
                throw new Exception("Custom Exception");
-            }, 5, TimeSpan.FromMilliseconds(100)));
+            }));
 
             // Assert
             Equal(1, attempts);
@@ -34,7 +36,8 @@
         {
             // Arrange
             var attempts = 0;
-            var rule = Rule.SetupRules(Strategies.Sequential);
+            var rule = Rule.SetupRules(Strategies.Sequential)
+                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             rule.Cancel(c => c.OnFailure<Exception>());
 
             // Act
@@ -45,7 +48,7 @@
 #pragma warning disable 162
                 return "Return value";
 #pragma warning restore 162
-            }, 5, TimeSpan.FromMilliseconds(100)));
+            }));
 
             // Assert
             Equal(1, attempts);
@@ -57,7 +60,8 @@
         {
             // Arrange
             var attempts = 0;
-            var rule = Rule.SetupRules(Strategies.Sequential);
+            var rule = Rule.SetupRules(Strategies.Sequential)
+                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             rule.Cancel(c => c.OnFailure<ArgumentException>());
 
             // Act
@@ -69,7 +73,7 @@
                     throw new ArgumentException();
                 }
                 throw new Exception("Custom Exception");
-            }, 5, TimeSpan.FromMilliseconds(100)));
+            }));
 
             // Assert
             Equal(3, attempts);
@@ -83,7 +87,8 @@
         {
             // Arrange
             var attempts = 0;
-            var rule = Rule.SetupRules(Strategies.Sequential);
+            var rule = Rule.SetupRules(Strategies.Sequential)
+                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             rule.Cancel(c => c.OnFailure<ArgumentException>());
 
             // Act
@@ -98,7 +103,7 @@
 #pragma warning disable 162
                 return "Return value";
 #pragma warning restore 162
-            }, 5, TimeSpan.FromMilliseconds(100)));
+            }));
 
             // Assert
             Equal(3, attempts);
@@ -113,7 +118,8 @@
         {
             // Arrange
             var attempts = 0;
-            var rule = Rule.SetupRules(Strategies.Sequential);
+            var rule = Rule.SetupRules(Strategies.Sequential)
+                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             rule.Cancel(c => c.After(TimeSpan.FromMilliseconds(300)));
 
             // Act
@@ -121,7 +127,7 @@
             {
                 attempts++;
                 throw new Exception("Custom Exception");
-            }, 5, TimeSpan.FromMilliseconds(100)));
+            }));
 
             // Assert
             Equal(3, attempts);
@@ -133,7 +139,8 @@
         {
             // Arrange
             var attempts = 0;
-            var rule = Rule.SetupRules(Strategies.Sequential);
+            var rule = Rule.SetupRules(Strategies.Sequential)
+                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             rule.Cancel(c => c.After(TimeSpan.FromMilliseconds(300)));
 
             // Act
@@ -144,7 +151,7 @@
 #pragma warning disable 162
                 return "Return value";
 #pragma warning restore 162
-            }, 5, TimeSpan.FromMilliseconds(100)));
+            }));
 
             // Assert
             Equal(3, attempts);
@@ -160,7 +167,8 @@
         {
             // Arrange
             var attempts = 0;
-            var rule = Rule.SetupRules(Strategies.Sequential);
+            var rule = Rule.SetupRules(Strategies.Sequential)
+                .Config(new Options(totalAttempts, TimeSpan.FromMilliseconds(timeToWait)));
             rule.Cancel(c => c.After(TimeSpan.FromMilliseconds(cancelAfter)).OnFailure(type));
 
             // Act
@@ -168,7 +176,7 @@
             {
                 attempts++;
                 throw new Exception("Custom Exception");
-            }, totalAttempts, TimeSpan.FromMilliseconds(timeToWait)));
+            }));
 
             // Assert
             Equal(expected, attempts);
@@ -183,7 +191,8 @@
         {
             // Arrange
             var attempts = 0;
-            var rule = Rule.SetupRules(Strategies.Sequential);
+            var rule = Rule.SetupRules(Strategies.Sequential)
+                .Config(new Options(totalAttempts, TimeSpan.FromMilliseconds(timeToWait)));
             rule.Cancel(c => c.After(TimeSpan.FromMilliseconds(cancelAfter)).OnFailure(type));
 
             // Act
@@ -194,7 +203,7 @@
 #pragma warning disable 162
                 return "Return value";
 #pragma warning restore 162
-            }, totalAttempts, TimeSpan.FromMilliseconds(timeToWait)));
+            }));
 
             // Assert
             Equal(expected, attempts);

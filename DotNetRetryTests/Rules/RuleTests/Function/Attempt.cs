@@ -3,6 +3,7 @@
     using System;
     using System.Diagnostics;
     using DotNetRetry.Rules;
+    using DotNetRetry.Rules.Configuration;
     using Xunit;
     using static Xunit.Assert;
 
@@ -14,7 +15,8 @@
         {
             // Arrange
             var tries = 0;
-            var rules = Rule.SetupRules(input);
+            var rules = Rule.SetupRules(input)
+                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             Func<string> function = () =>
             {
                 tries++;
@@ -22,7 +24,7 @@
             };
 
             // Act
-            var exception = Throws<AggregateException>(() => rules.Attempt(function, 3, TimeSpan.FromSeconds(1)));
+            var exception = Throws<AggregateException>(() => rules.Attempt(function));
 
             // Assert
             Equal(3, exception.InnerExceptions.Count);
@@ -31,11 +33,12 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void TakesTwoSecondsToCompleteAfterThreeRetriesOneSecondEach(Strategies input)
+        public void TakesTwoHundredMillisecondsToCompleteAfterThreeRetriesOneSecondEach(Strategies input)
         {
             // Arrange
             var stopwatch = Stopwatch.StartNew();
-            var rules = Rule.SetupRules(input);
+            var rules = Rule.SetupRules(input)
+                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             Func<string> function = () =>
             {
                 throw new Exception("Unhandled exception");
@@ -43,12 +46,12 @@
 
             // Act
             stopwatch.Start();
-            Throws<AggregateException>(() => rules.Attempt(function, 3, TimeSpan.FromSeconds(1)));
+            Throws<AggregateException>(() => rules.Attempt(function));
             stopwatch.Stop();
 
             // Assert
             var elapsed = stopwatch.Elapsed;
-            Equal(2, elapsed.Seconds);
+            True(elapsed.TotalMilliseconds - 200 < 50);
         }
 
         [Theory]
@@ -57,7 +60,8 @@
         {
             // Arrange
             var tries = 0;
-            var rules = Rule.SetupRules(input);
+            var rules = Rule.SetupRules(input)
+                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             Func<string> function = () =>
             {
                 if (tries++ < 1)
@@ -69,7 +73,7 @@
             };
 
             // Act
-            var result = rules.Attempt(function, 3, TimeSpan.FromSeconds(1));
+            var result = rules.Attempt(function);
 
             // Assert
             Equal(2, tries);
@@ -82,7 +86,8 @@
         {
             // Arrange
             var tries = 0;
-            var rules = Rule.SetupRules(input);
+            var rules = Rule.SetupRules(input)
+                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             Func<string> function = () =>
             {
                 if (tries++ < 2)
@@ -94,56 +99,11 @@
             };
 
             // Act
-            var result = rules.Attempt(function, 3, TimeSpan.FromSeconds(1));
+            var result = rules.Attempt(function);
 
             // Assert
             Equal(3, tries);
             Equal("abc", result);
-        }
-
-        [Theory]
-        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void ThrowsArgumentOutOfRangeExceptionForTriesBeingLessThanOne(Strategies input)
-        {
-            // Arrange
-            var rules = Rule.SetupRules(input);
-
-            // Act
-            var exception = Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => "abc", 0, 
-                TimeSpan.FromSeconds(1)));
-
-            // Assert
-            Equal("Argument value <0> is less than <1>.\r\nParameter name: attempts", exception.Message);
-        }
-
-        [Theory]
-        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void ThrowsArgumentExceptionForTimespanBeingZero(Strategies input)
-        {
-            // Arrange
-            var rules = Rule.SetupRules(input);
-
-            // Act
-            var exception = Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => "abc", 3, TimeSpan.Zero));
-
-            // Assert
-            Equal($"Argument value <{TimeSpan.Zero}> is less than or equal to <{TimeSpan.Zero}>.\r\nParameter name: timeBetweenRetries", 
-                exception.Message);
-        }
-
-        [Theory]
-        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void ThrowsArgumentExceptionForTimespanBeingMinValue(Strategies input)
-        {
-            // Arrange
-            var rules = Rule.SetupRules(input);
-
-            // Act
-            var exception = Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => "abc", 3, TimeSpan.MinValue));
-
-            // Assert
-            Equal($"Argument value <{TimeSpan.MinValue}> is less than or equal to <{TimeSpan.Zero}>.\r\nParameter name: timeBetweenRetries", 
-                exception.Message);
         }
     }
 }

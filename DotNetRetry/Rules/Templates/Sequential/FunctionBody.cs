@@ -2,7 +2,7 @@
 using DotNetRetry.Core.Auxiliery;
 
 [assembly: InternalsVisibleTo(Constants.TestProject)]
-namespace DotNetRetry.Rules.Templates
+namespace DotNetRetry.Rules.Templates.Sequential
 {
     using System;
     using System.Collections.Generic;
@@ -13,32 +13,34 @@ namespace DotNetRetry.Rules.Templates
     /// <summary>
     /// 
     /// </summary>
-    internal class ActionBody: ActionBodyTemplate
+    internal class FunctionBody: FunctionBodyTemplate
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="retriable"></param>
-        internal ActionBody(Retriable retriable) : base(retriable)
+        internal FunctionBody(Retriable retriable) : base(retriable)
         {
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="action"></param>
-        /// <param name="attempts"></param>
-        /// <param name="timeBetweenRetries"></param>
-        /// <param name="exceptions"></param>
-        /// <param name="time"></param>
-        protected override void Do(Action action, ref int attempts, TimeSpan timeBetweenRetries, List<Exception> exceptions, TimeSpan time)
+        /// <typeparam name="T"></typeparam>
+        /// <param name="function"></param>
+        /// <returns></returns>
+        protected override T Do<T>(Func<T> function)
         {
-            while (attempts > 0)
+            var exceptions = new List<Exception>();
+            var time = TimeSpan.Zero;
+            var attempts = Retriable.Options.Attempts;
+
+            while (attempts-- > 0)
             {
                 try
                 {
-                    action();
-                    return;
+                    var result = function();
+                    return result;
                 }
                 catch (Exception ex)
                 {
@@ -51,16 +53,16 @@ namespace DotNetRetry.Rules.Templates
                         exceptions.ThrowFlattenAggregateException();
                     }
 
-                    if (--attempts > 0)
+                    if (attempts > 0)
                     {
-                        Task.Delay(timeBetweenRetries).Wait();
-                        time = time.Add(timeBetweenRetries);
+                        Task.Delay(Retriable.Options.Time).Wait();
                     }
                     else
                     {
                         exceptions.ThrowFlattenAggregateException();
                     }
 
+                    time = time.Add(Retriable.Options.Time);
                     if (Retriable.CancellationRule != null && Retriable.CancellationRule.HasExceededMaxTime(time))
                     {
                         Retriable.OnAfterRetryInvocation();
@@ -68,6 +70,8 @@ namespace DotNetRetry.Rules.Templates
                     }
                 }
             }
+
+            throw new InvalidOperationException(Constants.InvalidOperationExceptionErrorMessage);
         }
     }
 }

@@ -5,7 +5,6 @@ using DotNetRetry.Core.Auxiliery;
 namespace DotNetRetry.Rules.Templates
 {
     using System;
-    using System.Collections.Generic;
     using Core.Abstractions;
 
     /// <summary>
@@ -31,18 +30,11 @@ namespace DotNetRetry.Rules.Templates
         /// Attempts to retry an action.
         /// </summary>
         /// <param name="action">The action to try execute</param>
-        /// <param name="attempts">Total attempts</param>
-        /// <param name="timeBetweenRetries">Time between retries</param>
-        /// <param name="exceptions"></param>
-        /// <param name="time"></param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
-        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="attempts"/> being less than 1</exception>
-        /// <exception cref="ArgumentException">For parameter <paramref name="timeBetweenRetries"/> Timespan.Zero or Timespan.MinValue values</exception>
-        public void Attempt(Action action, ref int attempts, TimeSpan timeBetweenRetries,
-            List<Exception> exceptions, TimeSpan time)
+        public void Attempt(Action action)
         {
             BeforeRetry();
-            Do(action, ref attempts, timeBetweenRetries, exceptions, time);
+            Do(action);
             AfterRetry();
         }
 
@@ -60,14 +52,7 @@ namespace DotNetRetry.Rules.Templates
         /// Attempts to retry an action.
         /// </summary>
         /// <param name="action">The function to try execute</param>
-        /// <param name="attempts">Total attempts</param>
-        /// <param name="timeBetweenRetries">Time between retries</param>
-        /// <param name="exceptions"></param>
-        /// <param name="time"></param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
-        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="attempts"/> being less than 1</exception>
-        /// <exception cref="ArgumentException">For parameter <paramref name="timeBetweenRetries"/> Timespan.Zero or Timespan.MinValue values</exception>
-        protected abstract void Do(Action action, ref int attempts, TimeSpan timeBetweenRetries,
-            List<Exception> exceptions, TimeSpan time);
+        protected abstract void Do(Action action);
     }
 }
