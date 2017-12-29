@@ -3,17 +3,17 @@
     using System;
     using System.Diagnostics;
     using DotNetRetry.Rules;
+    using DotNetRetry.Rules.Configuration;
     using Xunit;
     using static Xunit.Assert;
 
     public class Attempt
     {
-        private readonly Sequential _rule;
+        private readonly RuleOptions _options;
 
         public Attempt()
         {
-            var rule = Rule.SetupRules(Strategies.Sequential);
-            _rule = new Sequential(rule);
+            _options = Rule.SetupRules(Strategies.Sequential);
         }
 
         [Theory]
@@ -26,6 +26,8 @@
             // Arrange
             var actual = "Not Implemented";
             var attempt = 0;
+            var rule = _options.Config(new Options(totalAttempts, TimeSpan.FromMilliseconds(milliseconds)));
+            var sequential = new Sequential(rule);
             Action successFullAction = () =>
             {
                 if (whenSuccessful == attempt)
@@ -39,7 +41,7 @@
             };
 
             // Act
-            _rule.Attempt(successFullAction, totalAttempts, TimeSpan.FromMilliseconds(milliseconds));
+            sequential.Attempt(successFullAction);
 
             // Assert
             Equal(whenSuccessful, attempt);
@@ -52,6 +54,8 @@
             // Arrange
             var actual = 0;
             var tries = 0;
+            var rule = _options.Config(new Options(3, TimeSpan.FromMilliseconds(1)));
+            var sequential = new Sequential(rule);
             Action failureAction = () =>
             {
                 tries++;
@@ -60,7 +64,7 @@
             };
 
             // Act
-            var exception = Throws<AggregateException>(() => _rule.Attempt(failureAction, 3, TimeSpan.FromSeconds(1)));
+            var exception = Throws<AggregateException>(() => sequential.Attempt(failureAction));
 
             // Assert
             Equal(3, exception.InnerExceptions.Count);
@@ -69,9 +73,11 @@
         }
 
         [Fact]
-        public void TakesTwoSecondsToCompleteAfterThreeRetriesOneSecondEach()
+        public void TakesTwoHundredMillisecondsToCompleteAfterThreeRetriesOneHundredMillisecondsEach()
         {
             // Arrange
+            var rule = _options.Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+            var sequential = new Sequential(rule);
             var stopwatch = Stopwatch.StartNew();
             Action action = () =>
             {
@@ -80,44 +86,12 @@
 
             // Act
             stopwatch.Start();
-            Throws<AggregateException>(() => _rule.Attempt(action, 3, TimeSpan.FromSeconds(1)));
+            Throws<AggregateException>(() => sequential.Attempt(action));
             stopwatch.Stop();
             var elapsed = stopwatch.Elapsed;
 
             // Assert
-            Equal(2, elapsed.Seconds);
-        }
-
-        [Fact]
-        public void ThrowsArgumentOutOfRangeExceptionForTriesBeingLessThanOne()
-        {
-            // Arrange | Act
-            var exception = Throws<ArgumentOutOfRangeException>(() => _rule.Attempt(() => { }, 0, TimeSpan.FromSeconds(1)));
-
-            // Assert
-            Equal("Argument value <0> is less than <1>.\r\nParameter name: attempts", exception.Message);
-        }
-
-        [Fact]
-        public void ThrowsArgumentExceptionForTimespanBeingZero()
-        {
-            // Arrange | Act
-            var exception = Throws<ArgumentOutOfRangeException>(() => _rule.Attempt(() => { }, 3, TimeSpan.Zero));
-
-            // Assert
-            Equal($"Argument value <{TimeSpan.Zero}> is less than or equal to <{TimeSpan.Zero}>.\r\nParameter name: timeBetweenRetries", 
-                exception.Message);
-        }
-
-        [Fact]
-        public void ThrowsArgumentExceptionForTimespanBeingMinValue()
-        {
-            // Arrange | Act
-            var exception = Throws<ArgumentOutOfRangeException>(() => _rule.Attempt(() => { }, 3, TimeSpan.MinValue));
-
-            // Assert
-            Equal($"Argument value <{TimeSpan.MinValue}> is less than or equal to <{TimeSpan.Zero}>.\r\nParameter name: timeBetweenRetries", 
-                exception.Message);
+            True(elapsed.TotalMilliseconds - 200 < 50);
         }
     }
 }

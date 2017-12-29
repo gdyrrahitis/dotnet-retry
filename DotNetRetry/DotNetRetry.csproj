@@ -58,11 +58,13 @@
     <Compile Include="Factories\RulesFactory.cs" />
     <Compile Include="Rules\Configuration\Options.cs" />
     <Compile Include="Rules\Configuration\RuleOptions.cs" />
-    <Compile Include="Rules\Templates\ActionBody.cs" />
+    <Compile Include="Rules\Templates\Exponential\ActionBody.cs" />
+    <Compile Include="Rules\Templates\Exponential\FunctionBody.cs" />
+    <Compile Include="Rules\Templates\Sequential\ActionBody.cs" />
     <Compile Include="Rules\Cancellation\CancellationRule.cs" />
     <Compile Include="Rules\Cancellation\ExceptionRule.cs" />
     <Compile Include="Rules\Exponential.cs" />
-    <Compile Include="Rules\Templates\FunctionBody.cs" />
+    <Compile Include="Rules\Templates\Sequential\FunctionBody.cs" />
     <Compile Include="Rules\Templates\FunctionBodyTemplate.cs" />
     <Compile Include="Rules\IRule.cs" />
     <Compile Include="Core\Abstractions\RetriableRules.cs" />

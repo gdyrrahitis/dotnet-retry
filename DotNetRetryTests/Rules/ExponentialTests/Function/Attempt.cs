@@ -1,7 +1,6 @@
-﻿namespace DotNetRetry.Unit.Tests.Rules.SequentialTests.Function
+﻿namespace DotNetRetry.Unit.Tests.Rules.ExponentialTests.Function
 {
     using System;
-    using System.Diagnostics;
     using DotNetRetry.Rules;
     using DotNetRetry.Rules.Configuration;
     using Xunit;
@@ -13,20 +12,20 @@
 
         public Attempt()
         {
-            _options = Rule.SetupRules(Strategies.Sequential);
+            _options = Rule.SetupRules(Strategies.Exponential);
         }
 
         [Theory]
         [InlineData(0, 3, 100, "Success")]
         [InlineData(1, 3, 100, "Success")]
         [InlineData(2, 3, 100, "Success")]
-        public void IsSuccessOnVariousRetryingScenarios(int whenSuccessful, int totalAttempts, 
+        public void IsSuccessOnVariousRetryingScenarios(int whenSuccessful, int totalAttempts,
             int milliseconds, string returnValue)
         {
             // Arrange
             var attempt = 0;
             var rule = _options.Config(new Options(totalAttempts, TimeSpan.FromMilliseconds(milliseconds)));
-            var sequential = new Sequential(rule);
+            var exponential = new Exponential(rule);
             Func<string> function = () =>
             {
                 if (whenSuccessful == attempt)
@@ -39,7 +38,7 @@
             };
 
             // Act
-            var result = sequential.Attempt(function);
+            var result = exponential.Attempt(function);
 
             // Assert
             Equal(whenSuccessful, attempt);
@@ -52,7 +51,7 @@
             // Arrange
             var tries = 0;
             var rule = _options.Config(new Options(3, TimeSpan.FromMilliseconds(1)));
-            var sequential = new Sequential(rule);
+            var exponential = new Exponential(rule);
 
             Func<string> function = () =>
             {
@@ -61,33 +60,11 @@
             };
 
             // Act
-            var exception = Throws<AggregateException>(() => sequential.Attempt(function));
+            var exception = Throws<AggregateException>(() => exponential.Attempt(function));
 
             // Assert
             Equal(3, exception.InnerExceptions.Count);
             Equal(3, tries);
-        }
-
-        [Fact]
-        public void TakesTwoHundredMillisecondsToCompleteAfterThreeRetriesOneSecondEach()
-        {
-            // Arrange
-            var rule = _options.Config(new Options(3, TimeSpan.FromMilliseconds(100)));
-            var sequential = new Sequential(rule);
-            var stopwatch = Stopwatch.StartNew();
-            Func<string> function = () =>
-            {
-                throw new Exception("Unhandled exception");
-            };
-
-            // Act
-            stopwatch.Start();
-            Throws<AggregateException>(() => sequential.Attempt(function));
-            stopwatch.Stop();
-
-            // Assert
-            var elapsed = stopwatch.Elapsed;
-            True(elapsed.TotalMilliseconds - 200 < 50);
         }
     }
 }

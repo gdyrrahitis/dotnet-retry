@@ -11,8 +11,6 @@
         /// Attempts to invoke a method in a sequential order.
         /// </summary>
         /// <param name="action">The method to call.</param>
-        /// <param name="attempts">The number of retries.</param>
-        /// <param name="time">The time between each retry.</param>
-        void Attempt(Action action, int attempts, TimeSpan time);
+        void Attempt(Action action);
     }
 }

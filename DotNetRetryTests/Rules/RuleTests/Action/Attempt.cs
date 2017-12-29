@@ -2,6 +2,7 @@
 {
     using System;
     using DotNetRetry.Rules;
+    using DotNetRetry.Rules.Configuration;
     using Xunit;
     using static Xunit.Assert;
 
@@ -13,7 +14,7 @@
         {
             // Arrange
             var actual = 0;
-            var rules = Rule.SetupRules(input);
+            var rules = Rule.SetupRules(input).Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             Action successFullAction = () =>
             {
                 const string intAsString = "15";
@@ -22,7 +23,7 @@
             };
 
             // Act
-            rules.Attempt(successFullAction, 3, TimeSpan.FromSeconds(2));
+            rules.Attempt(successFullAction);
 
             // Assert
             Equal(15, actual);
@@ -35,7 +36,7 @@
             // Arrange
             var actual = 0;
             var tries = 0;
-            var rules = Rule.SetupRules(input);
+            var rules = Rule.SetupRules(input).Config(new Options(5, TimeSpan.FromMilliseconds(100)));
             Action successAtSecondTryAction = () =>
             {
                 const string invalidNumber = "ab123";
@@ -52,7 +53,7 @@
             };
 
             // Act
-            rules.Attempt(successAtSecondTryAction, 5, TimeSpan.FromSeconds(1));
+            rules.Attempt(successAtSecondTryAction);
 
             // Assert
             Equal(2, tries);
@@ -66,7 +67,7 @@
             // Arrange
             var actual = 0;
             var tries = 0;
-            var rules = Rule.SetupRules(input);
+            var rules = Rule.SetupRules(input).Config(new Options(5, TimeSpan.FromMilliseconds(100)));
             Action successAtThirdTryAction = () =>
             {
                 const string invalidNumber = "ab123";
@@ -83,7 +84,7 @@
             };
 
             // Act
-            rules.Attempt(successAtThirdTryAction, 5, TimeSpan.FromSeconds(1));
+            rules.Attempt(successAtThirdTryAction);
 
             // Assert
             Equal(3, tries);
@@ -97,7 +98,7 @@
             // Arrange
             var actual = 0;
             var tries = 0;
-            var rules = Rule.SetupRules(input);
+            var rules = Rule.SetupRules(input).Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             Action failureAction = () =>
             {
                 tries++;
@@ -106,8 +107,7 @@
             };
 
             // Act
-            var exception = Throws<AggregateException>(() => rules.Attempt(failureAction, 3, 
-                TimeSpan.FromSeconds(1)));
+            var exception = Throws<AggregateException>(() => rules.Attempt(failureAction));
 
             // Assert
             Equal(3, exception.InnerExceptions.Count);
@@ -122,11 +122,11 @@
             // Arrange
             var actual = 0;
             const string parameter = "123456";
-            var rules = Rule.SetupRules(input);
+            var rules = Rule.SetupRules(input).Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             Action<string> convertToIntAction = s => actual = int.Parse(s);
 
             // Act
-            rules.Attempt(() => convertToIntAction(parameter), 3, TimeSpan.FromSeconds(1));
+            rules.Attempt(() => convertToIntAction(parameter));
 
             // Assert
             Equal(123456, actual);
@@ -140,7 +140,7 @@
             var actual = 0;
             var tries = 0;
             const string parameter = "abc123456";
-            var rules = Rule.SetupRules(input);
+            var rules = Rule.SetupRules(input).Config(new Options(5, TimeSpan.FromMilliseconds(100)));
             Action<string> convertToIntAction = s =>
             {
                 if (tries == 2)
@@ -156,7 +156,7 @@
             };
 
             // Act
-            rules.Attempt(() => convertToIntAction(parameter), 6, TimeSpan.FromSeconds(1));
+            rules.Attempt(() => convertToIntAction(parameter));
 
             // Assert
             Equal(2, tries);
@@ -171,7 +171,7 @@
             var actual = 0;
             var tries = 0;
             const string parameter = "abcd123";
-            var rules = Rule.SetupRules(input);
+            var rules = Rule.SetupRules(input).Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             Action<string> failureAction = s =>
             {
                 tries++;
@@ -180,57 +180,12 @@
 
             // Act
             var exception = Throws<AggregateException>(() => 
-                rules.Attempt(() => failureAction(parameter), 3, TimeSpan.FromSeconds(1)));
+                rules.Attempt(() => failureAction(parameter)));
 
             // Assert
             Equal(3, exception.InnerExceptions.Count);
             Equal(3, tries);
             Equal(0, actual);
-        }
-
-        [Theory]
-        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void ThrowsArgumentOutOfRangeExceptionForTriesBeingLessThanOne(Strategies input)
-        {
-            // Arrange
-            var rules = Rule.SetupRules(input);
-
-            // Act
-            var exception = Throws<ArgumentOutOfRangeException>(() => 
-                rules.Attempt(() => { }, 0, TimeSpan.FromSeconds(1)));
-
-            // Assert
-            Equal("Argument value <0> is less than <1>.\r\nParameter name: attempts", exception.Message);
-        }
-
-        [Theory]
-        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void ThrowsArgumentExceptionForTimespanBeingZero(Strategies input)
-        {
-            // Arrange
-            var rules = Rule.SetupRules(input);
-
-            // Act
-            var exception = Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => { }, 3, TimeSpan.Zero));
-
-            // Assert
-            Equal($"Argument value <{TimeSpan.Zero}> is less than or equal to <{TimeSpan.Zero}>.\r\nParameter name: timeBetweenRetries", 
-                exception.Message);
-        }
-
-        [Theory]
-        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void ThrowsArgumentExceptionForTimespanBeingMinValue(Strategies input)
-        {
-            // Arrange
-            var rules = Rule.SetupRules(input);
-
-            // Act
-            var exception = Throws<ArgumentOutOfRangeException>(() => rules.Attempt(() => { }, 3, TimeSpan.MinValue));
-
-            // Assert
-            Equal($"Argument value <{TimeSpan.MinValue}> is less than or equal to <{TimeSpan.Zero}>.\r\nParameter name: timeBetweenRetries", 
-                exception.Message);
         }
     }
 }

@@ -20,6 +20,7 @@
         private Rule(IRulesFactory factory)
         {
             _retry = factory.Select(_strategies, this);
+            Options = new RuleOptions(this);
         }
 
         private static Rule Instance => _instance ?? Instantiate();
@@ -32,10 +33,11 @@
         /// </summary>
         /// <param name="strategies">Retry Strategies to enforce.</param>
         /// <returns>A new <see cref="Rule"/> instance.</returns>
-        public static Rule SetupRules(Strategies strategies)
+        public static RuleOptions SetupRules(Strategies strategies)
         {
             _strategies = strategies;
-            return Instantiate();
+            var rule = Instantiate();
+            return rule.Options;
         }
 
         /// <summary>
@@ -88,18 +90,14 @@
         /// Attempts to retry an action.
         /// </summary>
         /// <param name="action">The action to try execute.</param>
-        /// <param name="attempts">Total attempts.</param>
-        /// <param name="time">Time between retries.</param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="attempts"/> being less than 1.</exception>
-        /// <exception cref="ArgumentException">For parameter <paramref name="time"/> Timespan.Zero or Timespan.MinValue values.</exception>
-        public void Attempt(Action action, int attempts, TimeSpan time)
+        public void Attempt(Action action)
         {
             _retry.Attempt(() =>
             {
                 action();
                 OnAfterRetryInvocation();
-            }, attempts, time);
+            });
         }
 
         /// <summary>
@@ -107,20 +105,16 @@
         /// </summary>
         /// <typeparam name="T">The type of the return value the action returns.</typeparam>
         /// <param name="function">The function to try execute.</param>
-        /// <param name="attempts">Total attempts.</param>
-        /// <param name="time">Time between retries.</param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="attempts"/> being less than 1.</exception>
-        /// <exception cref="ArgumentException">For parameter <paramref name="time"/> Timespan.Zero or Timespan.MinValue values/</exception>
         /// <returns>The function return value.</returns>
-        public T Attempt<T>(Func<T> function, int attempts, TimeSpan time)
+        public T Attempt<T>(Func<T> function)
         {
             return _retry.Attempt(() =>
             {
                 var result = function();
                 OnAfterRetryInvocation();
                 return result;
-            }, attempts, time);
+            });
         }
     }
 }

@@ -4,6 +4,7 @@
     using DotNetRetry.Core;
     using DotNetRetry.Core.Activators;
     using DotNetRetry.Rules;
+    using DotNetRetry.Rules.Configuration;
     using Xunit;
     using static Xunit.Assert;
 
@@ -15,7 +16,8 @@
         public void CreatesInstanceOfType(Type type, Strategies strategy)
         {
             // Arrange
-            var rules = Rule.SetupRules(strategy);
+            var rules = Rule.SetupRules(strategy)
+                .Config(new Options(1, TimeSpan.FromMilliseconds(1)));
             var activator = new TypeActivator();
 
             // Act

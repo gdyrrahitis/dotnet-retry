@@ -2,6 +2,7 @@
 {
     using System;
     using DotNetRetry.Rules;
+    using DotNetRetry.Rules.Configuration;
     using Xunit;
     using static Xunit.Assert;
 
@@ -12,7 +13,7 @@
         public void ReturnsSelf(Strategies input)
         {
             // Arrange 
-            var rule = Rule.SetupRules(input);
+            var rule = Rule.SetupRules(input).Config(new Options(1, TimeSpan.FromMilliseconds(1)));
 
             // Act
             var result = rule.OnFailure((sender, args) => { });
@@ -27,11 +28,12 @@
         {
             // Arrange
             var dispatched = false;
-            var rule = Rule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
+            var rule = Rule.SetupRules(input)
+                .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
+                .OnFailure((sender, args) => dispatched = true);
 
             // Act
-            Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom Exception"); }, 1,
-                TimeSpan.FromSeconds(1)));
+            Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom Exception"); }));
 
             // Assert
             True(dispatched, "Event should be dispatched");
@@ -43,13 +45,15 @@
         {
             // Arrange
             var dispatched = false;
-            var rule = Rule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
+            var rule = Rule.SetupRules(input)
+                .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
+                .OnFailure((sender, args) => dispatched = true);
 
             // Act
             Throws<AggregateException>(() => rule.Attempt(() =>
             {
                 throw new Exception("Custom Exception");
-            }, 1, TimeSpan.FromSeconds(1)));
+            }));
 
             // Assert
             True(dispatched, "Event should be dispatched");
@@ -61,10 +65,12 @@
         {
             // Arrange
             var dispatched = false;
-            var rule = Rule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
+            var rule = Rule.SetupRules(input)
+                .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
+                .OnFailure((sender, args) => dispatched = true);
 
             // Act
-            rule.Attempt(() => { }, 1, TimeSpan.FromSeconds(1));
+            rule.Attempt(() => { });
 
             // Assert
             False(dispatched, "Event should not be dispatched");
@@ -76,10 +82,12 @@
         {
             // Arrange
             var dispatched = false;
-            var rule = Rule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
+            var rule = Rule.SetupRules(input)
+                .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
+                .OnFailure((sender, args) => dispatched = true);
 
             // Act
-            rule.Attempt(() => "Function Invocation", 1, TimeSpan.FromSeconds(1));
+            rule.Attempt(() => "Function Invocation");
 
             // Assert
             False(dispatched, "Event should not be dispatched");
@@ -91,10 +99,14 @@
         {
             // Arrange
             var dispatched = false;
-            Rule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
+            Rule.SetupRules(input)
+                .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
+                .OnFailure((sender, args) => dispatched = true);
 
             // Act
-            Rule.SetupRules(input).Attempt(() => { }, 1, TimeSpan.FromSeconds(1));
+            Rule.SetupRules(input)
+                .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
+                .Attempt(() => { });
 
             // Assert
             False(dispatched, "Event should not be dispatched");
@@ -106,10 +118,14 @@
         {
             // Arrange
             var dispatched = false;
-            Rule.SetupRules(input).OnFailure((sender, args) => dispatched = true);
+            Rule.SetupRules(input)
+                .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
+                .OnFailure((sender, args) => dispatched = true);
 
             // Act
-            Rule.SetupRules(input).Attempt(() => "Function Invocation", 1, TimeSpan.FromSeconds(1));
+            Rule.SetupRules(input)
+                .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
+                .Attempt(() => "Function Invocation");
 
             // Assert
             False(dispatched, "Event should not be dispatched");

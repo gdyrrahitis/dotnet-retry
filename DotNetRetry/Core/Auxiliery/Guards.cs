@@ -24,5 +24,21 @@ namespace DotNetRetry.Core.Auxiliery
                 .IsLessThanOrEqual(TimeSpan.Zero)
                 .Throw();
         }
+
+        /// <summary>
+        /// Validates argument <paramref name="attempts"/>.
+        /// </summary>
+        /// <param name="attempts">Number of attempts.</param>
+        internal static void ValidateArguments(int attempts) => 
+            Guard.WhenArgument(attempts, nameof(attempts)).IsLessThan(1).Throw();
+
+        /// <summary>
+        /// Validates argument <paramref name="timeBetweenRetries"/>.
+        /// </summary>
+        /// <param name="timeBetweenRetries">Time to wait between retries.</param>
+        internal static void ValidateArguments(TimeSpan timeBetweenRetries) => 
+            Guard.WhenArgument(timeBetweenRetries, nameof(timeBetweenRetries))
+            .IsLessThanOrEqual(TimeSpan.Zero)
+            .Throw();
     }
 }

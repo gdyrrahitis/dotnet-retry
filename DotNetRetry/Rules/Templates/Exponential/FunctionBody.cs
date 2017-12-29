@@ -2,7 +2,7 @@
 using DotNetRetry.Core.Auxiliery;
 
 [assembly: InternalsVisibleTo(Constants.TestProject)]
-namespace DotNetRetry.Rules.Templates
+namespace DotNetRetry.Rules.Templates.Exponential
 {
     using System;
     using System.Collections.Generic;
@@ -28,14 +28,16 @@ namespace DotNetRetry.Rules.Templates
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="function"></param>
-        /// <param name="attempts"></param>
-        /// <param name="timeBetweenRetries"></param>
-        /// <param name="exceptions"></param>
-        /// <param name="time"></param>
         /// <returns></returns>
-        protected override T Do<T>(Func<T> function, ref int attempts, TimeSpan timeBetweenRetries, List<Exception> exceptions, TimeSpan time)
+        protected override T Do<T>(Func<T> function)
         {
-            while (attempts > 0)
+            var exceptions = new List<Exception>();
+            var time = TimeSpan.Zero;
+            var attempts = Retriable.Options.Attempts;
+            var random = new Random();
+            var n = 0;
+
+            while (attempts-- > 0)
             {
                 try
                 {
@@ -53,10 +55,13 @@ namespace DotNetRetry.Rules.Templates
                         exceptions.ThrowFlattenAggregateException();
                     }
 
-                    if (--attempts > 0)
+                    if (attempts > 0)
                     {
-                        Task.Delay(timeBetweenRetries).Wait();
-                        time = time.Add(timeBetweenRetries);
+                        var wait = Math.Min(Math.Pow(2, n++) + random.Next(0, 1001),
+                            Retriable.Options.Time.TotalMilliseconds);
+                        var timeToWait = TimeSpan.FromMilliseconds(wait);
+                        Task.Delay(timeToWait).Wait();
+                        time = time.Add(timeToWait);
                     }
                     else
                     {
