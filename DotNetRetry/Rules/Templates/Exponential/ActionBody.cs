@@ -44,6 +44,10 @@ namespace DotNetRetry.Rules.Templates.Exponential
                 }
                 catch (Exception ex)
                 {
+                    var wait = Math.Min(Math.Pow(2, n++) + random.Next(0, 1001),
+                        Retriable.Options.Time.TotalMilliseconds);
+                    var timeToWait = TimeSpan.FromMilliseconds(wait);
+
                     Retriable.OnFailureInvocation();
                     exceptions.Add(ex);
 
@@ -55,17 +59,14 @@ namespace DotNetRetry.Rules.Templates.Exponential
 
                     if (attempts > 0)
                     {
-                        var wait = Math.Min(Math.Pow(2, n++) + random.Next(0, 1001),
-                            Retriable.Options.Time.TotalMilliseconds);
-                        var timeToWait = TimeSpan.FromMilliseconds(wait);
                         Task.Delay(timeToWait).Wait();
-                        time = time.Add(timeToWait);
                     }
                     else
                     {
                         exceptions.ThrowFlattenAggregateException();
                     }
 
+                    time = time.Add(timeToWait);
                     if (Retriable.CancellationRule != null && Retriable.CancellationRule.HasExceededMaxTime(time))
                     {
                         Retriable.OnAfterRetryInvocation();
