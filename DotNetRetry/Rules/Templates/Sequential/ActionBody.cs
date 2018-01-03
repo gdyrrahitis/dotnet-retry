@@ -11,22 +11,22 @@ namespace DotNetRetry.Rules.Templates.Sequential
     using Core.Auxiliery;
 
     /// <summary>
-    /// 
+    /// Performs a template strategy for non-returnable actions
     /// </summary>
     internal class ActionBody: ActionBodyTemplate
     {
         /// <summary>
-        /// 
+        /// Creates an instance of <see cref="ActionBody"/>.
         /// </summary>
-        /// <param name="retriable"></param>
+        /// <param name="retriable">The <see cref="Retriable"/> parent class.</param>
         internal ActionBody(Retriable retriable) : base(retriable)
         {
         }
 
         /// <summary>
-        /// 
+        /// The actual retry algorithm.
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="action">The non-returnable action to retry.</param>
         protected override void Do(Action action)
         {
             var exceptions = new List<Exception>();

@@ -165,7 +165,7 @@
         // Mix and match the above (data driven)
         [Theory]
         [InlineData(300, 5, 100, 3, typeof(ArgumentException), Strategies.Sequential)]
-        [InlineData(300, 5, 100, 3, typeof(ArgumentException), Strategies.Exponential)]
+        [InlineData(300, 6, 100, 3, typeof(ArgumentException), Strategies.Exponential)]
         [InlineData(300, 5, 100, 1, typeof(Exception), Strategies.Sequential)]
         [InlineData(300, 5, 100, 1, typeof(Exception), Strategies.Exponential)]
         public void ApplyingBothPoliciesOnNonReturnableMethod(int cancelAfter, int totalAttempts, int timeToWait, 
@@ -191,7 +191,7 @@
 
         [Theory]
         [InlineData(300, 5, 100, 3, typeof(ArgumentException), Strategies.Sequential)]
-        [InlineData(300, 5, 100, 3, typeof(ArgumentException), Strategies.Exponential)]
+        [InlineData(300, 6, 100, 3, typeof(ArgumentException), Strategies.Exponential)]
         [InlineData(300, 5, 100, 1, typeof(Exception), Strategies.Sequential)]
         [InlineData(300, 5, 100, 1, typeof(Exception), Strategies.Exponential)]
         public void ApplyingBothPoliciesOnReturnableMethod(int cancelAfter, int totalAttempts, int timeToWait,
