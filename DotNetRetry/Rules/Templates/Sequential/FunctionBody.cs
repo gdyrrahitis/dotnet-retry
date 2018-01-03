@@ -11,24 +11,24 @@ namespace DotNetRetry.Rules.Templates.Sequential
     using Core.Auxiliery;
 
     /// <summary>
-    /// 
+    /// Performs a template strategy for returnable actions
     /// </summary>
     internal class FunctionBody: FunctionBodyTemplate
     {
         /// <summary>
-        /// 
+        /// Creates an instance of <see cref="FunctionBody"/>.
         /// </summary>
-        /// <param name="retriable"></param>
+        /// <param name="retriable">The <see cref="Retriable"/> parent class.</param>
         internal FunctionBody(Retriable retriable) : base(retriable)
         {
         }
 
         /// <summary>
-        /// 
+        /// The actual retry algorithm.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="function"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">The returnable type.</typeparam>
+        /// <param name="function">The returnable function to retry.</param>
+        /// <returns>A value of <typeparamref name="T"/>.</returns>
         protected override T Do<T>(Func<T> function)
         {
             var exceptions = new List<Exception>();

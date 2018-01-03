@@ -13,14 +13,24 @@ namespace DotNetRetry
     using Factories;
     using Rules;
 
+    /// <summary>
+    /// Initializes a retry <see cref="Rule"/>.
+    /// </summary>
     internal static class Startup
     {
+        /// <summary>
+        /// Configures a <see cref="RulesFactory"/>.
+        /// </summary>
+        /// <returns>A new instance of <see cref="RulesFactory"/>.</returns>
         internal static IRulesFactory Configure()
         {
             var activatorsFactory = new ActivatorsFactory(Activators);
             return new RulesFactory(Rules, activatorsFactory);
         }
 
+        /// <summary>
+        /// Returns all <see cref="Rule"/> types.
+        /// </summary>
         internal static IEnumerable<Type> Rules
         {
             get
@@ -34,6 +44,9 @@ namespace DotNetRetry
             }
         }
 
+        /// <summary>
+        /// Returns all <see cref="IActivator"/> objects.
+        /// </summary>
         internal static IEnumerable<IActivator> Activators
         {
             get
