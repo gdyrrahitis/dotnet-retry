@@ -11,11 +11,11 @@
     {
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void ReturnsListOfExceptionsAfterFailedInAllTries(Strategies input)
+        public void ReturnsListOfExceptionsAfterFailedInAllTries(Strategy input)
         {
             // Arrange
             var tries = 0;
-            var rules = Rule.SetupRules(input)
+            var rules = Rule.Setup(input)
                 .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             Func<string> function = () =>
             {
@@ -33,11 +33,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void TakesTwoHundredMillisecondsToCompleteAfterThreeRetriesOneSecondEach(Strategies input)
+        public void TakesTwoHundredMillisecondsToCompleteAfterThreeRetriesOneSecondEach(Strategy input)
         {
             // Arrange
             var stopwatch = Stopwatch.StartNew();
-            var rules = Rule.SetupRules(input)
+            var rules = Rule.Setup(input)
                 .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             Func<string> function = () =>
             {
@@ -56,11 +56,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void FailsTheFirstTimeButSucceedsOnSecondTryReturningStringValue(Strategies input)
+        public void FailsTheFirstTimeButSucceedsOnSecondTryReturningStringValue(Strategy input)
         {
             // Arrange
             var tries = 0;
-            var rules = Rule.SetupRules(input)
+            var rules = Rule.Setup(input)
                 .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             Func<string> function = () =>
             {
@@ -82,11 +82,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void FailsTheSecondTimeButSucceedsOnThirdTryReturningStringValue(Strategies input)
+        public void FailsTheSecondTimeButSucceedsOnThirdTryReturningStringValue(Strategy input)
         {
             // Arrange
             var tries = 0;
-            var rules = Rule.SetupRules(input)
+            var rules = Rule.Setup(input)
                 .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             Func<string> function = () =>
             {

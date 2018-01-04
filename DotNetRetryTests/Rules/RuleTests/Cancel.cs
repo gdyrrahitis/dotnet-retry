@@ -11,11 +11,11 @@
     {
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void PolicyForBaseExceptionForNonReturnableMethod(Strategies input)
+        public void PolicyForBaseExceptionForNonReturnableMethod(Strategy input)
         {
             // Arrange
             var attempts = 0;
-            var rule = Rule.SetupRules(input)
+            var rule = Rule.Setup(input)
                 .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             rule.Cancel(c => c.OnFailure<Exception>());
 
@@ -33,11 +33,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void PolicyForBaseExceptionForReturnableMethod(Strategies input)
+        public void PolicyForBaseExceptionForReturnableMethod(Strategy input)
         {
             // Arrange
             var attempts = 0;
-            var rule = Rule.SetupRules(input)
+            var rule = Rule.Setup(input)
                 .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             rule.Cancel(c => c.OnFailure<Exception>());
 
@@ -58,11 +58,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void PolicyForArgumentExceptionForNonReturnableMethod(Strategies input)
+        public void PolicyForArgumentExceptionForNonReturnableMethod(Strategy input)
         {
             // Arrange
             var attempts = 0;
-            var rule = Rule.SetupRules(input)
+            var rule = Rule.Setup(input)
                 .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             rule.Cancel(c => c.OnFailure<ArgumentException>());
 
@@ -86,11 +86,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void PolicyForArgumentExceptionForReturnableMethod(Strategies input)
+        public void PolicyForArgumentExceptionForReturnableMethod(Strategy input)
         {
             // Arrange
             var attempts = 0;
-            var rule = Rule.SetupRules(Strategies.Sequential)
+            var rule = Rule.Setup(Strategy.Sequential)
                 .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             rule.Cancel(c => c.OnFailure<ArgumentException>());
 
@@ -117,11 +117,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void PolicyForExceedingAmountOfTimeForNonReturnableMethod(Strategies input)
+        public void PolicyForExceedingAmountOfTimeForNonReturnableMethod(Strategy input)
         {
             // Arrange
             var attempts = 0;
-            var rule = Rule.SetupRules(input)
+            var rule = Rule.Setup(input)
                 .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             rule.Cancel(c => c.After(TimeSpan.FromMilliseconds(300)));
 
@@ -139,11 +139,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void PolicyForExceedingAmountOfTimeForReturnableMethod(Strategies input)
+        public void PolicyForExceedingAmountOfTimeForReturnableMethod(Strategy input)
         {
             // Arrange
             var attempts = 0;
-            var rule = Rule.SetupRules(input)
+            var rule = Rule.Setup(input)
                 .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             rule.Cancel(c => c.After(TimeSpan.FromMilliseconds(300)));
 
@@ -164,16 +164,16 @@
 
         // Mix and match the above (data driven)
         [Theory]
-        [InlineData(300, 5, 100, 3, typeof(ArgumentException), Strategies.Sequential)]
-        [InlineData(300, 6, 100, 3, typeof(ArgumentException), Strategies.Exponential)]
-        [InlineData(300, 5, 100, 1, typeof(Exception), Strategies.Sequential)]
-        [InlineData(300, 5, 100, 1, typeof(Exception), Strategies.Exponential)]
+        [InlineData(300, 5, 100, 3, typeof(ArgumentException), Strategy.Sequential)]
+        [InlineData(300, 6, 100, 3, typeof(ArgumentException), Strategy.Exponential)]
+        [InlineData(300, 5, 100, 1, typeof(Exception), Strategy.Sequential)]
+        [InlineData(300, 5, 100, 1, typeof(Exception), Strategy.Exponential)]
         public void ApplyingBothPoliciesOnNonReturnableMethod(int cancelAfter, int totalAttempts, int timeToWait, 
-            int expected, Type type, Strategies strategy)
+            int expected, Type type, Strategy strategy)
         {
             // Arrange
             var attempts = 0;
-            var rule = Rule.SetupRules(strategy)
+            var rule = Rule.Setup(strategy)
                 .Config(new Options(totalAttempts, TimeSpan.FromMilliseconds(timeToWait)));
             rule.Cancel(c => c.After(TimeSpan.FromMilliseconds(cancelAfter)).OnFailure(type));
 
@@ -190,16 +190,16 @@
         }
 
         [Theory]
-        [InlineData(300, 5, 100, 3, typeof(ArgumentException), Strategies.Sequential)]
-        [InlineData(300, 6, 100, 3, typeof(ArgumentException), Strategies.Exponential)]
-        [InlineData(300, 5, 100, 1, typeof(Exception), Strategies.Sequential)]
-        [InlineData(300, 5, 100, 1, typeof(Exception), Strategies.Exponential)]
+        [InlineData(300, 5, 100, 3, typeof(ArgumentException), Strategy.Sequential)]
+        [InlineData(300, 6, 100, 3, typeof(ArgumentException), Strategy.Exponential)]
+        [InlineData(300, 5, 100, 1, typeof(Exception), Strategy.Sequential)]
+        [InlineData(300, 5, 100, 1, typeof(Exception), Strategy.Exponential)]
         public void ApplyingBothPoliciesOnReturnableMethod(int cancelAfter, int totalAttempts, int timeToWait,
-            int expected, Type type, Strategies strategy)
+            int expected, Type type, Strategy strategy)
         {
             // Arrange
             var attempts = 0;
-            var rule = Rule.SetupRules(strategy)
+            var rule = Rule.Setup(strategy)
                 .Config(new Options(totalAttempts, TimeSpan.FromMilliseconds(timeToWait)));
             rule.Cancel(c => c.After(TimeSpan.FromMilliseconds(cancelAfter)).OnFailure(type));
 

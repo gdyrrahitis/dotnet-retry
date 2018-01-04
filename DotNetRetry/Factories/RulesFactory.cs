@@ -31,25 +31,25 @@ namespace DotNetRetry.Factories
         }
 
         /// <summary>
-        /// Selects a concrete Strategies using the role hint technique.
+        /// Selects a concrete Strategy using the role hint technique.
         /// </summary>
-        /// <param name="strategies">The Strategies to fetch.</param>
-        /// <param name="parameter">The parameter for each Strategies.</param>
-        /// <returns>An instance of <see cref="IRetry"/> Strategies.</returns>
-        public IRetry Select(Rules.Strategies strategies, Retriable parameter) => 
-            Select(strategies, new object[] { parameter });
+        /// <param name="strategy">The Strategy to fetch.</param>
+        /// <param name="parameter">The parameter for each Strategy.</param>
+        /// <returns>An instance of <see cref="IRetry"/> Strategy.</returns>
+        public IRetry Select(Rules.Strategy strategy, Retriable parameter) => 
+            Select(strategy, new object[] { parameter });
 
         /// <summary>
         /// Selects a concrete strategy using the role hint technique.
         /// </summary>
-        /// <param name="strategies">The strategy to fetch.</param>
+        /// <param name="strategy">The strategy to fetch.</param>
         /// <param name="parameters">The parameters for each strategy.</param>
         /// <returns>An instance of <see cref="IRetry"/> strategy.</returns>
-        public IRetry Select(Rules.Strategies strategies, params object[] parameters)
+        public IRetry Select(Rules.Strategy strategy, params object[] parameters)
         {
             var rule = (from r in _rules
                         let t = r.Name
-                        where t == strategies.ToString()
+                        where t == strategy.ToString()
                         select r).FirstOrDefault();
             var type = rule == null ? typeof (NullActivator) : typeof (TypeActivator);
             return _factory.Select(type).Activate<IRetry>(rule, parameters);

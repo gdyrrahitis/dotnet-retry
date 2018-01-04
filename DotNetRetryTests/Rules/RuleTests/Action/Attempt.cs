@@ -10,11 +10,11 @@
     {
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void SuccessAtFirstTry(Strategies input)
+        public void SuccessAtFirstTry(Strategy input)
         {
             // Arrange
             var actual = 0;
-            var rules = Rule.SetupRules(input).Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+            var rules = Rule.Setup(input).Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             Action successFullAction = () =>
             {
                 const string intAsString = "15";
@@ -31,12 +31,12 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void SuccessAtSecondTry(Strategies input)
+        public void SuccessAtSecondTry(Strategy input)
         {
             // Arrange
             var actual = 0;
             var tries = 0;
-            var rules = Rule.SetupRules(input).Config(new Options(5, TimeSpan.FromMilliseconds(100)));
+            var rules = Rule.Setup(input).Config(new Options(5, TimeSpan.FromMilliseconds(100)));
             Action successAtSecondTryAction = () =>
             {
                 const string invalidNumber = "ab123";
@@ -62,12 +62,12 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void SuccessAtThirdTry(Strategies input)
+        public void SuccessAtThirdTry(Strategy input)
         {
             // Arrange
             var actual = 0;
             var tries = 0;
-            var rules = Rule.SetupRules(input).Config(new Options(5, TimeSpan.FromMilliseconds(100)));
+            var rules = Rule.Setup(input).Config(new Options(5, TimeSpan.FromMilliseconds(100)));
             Action successAtThirdTryAction = () =>
             {
                 const string invalidNumber = "ab123";
@@ -93,12 +93,12 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void FailureAfterAllTriesReturnsAggregateExceptionWithAllTheExceptionsOccurred(Strategies input)
+        public void FailureAfterAllTriesReturnsAggregateExceptionWithAllTheExceptionsOccurred(Strategy input)
         {
             // Arrange
             var actual = 0;
             var tries = 0;
-            var rules = Rule.SetupRules(input).Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+            var rules = Rule.Setup(input).Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             Action failureAction = () =>
             {
                 tries++;
@@ -117,12 +117,12 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void SuccessAtFirstTryWithParameterPassed(Strategies input)
+        public void SuccessAtFirstTryWithParameterPassed(Strategy input)
         {
             // Arrange
             var actual = 0;
             const string parameter = "123456";
-            var rules = Rule.SetupRules(input).Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+            var rules = Rule.Setup(input).Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             Action<string> convertToIntAction = s => actual = int.Parse(s);
 
             // Act
@@ -134,13 +134,13 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void SuccessAtSecondTryWithParameterPassed(Strategies input)
+        public void SuccessAtSecondTryWithParameterPassed(Strategy input)
         {
             // Arrange
             var actual = 0;
             var tries = 0;
             const string parameter = "abc123456";
-            var rules = Rule.SetupRules(input).Config(new Options(5, TimeSpan.FromMilliseconds(100)));
+            var rules = Rule.Setup(input).Config(new Options(5, TimeSpan.FromMilliseconds(100)));
             Action<string> convertToIntAction = s =>
             {
                 if (tries == 2)
@@ -165,13 +165,13 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void FailureAfterAllTriesWithParameterPassed(Strategies input)
+        public void FailureAfterAllTriesWithParameterPassed(Strategy input)
         {
             // Arrange
             var actual = 0;
             var tries = 0;
             const string parameter = "abcd123";
-            var rules = Rule.SetupRules(input).Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+            var rules = Rule.Setup(input).Config(new Options(3, TimeSpan.FromMilliseconds(100)));
             Action<string> failureAction = s =>
             {
                 tries++;

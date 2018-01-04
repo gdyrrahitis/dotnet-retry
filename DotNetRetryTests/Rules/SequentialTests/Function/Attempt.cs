@@ -13,7 +13,7 @@
 
         public Attempt()
         {
-            _options = Rule.SetupRules(Strategies.Sequential);
+            _options = Rule.Setup(Strategy.Sequential);
         }
 
         [Theory]

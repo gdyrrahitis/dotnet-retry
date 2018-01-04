@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Abstractions\RetriableAttempts.cs" />
     <Compile Include="Core\Abstractions\RetriableEvents.cs" />
     <Compile Include="Core\Auxiliery\Constants.cs" />
     <Compile Include="Core\Auxiliery\ExceptionsExtension.cs" />
@@ -66,12 +67,11 @@
     <Compile Include="Rules\Exponential.cs" />
     <Compile Include="Rules\Templates\Sequential\FunctionBody.cs" />
     <Compile Include="Rules\Templates\FunctionBodyTemplate.cs" />
-    <Compile Include="Rules\IRule.cs" />
     <Compile Include="Core\Abstractions\RetriableRules.cs" />
     <Compile Include="Rules\Templates\ActionBodyTemplate.cs" />
     <Compile Include="Rules\Rule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rules\Strategies.cs" />
+    <Compile Include="Rules\Strategy.cs" />
     <Compile Include="Rules\Sequential.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Factories\ActivatorsFactory.cs" />

@@ -2,19 +2,20 @@
 {
     using System;
     using Bytes2you.Validation;
+    using Core.Abstractions;
 
     /// <summary>
     /// Options for <see cref="Rule"/> retry object.
     /// </summary>
     public class RuleOptions
     {
-        private readonly Rule _rule;
+        private readonly Retriable _rule;
 
         /// <summary>
         /// Initializes a new <see cref="RuleOptions"/> object.
         /// </summary>
-        /// <param name="rule">The parent <see cref="Rule"/>.</param>
-        public RuleOptions(Rule rule)
+        /// <param name="rule">The parent <see cref="Retriable"/>.</param>
+        public RuleOptions(Retriable rule)
         {
             _rule = rule;
         }
@@ -32,9 +33,9 @@
         /// <summary>
         /// Configures the specified <see cref="Rule"/>.
         /// </summary>
-        /// <param name="config">The <see cref="Options"/> for that <see cref="Rule"/>.</param>
-        /// <returns>The parent <see cref="Rule"/> instance.</returns>
-        public virtual Rule Config(Options config)
+        /// <param name="config">The <see cref="Options"/> for <see cref="Retriable"/>.</param>
+        /// <returns>The parent <see cref="Retriable"/> instance.</returns>
+        public virtual Retriable Config(Options config)
         {
             Guard.WhenArgument(config, nameof(config))
                 .IsNull()

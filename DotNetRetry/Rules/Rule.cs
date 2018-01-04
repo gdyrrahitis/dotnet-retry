@@ -10,16 +10,16 @@
     /// <summary>
     /// Sets up rules for retry actions.
     /// </summary>
-    public class Rule : Retriable, IRule
+    public class Rule : Retriable
     {
         private static Rule _instance;
-        private static Strategies _strategies;
+        private static Strategy _strategy;
         private static IRulesFactory _configuration;
         private readonly IRetry _retry;
 
         private Rule(IRulesFactory factory)
         {
-            _retry = factory.Select(_strategies, this);
+            _retry = factory.Select(_strategy, this);
             Options = new RuleOptions(this);
         }
 
@@ -31,11 +31,11 @@
         /// <summary>
         /// Builds the retry rules.
         /// </summary>
-        /// <param name="strategies">Retry Strategies to enforce.</param>
+        /// <param name="strategy">Retry Strategy to enforce.</param>
         /// <returns>A new <see cref="Rule"/> instance.</returns>
-        public static RuleOptions SetupRules(Strategies strategies)
+        public static RuleOptions Setup(Strategy strategy)
         {
-            _strategies = strategies;
+            _strategy = strategy;
             var rule = Instantiate();
             return rule.Options;
         }
@@ -45,7 +45,7 @@
         /// </summary>
         /// <param name="handler">The <see cref="EventHandler"/> for the event.</param>
         /// <returns>The current instance of <see cref="Rule"/>.</returns>
-        public IRule OnBeforeRetry(EventHandler handler)
+        public override Retriable OnBeforeRetry(EventHandler handler)
         {
             BeforeRetry += handler;
             return Instance;
@@ -56,7 +56,7 @@
         /// </summary>
         /// <param name="handler">The <see cref="EventHandler"/> for the event.</param>
         /// <returns>The current instance of <see cref="Rule"/>.</returns>
-        public IRule OnAfterRetry(EventHandler handler)
+        public override Retriable OnAfterRetry(EventHandler handler)
         {
             AfterRetry += handler;
             return Instance;
@@ -67,7 +67,7 @@
         /// </summary>
         /// <param name="handler">The <see cref="EventHandler"/> for the event.</param>
         /// <returns>The current instance of <see cref="Rule"/>.</returns>
-        public IRule OnFailure(EventHandler handler)
+        public override Retriable OnFailure(EventHandler handler)
         {
             Failure += handler;
             return Instance;
@@ -77,8 +77,8 @@
         /// Sets cancellation rules for current retry policy.
         /// </summary>
         /// <param name="cancellationRules">A builder object to build cancellation rules on.</param>
-        /// <returns>The same <see cref="IRule"/> instance.</returns>
-        public IRule Cancel(Action<CancellationRule> cancellationRules)
+        /// <returns>The same <see cref="Retriable"/> instance.</returns>
+        public override Retriable Cancel(Action<CancellationRule> cancellationRules)
         {
             CancellationRule = new CancellationRule();
             ExceptionRule = CancellationRule.ExceptionRule;
@@ -91,7 +91,7 @@
         /// </summary>
         /// <param name="action">The action to try execute.</param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed.</exception>
-        public void Attempt(Action action)
+        public override void Attempt(Action action)
         {
             _retry.Attempt(() =>
             {
@@ -107,7 +107,7 @@
         /// <param name="function">The function to try execute.</param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed.</exception>
         /// <returns>The function return value.</returns>
-        public T Attempt<T>(Func<T> function)
+        public override T Attempt<T>(Func<T> function)
         {
             return _retry.Attempt(() =>
             {

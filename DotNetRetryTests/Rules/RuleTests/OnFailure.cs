@@ -10,10 +10,10 @@
     {
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void ReturnsSelf(Strategies input)
+        public void ReturnsSelf(Strategy input)
         {
             // Arrange 
-            var rule = Rule.SetupRules(input).Config(new Options(1, TimeSpan.FromMilliseconds(1)));
+            var rule = Rule.Setup(input).Config(new Options(1, TimeSpan.FromMilliseconds(1)));
 
             // Act
             var result = rule.OnFailure((sender, args) => { });
@@ -24,11 +24,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldBeDispatchedWhenFailureOccursForAction(Strategies input)
+        public void EventShouldBeDispatchedWhenFailureOccursForAction(Strategy input)
         {
             // Arrange
             var dispatched = false;
-            var rule = Rule.SetupRules(input)
+            var rule = Rule.Setup(input)
                 .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
                 .OnFailure((sender, args) => dispatched = true);
 
@@ -41,11 +41,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldBeDispatchedWhenFailureOccursForFunction(Strategies input)
+        public void EventShouldBeDispatchedWhenFailureOccursForFunction(Strategy input)
         {
             // Arrange
             var dispatched = false;
-            var rule = Rule.SetupRules(input)
+            var rule = Rule.Setup(input)
                 .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
                 .OnFailure((sender, args) => dispatched = true);
 
@@ -61,11 +61,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldNotBeDispatchedWhenThereIsNoFailureForAction(Strategies input)
+        public void EventShouldNotBeDispatchedWhenThereIsNoFailureForAction(Strategy input)
         {
             // Arrange
             var dispatched = false;
-            var rule = Rule.SetupRules(input)
+            var rule = Rule.Setup(input)
                 .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
                 .OnFailure((sender, args) => dispatched = true);
 
@@ -78,11 +78,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldNotBeDispatchedWhenThereIsNoFailureForFunction(Strategies input)
+        public void EventShouldNotBeDispatchedWhenThereIsNoFailureForFunction(Strategy input)
         {
             // Arrange
             var dispatched = false;
-            var rule = Rule.SetupRules(input)
+            var rule = Rule.Setup(input)
                 .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
                 .OnFailure((sender, args) => dispatched = true);
 
@@ -95,16 +95,16 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldNotBeDispatchedByAnotherRuleForAction(Strategies input)
+        public void EventShouldNotBeDispatchedByAnotherRuleForAction(Strategy input)
         {
             // Arrange
             var dispatched = false;
-            Rule.SetupRules(input)
+            Rule.Setup(input)
                 .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
                 .OnFailure((sender, args) => dispatched = true);
 
             // Act
-            Rule.SetupRules(input)
+            Rule.Setup(input)
                 .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
                 .Attempt(() => { });
 
@@ -114,16 +114,16 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldNotBeDispatchedByAnotherRuleForFunction(Strategies input)
+        public void EventShouldNotBeDispatchedByAnotherRuleForFunction(Strategy input)
         {
             // Arrange
             var dispatched = false;
-            Rule.SetupRules(input)
+            Rule.Setup(input)
                 .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
                 .OnFailure((sender, args) => dispatched = true);
 
             // Act
-            Rule.SetupRules(input)
+            Rule.Setup(input)
                 .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
                 .Attempt(() => "Function Invocation");
 
