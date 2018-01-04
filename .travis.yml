@@ -2,4 +2,4 @@ language: csharp
 solution: DotNetRetry.sln
 script:
   - xbuild /p:Configuration=Release DotNetRetry.sln
-  - mono ./packages/NUnit.ConsoleRunner.*/tools/nunit3-console.exe ./DotNetRetryTests/bin/Release/DotNetRetry.Tests.dll
+  - mono ./packages/xunit.runner.console.*/tools/xunit.console.exe ./DotNetRetryTests/bin/Release/DotNetRetry.Unit.Tests.dll
