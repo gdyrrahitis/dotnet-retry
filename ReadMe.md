@@ -184,7 +184,8 @@ rule.Attempt(() =>
 ```
 
 ```
-// Cancels the retry policy when an ArgumentException or ArgumentOutOfRangeException occurs (same result with non-generic method)
+// Cancels the retry policy when an ArgumentException or
+// ArgumentOutOfRangeException occurs (same result with non-generic method)
 var rule = Rule.SetupRules(Strategies.Sequential)
 	.Config(new Options(3, TimeSpan.FromMilliseconds(500)))
 	.Cancel(c => c.OnFailure<ArgumentException>()
