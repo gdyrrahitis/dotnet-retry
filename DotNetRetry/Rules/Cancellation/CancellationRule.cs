@@ -78,13 +78,8 @@
         /// Boolean value, <value>true</value> when exception object exists,
         /// <value>false</value> when does not exist.
         /// </returns>
-        internal bool IsIn<TException>(TException ex)
-        {
-            //var result = _exceptions.Any(x => string.Equals(x.FullName, ex.GetType().FullName));
-            //var result = _exceptions.Any(e => e.IsEquivalentTo(typeof(TException)));
-            var result = _exceptions.Any(e => e.IsEquivalentTo(ex.GetType()));
-            return result;
-        }
+        internal bool IsIn<TException>(TException ex) => 
+            _exceptions.Any(e => e.IsEquivalentTo(ex.GetType()));
 
         /// <summary>
         /// Tests if timespan provided exceeds stored time.
