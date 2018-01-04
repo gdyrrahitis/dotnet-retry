@@ -39,6 +39,7 @@ namespace DotNetRetry
                 var assembly = Assembly.GetAssembly(typeof(Startup));
                 var rules = assembly.GetTypes().Where(t => type.IsAssignableFrom(t) &&
                     !t.IsInterface &&
+                    !t.IsAbstract &&
                     t != typeof(Rule));
                 return rules;
             }

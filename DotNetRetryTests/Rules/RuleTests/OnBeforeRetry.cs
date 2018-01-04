@@ -10,10 +10,10 @@
     {
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void ReturnsSelf(Strategies input)
+        public void ReturnsSelf(Strategy input)
         {
             // Arrange 
-            var rule = Rule.SetupRules(input).Config(new Options(1, TimeSpan.FromMilliseconds(1)));
+            var rule = Rule.Setup(input).Config(new Options(1, TimeSpan.FromMilliseconds(1)));
 
             // Act
             var result = rule.OnBeforeRetry((sender, args) => { });
@@ -24,11 +24,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldBeRaisedBeforeExecutionOfAttemptedMethodForNonReturnableMethod(Strategies input)
+        public void EventShouldBeRaisedBeforeExecutionOfAttemptedMethodForNonReturnableMethod(Strategy input)
         {
             // Arrange
             var dispatched = false;
-            var rule = Rule.SetupRules(input)
+            var rule = Rule.Setup(input)
                 .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
                 .OnBeforeRetry((sender, args) => dispatched = true);
 
@@ -41,11 +41,11 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldBeRaisedBeforeExecutionOfAttemptedMethodForReturnableMethod(Strategies input)
+        public void EventShouldBeRaisedBeforeExecutionOfAttemptedMethodForReturnableMethod(Strategy input)
         {
             // Arrange
             var dispatched = false;
-            var rule = Rule.SetupRules(input)
+            var rule = Rule.Setup(input)
                 .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
                 .OnBeforeRetry((sender, args) => dispatched = true);
 
@@ -59,16 +59,16 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldNotBeDispatchedByAnotherRuleForNonReturnableMethod(Strategies input)
+        public void EventShouldNotBeDispatchedByAnotherRuleForNonReturnableMethod(Strategy input)
         {
             // Arrange
             var dispatched = false;
-            Rule.SetupRules(input)
+            Rule.Setup(input)
                 .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
                 .OnBeforeRetry((sender, args) => dispatched = true);
 
             // Act
-            Rule.SetupRules(input)
+            Rule.Setup(input)
                 .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
                 .Attempt(() => { });
 
@@ -78,16 +78,16 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldNotBeDispatchedByAnotherRuleForReturnableMethod(Strategies input)
+        public void EventShouldNotBeDispatchedByAnotherRuleForReturnableMethod(Strategy input)
         {
             // Arrange
             var dispatched = false;
-            Rule.SetupRules(input)
+            Rule.Setup(input)
                 .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
                 .OnBeforeRetry((sender, args) => dispatched = true);
 
             // Act
-            Rule.SetupRules(input)
+            Rule.Setup(input)
                 .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
                 .Attempt(() => "Return value");
 

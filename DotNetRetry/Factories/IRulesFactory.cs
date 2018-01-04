@@ -13,19 +13,19 @@ namespace DotNetRetry.Factories
     internal interface IRulesFactory
     {
         /// <summary>
-        /// Selects a concrete Strategies using the role hint technique.
+        /// Selects a concrete Strategy using the role hint technique.
         /// </summary>
-        /// <param name="strategies">The Strategies to fetch.</param>
-        /// <param name="parameter">The parameter for each Strategies.</param>
-        /// <returns>An instance of <see cref="IRetry"/> Strategies.</returns>
-        IRetry Select(Rules.Strategies strategies, Retriable parameter);
+        /// <param name="strategy">The Strategy to fetch.</param>
+        /// <param name="parameter">The parameter for each Strategy.</param>
+        /// <returns>An instance of <see cref="IRetry"/> Strategy.</returns>
+        IRetry Select(Rules.Strategy strategy, Retriable parameter);
 
         /// <summary>
-        /// Selects a concrete Strategies using the role hint technique.
+        /// Selects a concrete Strategy using the role hint technique.
         /// </summary>
-        /// <param name="strategies">The Strategies to fetch.</param>
-        /// <param name="parameters">The parameters for each Strategies.</param>
-        /// <returns>An instance of <see cref="IRetry"/> Strategies.</returns>
-        IRetry Select(Rules.Strategies strategies, params object[] parameters);
+        /// <param name="strategy">The Strategy to fetch.</param>
+        /// <param name="parameters">The parameters for each Strategy.</param>
+        /// <returns>An instance of <see cref="IRetry"/> Strategy.</returns>
+        IRetry Select(Rules.Strategy strategy, params object[] parameters);
     }
 }

@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines the retry strategies which are available.
     /// </summary>
-    public enum Strategies
+    public enum Strategy
     {
         /// <summary>
         /// Defines a sequential retry strategy.

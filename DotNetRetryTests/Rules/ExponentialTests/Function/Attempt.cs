@@ -12,7 +12,7 @@
 
         public Attempt()
         {
-            _options = Rule.SetupRules(Strategies.Exponential);
+            _options = Rule.Setup(Strategy.Exponential);
         }
 
         [Theory]

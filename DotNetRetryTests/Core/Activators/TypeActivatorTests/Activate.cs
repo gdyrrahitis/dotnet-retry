@@ -11,12 +11,12 @@
     public class Activate
     {
         [Theory]
-        [InlineData(typeof(Sequential), Strategies.Sequential)]
-        [InlineData(typeof(Exponential), Strategies.Exponential)]
-        public void CreatesInstanceOfType(Type type, Strategies strategy)
+        [InlineData(typeof(Sequential), Strategy.Sequential)]
+        [InlineData(typeof(Exponential), Strategy.Exponential)]
+        public void CreatesInstanceOfType(Type type, Strategy strategy)
         {
             // Arrange
-            var rules = Rule.SetupRules(strategy)
+            var rules = Rule.Setup(strategy)
                 .Config(new Options(1, TimeSpan.FromMilliseconds(1)));
             var activator = new TypeActivator();
 
