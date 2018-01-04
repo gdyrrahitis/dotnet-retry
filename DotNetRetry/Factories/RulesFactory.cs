@@ -10,6 +10,7 @@ namespace DotNetRetry.Factories
     using Core;
     using Core.Abstractions;
     using Core.Activators;
+    using Rules;
 
     /// <summary>
     /// Factory to instantiate retry rules
@@ -45,7 +46,7 @@ namespace DotNetRetry.Factories
         /// <param name="strategy">The strategy to fetch.</param>
         /// <param name="parameters">The parameters for each strategy.</param>
         /// <returns>An instance of <see cref="IRetry"/> strategy.</returns>
-        public IRetry Select(Rules.Strategy strategy, params object[] parameters)
+        public IRetry Select(Strategy strategy, params object[] parameters)
         {
             var rule = (from r in _rules
                         let t = r.Name
