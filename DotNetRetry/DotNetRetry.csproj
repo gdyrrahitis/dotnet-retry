@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Core\Abstractions\RetriableAttempts.cs" />
     <Compile Include="Core\Abstractions\RetriableEvents.cs" />
+    <Compile Include="Core\Abstractions\RetriableOptions.cs" />
     <Compile Include="Core\Auxiliery\Constants.cs" />
     <Compile Include="Core\Auxiliery\ExceptionsExtension.cs" />
     <Compile Include="Core\Auxiliery\Guards.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Factories\RulesFactory.cs" />
     <Compile Include="Rules\Configuration\Options.cs" />
     <Compile Include="Rules\Configuration\RuleOptions.cs" />
+    <Compile Include="Rules\Policy.cs" />
     <Compile Include="Rules\Templates\Exponential\ActionBody.cs" />
     <Compile Include="Rules\Templates\Exponential\FunctionBody.cs" />
     <Compile Include="Rules\Templates\Sequential\ActionBody.cs" />
