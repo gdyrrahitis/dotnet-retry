@@ -1,5 +1,5 @@
 language: csharp
 solution: DotNetRetry.sln
 script:
-  - xbuild /p:Configuration=Release DotNetRetry.sln
-  - mono ./packages/xunit.runner.console.*/tools/xunit.console.exe ./DotNetRetryTests/bin/Release/DotNetRetry.Unit.Tests.dll
+  - msbuild /p:Configuration=Release DotNetRetry.sln
+  - mono ./packages/xunit.runner.console.*/tools/452/xunit.console.exe ./DotNetRetryTests/bin/Release/DotNetRetry.Unit.Tests.dll
