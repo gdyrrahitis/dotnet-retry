@@ -1,10 +1,11 @@
 ﻿namespace DotNetRetry.Rules.Configuration
 {
     using System;
+    using Core.Abstractions;
     using Core.Auxiliery;
 
     /// <summary>
-    /// Specifies <see cref="Rule"/> options.
+    /// Specifies <see cref="Retriable"/> options.
     /// </summary>
     public class Options
     {
