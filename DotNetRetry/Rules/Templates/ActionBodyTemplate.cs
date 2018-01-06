@@ -5,12 +5,13 @@ using DotNetRetry.Core.Auxiliery;
 namespace DotNetRetry.Rules.Templates
 {
     using System;
+    using System.Collections.Generic;
     using Core.Abstractions;
 
     /// <summary>
     /// Template class for non-returnable functions.
     /// </summary>
-    internal abstract class ActionBodyTemplate
+    internal abstract class ActionBodyTemplate: ExceptionBodyTemplate
     {
         /// <summary>
         /// The rules object.
@@ -21,7 +22,7 @@ namespace DotNetRetry.Rules.Templates
         /// Initializes a new instance of <see cref="ActionBodyTemplate"/>.
         /// </summary>
         /// <param name="retriable">The <see cref="Retriable"/> rules object.</param>
-        protected ActionBodyTemplate(Retriable retriable)
+        protected ActionBodyTemplate(Retriable retriable): base(retriable)
         {
             Retriable = retriable;
         }
@@ -29,30 +30,11 @@ namespace DotNetRetry.Rules.Templates
         /// <summary>
         /// Attempts to retry an action.
         /// </summary>
-        /// <param name="action">The action to try execute</param>
-        /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
-        public void Attempt(Action action)
-        {
-            BeforeRetry();
-            Do(action);
-            AfterRetry();
-        }
-
-        /// <summary>
-        /// Hook to execute before retry policy execution.
-        /// </summary>
-        protected virtual void BeforeRetry() => Retriable.OnBeforeRetryInvocation();
-
-        /// <summary>
-        /// Hook to execute after retry policy execution.
-        /// </summary>
-        protected virtual void AfterRetry() => Retriable.OnAfterRetryInvocation();
-
-        /// <summary>
-        /// Attempts to retry an action.
-        /// </summary>
         /// <param name="action">The function to try execute</param>
+        /// <param name="exceptions"></param>
+        /// <param name="time"></param>
+        /// <param name="attempts"></param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
-        protected abstract void Do(Action action);
+        internal abstract bool Do(Action action, List<Exception> exceptions, TimeSpan time, int attempts);
     }
 }

@@ -4,6 +4,7 @@ using DotNetRetry.Core.Auxiliery;
 [assembly: InternalsVisibleTo(Constants.TestProject)]
 namespace DotNetRetry.Rules
 {
+    using System;
     using Core.Abstractions;
     using Templates.Exponential;
 
@@ -16,7 +17,8 @@ namespace DotNetRetry.Rules
         /// Initializes a new instance of <see cref="Exponential"/> object.
         /// </summary>
         /// <param name="retriable">A <see cref="Retriable"/> object with global rules.</param>
-        internal Exponential(Retriable retriable) : base(retriable, new ActionBody(retriable), new FunctionBody(retriable))
+        internal Exponential(Retriable retriable) : base(retriable, new ActionBody(retriable, new Random()), 
+            new FunctionBody(retriable))
         {
         }
     }
