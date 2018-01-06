@@ -36,10 +36,10 @@
         }
 
         private bool HasExceededTime(TimeSpan time) => 
-            AreCancellationRulesSet() && 
+            AreAnyCancellationRulesSet() && 
             _retriable.CancellationRule.HasExceededMaxTime(time.Add(_retriable.Options.Time));
 
-        private bool AreCancellationRulesSet() => _retriable.CancellationRule != null;
+        private bool AreAnyCancellationRulesSet() => _retriable.CancellationRule != null;
 
         private void DispatchAfterRetryEventAndThrowAggregateException(List<Exception> exceptions)
         {
@@ -56,6 +56,6 @@
         }
 
         private bool IsExceptionIncludedInList(Exception ex) =>
-            AreCancellationRulesSet() && _retriable.CancellationRule.IsIn(ex);
+            AreAnyCancellationRulesSet() && _retriable.CancellationRule.IsIn(ex);
     }
 }

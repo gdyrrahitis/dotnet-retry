@@ -8,7 +8,6 @@ namespace DotNetRetry.Rules
     using Core.Abstractions;
     using Factories;
     using Templates.Exponential;
-    using Waitables;
 
     /// <summary>
     /// An exponential retry technique.
