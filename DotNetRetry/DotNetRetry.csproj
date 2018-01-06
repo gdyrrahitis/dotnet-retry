@@ -65,9 +65,13 @@
     <Compile Include="Rules\Loops\Looper.cs" />
     <Compile Include="Rules\Loops\Selector.cs" />
     <Compile Include="Rules\Policy.cs" />
+    <Compile Include="Rules\Waitables\Delayer.cs" />
     <Compile Include="Rules\Templates\ExceptionBodyTemplate.cs" />
     <Compile Include="Rules\Templates\Exponential\ActionBody.cs" />
     <Compile Include="Rules\Templates\Exponential\FunctionBody.cs" />
+    <Compile Include="Rules\Waitables\IWaitable.cs" />
+    <Compile Include="Factories\IWaitableFactory.cs" />
+    <Compile Include="Rules\Waitables\RetryStopper.cs" />
     <Compile Include="Rules\Templates\Sequential\ActionBody.cs" />
     <Compile Include="Rules\Cancellation\CancellationRule.cs" />
     <Compile Include="Rules\Cancellation\ExceptionRule.cs" />
@@ -80,6 +84,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\Strategy.cs" />
     <Compile Include="Rules\Sequential.cs" />
+    <Compile Include="Factories\WaitableFactory.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Factories\ActivatorsFactory.cs" />
     <Compile Include="Core\Activators\IActivator.cs" />

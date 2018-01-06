@@ -6,9 +6,8 @@ namespace DotNetRetry.Rules.Templates.Exponential
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Core.Abstractions;
-    using Core.Auxiliery;
+    using Factories;
 
     /// <summary>
     /// Performs a template strategy for non-returnable actions
@@ -16,6 +15,7 @@ namespace DotNetRetry.Rules.Templates.Exponential
     internal class ActionBody: ActionBodyTemplate
     {
         private readonly Random _random;
+        private readonly IWaitableFactory _waitableFactory;
         private const int MaxMilliSeconds = 1001;
         private const int MinMilliSeconds = 0;
         private const int Power = 2;
@@ -26,9 +26,11 @@ namespace DotNetRetry.Rules.Templates.Exponential
         /// </summary>
         /// <param name="retriable">The <see cref="Retriable"/> parent class.</param>
         /// <param name="random"></param>
-        internal ActionBody(Retriable retriable, Random random) : base(retriable)
+        /// <param name="waitableFactory"></param>
+        internal ActionBody(Retriable retriable, Random random, IWaitableFactory waitableFactory) : base(retriable)
         {
             _random = random;
+            _waitableFactory = waitableFactory;
         }
 
         /// <summary>
@@ -62,16 +64,7 @@ namespace DotNetRetry.Rules.Templates.Exponential
             return TimeSpan.FromMilliseconds(wait);
         }
 
-        internal override void Delay(int attempts, TimeSpan timeToWait, List<Exception> exceptions)
-        {
-            if (attempts > 0)
-            {
-                Task.Delay(timeToWait).Wait();
-            }
-            else
-            {
-                exceptions.ThrowFlattenAggregateException();
-            }
-        }
+        internal override void Delay(int attempts, TimeSpan timeToWait, List<Exception> exceptions) => 
+            _waitableFactory.Select(attempts).Wait(timeToWait, exceptions);
     }
 }
