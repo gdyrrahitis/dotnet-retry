@@ -5,6 +5,7 @@ using DotNetRetry.Core.Auxiliery;
 namespace DotNetRetry.Rules.Templates
 {
     using System;
+    using System.Collections.Generic;
     using Core.Abstractions;
 
     /// <summary>
@@ -35,8 +36,11 @@ namespace DotNetRetry.Rules.Templates
         /// <returns>The function return value</returns>
         public T Attempt<T>(Func<T> function)
         {
+            var exceptions = new List<Exception>();
+            var time = TimeSpan.Zero;
+
             BeforeRetry();
-            var result = Do(function);
+            var result = Do(function, exceptions, time);
             AfterRetry();
             return result;
         }
@@ -56,8 +60,10 @@ namespace DotNetRetry.Rules.Templates
         /// </summary>
         /// <typeparam name="T">The type of the return value the action returns</typeparam>
         /// <param name="function">The function to try execute</param>
+        /// <param name="exceptions"></param>
+        /// <param name="time"></param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
         /// <returns>The function return value</returns>
-        protected abstract T Do<T>(Func<T> function);
+        internal abstract T Do<T>(Func<T> function, List<Exception> exceptions, TimeSpan time= default(TimeSpan));
     }
 }

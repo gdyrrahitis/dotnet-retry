@@ -28,11 +28,11 @@ namespace DotNetRetry.Rules.Templates.Sequential
         /// </summary>
         /// <typeparam name="T">The returnable type.</typeparam>
         /// <param name="function">The returnable function to retry.</param>
+        /// <param name="exceptions"></param>
+        /// <param name="time"></param>
         /// <returns>A value of <typeparamref name="T"/>.</returns>
-        protected override T Do<T>(Func<T> function)
+        internal override T Do<T>(Func<T> function, List<Exception> exceptions, TimeSpan time = default(TimeSpan))
         {
-            var exceptions = new List<Exception>();
-            var time = TimeSpan.Zero;
             var attempts = Retriable.Options.Attempts;
 
             while (attempts-- > 0)

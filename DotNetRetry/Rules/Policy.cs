@@ -7,6 +7,7 @@ namespace DotNetRetry.Rules
     using System;
     using Core;
     using Core.Abstractions;
+    using Loops;
     using Templates;
     using static Guards;
 
@@ -37,11 +38,7 @@ namespace DotNetRetry.Rules
         /// </summary>
         /// <param name="action">The action to try execute.</param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed.</exception>
-        public virtual void Attempt(Action action) => Do(() =>
-        {
-            action();
-            _retriable.OnAfterRetryInvocation();
-        });
+        public virtual void Attempt(Action action) => Do(action);
 
         /// <summary>
         /// Retries an action and if something happens stores the exceptions to aggregate them.
@@ -49,7 +46,14 @@ namespace DotNetRetry.Rules
         private void Do(Action action)
         {
             ValidateArguments(_retriable.Options.Attempts, _retriable.Options.Time);
-            _actionBody.Attempt(action);
+            var looper = GetLooper();
+            looper.Attempt(action);
+        }
+
+        private Looper GetLooper()
+        {
+            var looper = Selector.Pick(_retriable.Options.Attempts, _retriable, _actionBody);
+            return looper;
         }
 
         /// <summary>

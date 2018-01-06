@@ -27,46 +27,35 @@ namespace DotNetRetry.Rules.Templates.Sequential
         /// The actual retry algorithm.
         /// </summary>
         /// <param name="action">The non-returnable action to retry.</param>
-        protected override void Do(Action action)
+        /// <param name="exceptions"></param>
+        /// <param name="time"></param>
+        /// <param name="attempts"></param>
+        internal override bool Do(Action action, List<Exception> exceptions, TimeSpan time, int attempts)
         {
-            var exceptions = new List<Exception>();
-            var time = TimeSpan.Zero;
-            var attempts = Retriable.Options.Attempts;
-
-            while (attempts-- > 0)
+            try
             {
-                try
-                {
-                    action();
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    Retriable.OnFailureInvocation();
-                    exceptions.Add(ex);
+                action();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Retry(exceptions, ex, attempts, time);
+            }
 
-                    if (Retriable.CancellationRule != null && Retriable.CancellationRule.IsIn(ex))
-                    {
-                        Retriable.OnAfterRetryInvocation();
-                        exceptions.ThrowFlattenAggregateException();
-                    }
+            return false;
+        }
 
-                    if (attempts > 0)
-                    {
-                        Task.Delay(Retriable.Options.Time).Wait();
-                    }
-                    else
-                    {
-                        exceptions.ThrowFlattenAggregateException();
-                    }
+        internal override TimeSpan WaitTime() => Retriable.Options.Time;
 
-                    time = time.Add(Retriable.Options.Time);
-                    if (Retriable.CancellationRule != null && Retriable.CancellationRule.HasExceededMaxTime(time))
-                    {
-                        Retriable.OnAfterRetryInvocation();
-                        exceptions.ThrowFlattenAggregateException();
-                    }
-                }
+        internal override void Delay(int attempts, TimeSpan timeToWait, List<Exception> exceptions)
+        {
+            if (attempts > 0)
+            {
+                Task.Delay(timeToWait).Wait();
+            }
+            else
+            {
+                exceptions.ThrowFlattenAggregateException();
             }
         }
     }

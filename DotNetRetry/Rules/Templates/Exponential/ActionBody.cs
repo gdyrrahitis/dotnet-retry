@@ -15,64 +15,62 @@ namespace DotNetRetry.Rules.Templates.Exponential
     /// </summary>
     internal class ActionBody: ActionBodyTemplate
     {
+        private readonly Random _random;
+        private const int MaxMilliSeconds = 1001;
+        private const int MinMilliSeconds = 0;
+        private const int Power = 2;
+        private int _count;
+
         /// <summary>
         /// Creates an instance of <see cref="ActionBody"/>.
         /// </summary>
         /// <param name="retriable">The <see cref="Retriable"/> parent class.</param>
-        internal ActionBody(Retriable retriable) : base(retriable)
+        /// <param name="random"></param>
+        internal ActionBody(Retriable retriable, Random random) : base(retriable)
         {
+            _random = random;
         }
 
         /// <summary>
         /// The actual retry algorithm.
         /// </summary>
         /// <param name="action">The non-returnable action to retry.</param>
-        protected override void Do(Action action)
+        /// <param name="exceptions"></param>
+        /// <param name="time"></param>
+        /// <param name="attempts"></param>
+        internal override bool Do(Action action, List<Exception> exceptions, TimeSpan time, int attempts)
         {
-            var exceptions = new List<Exception>();
-            var time = TimeSpan.Zero;
-            var attempts = Retriable.Options.Attempts;
-            var random = new Random();
-            var n = 0;
+            _count = exceptions.Count;
 
-            while (attempts-- > 0)
+            try
             {
-                try
-                {
-                    action();
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    var wait = Math.Min(Math.Pow(2, n++) + random.Next(0, 1001),
-                        Retriable.Options.Time.TotalMilliseconds);
-                    var timeToWait = TimeSpan.FromMilliseconds(wait);
+                action();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Retry(exceptions, ex, attempts, time);
+            }
 
-                    Retriable.OnFailureInvocation();
-                    exceptions.Add(ex);
+            return false;
+        }
 
-                    if (Retriable.CancellationRule != null && Retriable.CancellationRule.IsIn(ex))
-                    {
-                        Retriable.OnAfterRetryInvocation();
-                        exceptions.ThrowFlattenAggregateException();
-                    }
+        internal override TimeSpan WaitTime()
+        {
+            var wait = Math.Min(Math.Pow(Power, _count) + _random.Next(MinMilliSeconds, MaxMilliSeconds),
+                Retriable.Options.Time.TotalMilliseconds);
+            return TimeSpan.FromMilliseconds(wait);
+        }
 
-                    if (attempts > 0)
-                    {
-                        Task.Delay(timeToWait).Wait();
-                    }
-                    else
-                    {
-                        exceptions.ThrowFlattenAggregateException();
-                    }
-
-                    time = time.Add(timeToWait);
-                    if (Retriable.CancellationRule != null && Retriable.CancellationRule.HasExceededMaxTime(time))
-                    {
-                        Retriable.OnAfterRetryInvocation();
-                        exceptions.ThrowFlattenAggregateException();
-                    }
-                }
+        internal override void Delay(int attempts, TimeSpan timeToWait, List<Exception> exceptions)
+        {
+            if (attempts > 0)
+            {
+                Task.Delay(timeToWait).Wait();
+            }
+            else
+            {
+                exceptions.ThrowFlattenAggregateException();
             }
         }
     }
