@@ -6,9 +6,7 @@ namespace DotNetRetry.Rules
 {
     using Core.Abstractions;
     using Factories;
-    using Templates;
     using Templates.Sequential;
-    using Waitables;
 
     /// <summary>
     /// A sequential retry technique.

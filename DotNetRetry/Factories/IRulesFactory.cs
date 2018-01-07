@@ -8,7 +8,7 @@ namespace DotNetRetry.Factories
     using Core.Abstractions;
 
     /// <summary>
-    /// Defines a contract for a rules factory
+    /// Defines a contract for a rules factory.
     /// </summary>
     internal interface IRulesFactory
     {

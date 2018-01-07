@@ -6,21 +6,23 @@ namespace DotNetRetry.Rules.Waitables
 {
     using System;
     using System.Collections.Generic;
+    using Core.Auxiliery;
 
     /// <summary>
-    /// Defines a contract for an <see cref="IWaitable"/>.
+    /// Stops execution.
     /// </summary>
-    internal interface IWaitable
+    internal class Stopper: IWaitable
     {
         /// <summary>
         /// Property injector for failures happened up to this point.
         /// </summary>
-        IEnumerable<Exception> Exceptions { set; }
+        public IEnumerable<Exception> Exceptions { get; set; }
 
         /// <summary>
         /// Waits for <paramref name="waitTime"/>.
         /// </summary>
         /// <param name="waitTime">The time to wait.</param>
-        void Wait(TimeSpan waitTime);
+        public void Wait(TimeSpan waitTime) =>
+            Exceptions?.ThrowFlattenAggregateException();
     }
 }
