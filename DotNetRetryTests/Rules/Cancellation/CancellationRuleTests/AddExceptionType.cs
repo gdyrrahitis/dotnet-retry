@@ -7,7 +7,7 @@
     using Xunit;
     using static Xunit.Assert;
 
-    public class AddInExceptionList
+    public class AddExceptionType
     {
         [Theory]
         [InlineData(typeof(Exception))]

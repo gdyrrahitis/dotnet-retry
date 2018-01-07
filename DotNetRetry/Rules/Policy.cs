@@ -52,7 +52,7 @@ namespace DotNetRetry.Rules
 
         private Looper GetLooper()
         {
-            var looper = Selector.Pick(_retriable.Options.Attempts, _retriable, _actionBody);
+            var looper = Selector.Pick(_retriable, _actionBody);
             return looper;
         }
 

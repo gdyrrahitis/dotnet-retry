@@ -1,11 +1,15 @@
-﻿namespace DotNetRetry.Rules.Loops
+﻿using System.Runtime.CompilerServices;
+using DotNetRetry.Core.Auxiliery;
+
+[assembly: InternalsVisibleTo(Constants.TestProject)]
+namespace DotNetRetry.Rules.Loops
 {
     using System;
     using Core.Abstractions;
     using Templates;
 
     /// <summary>
-    /// 
+    /// Defines an abstract looper.
     /// </summary>
     internal abstract class Looper
     {
@@ -14,13 +18,16 @@
         /// </summary>
         protected readonly ActionBodyTemplate ActionBody;
 
+        /// <summary>
+        /// The parent <see cref="Retriable"/>.
+        /// </summary>
         protected readonly Retriable Retriable;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Looper"/>.
+        /// Creates an instance of <see cref="Looper"/>.
         /// </summary>
-        /// <param name="actionBody">The <see cref="ActionBodyTemplate"/> rules object.</param>
-        /// <param name="retriable"></param>
+        /// <param name="actionBody">The policy's action body.</param>
+        /// <param name="retriable">The parent <see cref="Retriable"/> instance.</param>
         protected Looper(ActionBodyTemplate actionBody, Retriable retriable)
         {
             Retriable = retriable;
@@ -40,9 +47,9 @@
         }
 
         /// <summary>
-        /// 
+        /// Runs an infinite loop, which only breaks if a cancellation policy is set.
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="action">The action to execute.</param>
         protected abstract void Do(Action action);
 
         /// <summary>

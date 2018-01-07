@@ -48,9 +48,24 @@ namespace DotNetRetry.Rules.Templates.Sequential
             return false;
         }
 
+        /// <summary>
+        /// The algorithm to calculate the wait time for this policy.
+        /// </summary>
+        /// <returns>The time to wait in <see cref="TimeSpan"/>.</returns>
         internal override TimeSpan WaitTime() => Retriable.Options.Time;
 
-        internal override void Delay(int attempts, TimeSpan timeToWait, List<Exception> exceptions) => 
-            _waitableFactory.Select(attempts).Wait(timeToWait, exceptions);
+        /// <summary>
+        /// The algorithm used to delay the retry of the specified action
+        /// for this policy.
+        /// </summary>
+        /// <param name="attempts">The number of current attempts.</param>
+        /// <param name="timeToWait">Time to wait before retry.</param>
+        /// <param name="exceptions">Failures occurred up to this point.</param>
+        internal override void Delay(int attempts, TimeSpan timeToWait, List<Exception> exceptions)
+        {
+            var waitable = _waitableFactory.Select(attempts);
+            waitable.Exceptions = exceptions;
+            waitable.Wait(timeToWait);
+        }
     }
 }

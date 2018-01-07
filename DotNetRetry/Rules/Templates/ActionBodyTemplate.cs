@@ -31,9 +31,9 @@ namespace DotNetRetry.Rules.Templates
         /// Attempts to retry an action.
         /// </summary>
         /// <param name="action">The function to try execute</param>
-        /// <param name="exceptions"></param>
-        /// <param name="time"></param>
-        /// <param name="attempts"></param>
+        /// <param name="exceptions">Failures happened up to this point.</param>
+        /// <param name="time">Time to wait for retry.</param>
+        /// <param name="attempts">Remaining attempts.</param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
         internal abstract bool Do(Action action, List<Exception> exceptions, TimeSpan time, int attempts);
     }
