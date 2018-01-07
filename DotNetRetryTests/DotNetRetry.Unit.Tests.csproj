@@ -97,6 +97,9 @@
     <Compile Include="Rules\Configuration\RuleOptionsTests\Config.cs" />
     <Compile Include="Rules\ExponentialTests\Action\Attempt.cs" />
     <Compile Include="Rules\ExponentialTests\Function\Attempt.cs" />
+    <Compile Include="Rules\Loops\FiniteTests\Attempt.cs" />
+    <Compile Include="Rules\Loops\ForeverTests\Attempt.cs" />
+    <Compile Include="Rules\Loops\SelectorTests\Pick.cs" />
     <Compile Include="Rules\RuleTests\Action\Attempt.cs" />
     <Compile Include="Rules\RuleTests\Cancel.cs" />
     <Compile Include="Rules\RuleTests\Function\Attempt.cs" />
@@ -105,6 +108,18 @@
     <Compile Include="Rules\RuleTests\OnFailure.cs" />
     <Compile Include="Rules\SequentialTests\Action\Attempt.cs" />
     <Compile Include="Rules\SequentialTests\Function\Attempt.cs" />
+    <Compile Include="Rules\Templates\Exponential\ActionBodyTests\Delay.cs" />
+    <Compile Include="Rules\Templates\Exponential\ActionBodyTests\Do.cs" />
+    <Compile Include="Rules\Templates\Exponential\ActionBodyTests\WaitTime.cs" />
+    <Compile Include="Rules\Templates\Exponential\FunctionBodyTests\Delay.cs" />
+    <Compile Include="Rules\Templates\Exponential\FunctionBodyTests\Do.cs" />
+    <Compile Include="Rules\Templates\Exponential\FunctionBodyTests\WaitTime.cs" />
+    <Compile Include="Rules\Templates\Sequential\ActionBodyTests\Delay.cs" />
+    <Compile Include="Rules\Templates\Sequential\ActionBodyTests\Do.cs" />
+    <Compile Include="Rules\Templates\Sequential\ActionBodyTests\WaitTime.cs" />
+    <Compile Include="Rules\Templates\Sequential\FunctionBodyTests\Delay.cs" />
+    <Compile Include="Rules\Templates\Sequential\FunctionBodyTests\Do.cs" />
+    <Compile Include="Rules\Templates\Sequential\FunctionBodyTests\WaitTime.cs" />
     <Compile Include="Rules\Waitables\PauserTests\Wait.cs" />
     <Compile Include="Rules\Waitables\StopperTests\Wait.cs" />
     <Compile Include="StartupTests\Activators.cs" />
@@ -119,9 +134,7 @@
       <Name>DotNetRetry</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Rules\Loops\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
