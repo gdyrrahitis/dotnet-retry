@@ -49,13 +49,23 @@ namespace DotNetRetry.Rules.Templates
         /// <param name="time">Current time passed.</param>
         internal void Retry(List<Exception> exceptions, Exception ex, int attempts, TimeSpan time)
         {
-            _retriable.OnFailureInvocation();
-            exceptions.Add(ex);
-
+            DispatchBeforeRetryEvent();
+            DispatchOnFailureEvent();
+            AddExceptionInList(exceptions, ex);
             CancelIfCertainExceptionOccurred(exceptions, ex);
             Delay(attempts, WaitTime(), exceptions);
             CancelIfExceededTime(exceptions, time);
+            DispatchAfterRetryEvent();
         }
+
+        private void DispatchBeforeRetryEvent() => _retriable.OnBeforeRetryInvocation();
+
+        private void DispatchOnFailureEvent() => _retriable.OnFailureInvocation();
+
+        private static void AddExceptionInList(ICollection<Exception> exceptions, Exception ex) => 
+            exceptions.Add(ex);
+
+        private void DispatchAfterRetryEvent() => _retriable.OnAfterRetryInvocation();
 
         private void CancelIfExceededTime(List<Exception> exceptions, TimeSpan time)
         {
@@ -73,7 +83,7 @@ namespace DotNetRetry.Rules.Templates
 
         private void DispatchAfterRetryEventAndThrowAggregateException(List<Exception> exceptions)
         {
-            _retriable.OnAfterRetryInvocation();
+            DispatchAfterRetryEvent();
             exceptions.ThrowFlattenAggregateException();
         }
 

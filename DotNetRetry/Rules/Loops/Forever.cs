@@ -32,6 +32,7 @@ namespace DotNetRetry.Rules.Loops
             var exceptions = new List<Exception>();
             var time = TimeSpan.Zero;
             var attempts = 0;
+
             while (true)
             {
                 var done = ActionBody.Do(action, exceptions, time, attempts++);
