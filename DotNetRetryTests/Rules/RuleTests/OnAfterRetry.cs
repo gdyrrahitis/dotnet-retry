@@ -60,19 +60,25 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldNotBeRaisedAsNoRetriesWherePerformedForNonReturnableMethod(Strategy input)
+        public void EventShouldBeRaisedAfterTheRetryForFailingNonReturnableMethod(Strategy input)
         {
             // Arrange
+            var count = 0;
             var dispatched = false;
             var rule = Rule.Setup(input)
                 .Config(new Options(3, TimeSpan.FromMilliseconds(1)))
-                .OnAfterRetry((sender, args) => dispatched = true);
+                .OnAfterRetry((sender, args) =>
+                {
+                    count++;
+                    dispatched = true;
+                });
 
             // Act
             Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom exception"); }));
 
             // Assert
-            False(dispatched, "Event should not be dispatched");
+            True(dispatched, "Event should be dispatched");
+            Equal(3, count);
         }
 
         [Theory]

@@ -39,27 +39,12 @@ namespace DotNetRetry.Rules.Loops
         /// </summary>
         /// <param name="action">The action to try execute</param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
-        public void Attempt(Action action)
-        {
-            BeforeRetry();
-            Do(action);
-            AfterRetry();
-        }
+        public void Attempt(Action action) => Do(action);
 
         /// <summary>
         /// Runs an infinite loop, which only breaks if a cancellation policy is set.
         /// </summary>
         /// <param name="action">The action to execute.</param>
         protected abstract void Do(Action action);
-
-        /// <summary>
-        /// Hook to execute before retry policy execution.
-        /// </summary>
-        protected virtual void BeforeRetry() => Retriable.OnBeforeRetryInvocation();
-
-        /// <summary>
-        /// Hook to execute after retry policy execution.
-        /// </summary>
-        protected virtual void AfterRetry() => Retriable.OnAfterRetryInvocation();
     }
 }

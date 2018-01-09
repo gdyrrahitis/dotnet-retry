@@ -2,6 +2,7 @@
 using DotNetRetry.Core.Auxiliery;
 
 [assembly: InternalsVisibleTo(Constants.TestProject)]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace DotNetRetry.Rules.Templates
 {
     using System;
