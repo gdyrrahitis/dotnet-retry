@@ -1,10 +1,9 @@
-﻿namespace DotNetRetry.Unit.Tests.Rules.ExponentialTests.Function
+﻿namespace DotNetRetry.Integration.Tests.Rules.ExponentialTests.Function
 {
     using System;
     using DotNetRetry.Rules;
     using DotNetRetry.Rules.Configuration;
     using Xunit;
-    using static Xunit.Assert;
 
     public class Attempt
     {
@@ -41,8 +40,8 @@
             var result = exponential.Attempt(function);
 
             // Assert
-            Equal(whenSuccessful, attempt);
-            Equal(returnValue, result);
+            Assert.Equal(whenSuccessful, attempt);
+            Assert.Equal(returnValue, result);
         }
 
         [Fact]
@@ -60,11 +59,11 @@
             };
 
             // Act
-            var exception = Throws<AggregateException>(() => exponential.Attempt(function));
+            var exception = Assert.Throws<AggregateException>(() => exponential.Attempt(function));
 
             // Assert
-            Equal(3, exception.InnerExceptions.Count);
-            Equal(3, tries);
+            Assert.Equal(3, exception.InnerExceptions.Count);
+            Assert.Equal(3, tries);
         }
     }
 }

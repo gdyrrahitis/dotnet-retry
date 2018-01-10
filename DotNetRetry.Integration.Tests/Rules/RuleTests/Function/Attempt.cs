@@ -1,11 +1,11 @@
-﻿namespace DotNetRetry.Unit.Tests.Rules.RuleTests.Function
+﻿namespace DotNetRetry.Integration.Tests.Rules.RuleTests.Function
 {
     using System;
     using System.Diagnostics;
     using DotNetRetry.Rules;
     using DotNetRetry.Rules.Configuration;
+    using DotNetRetry.Tests.Common;
     using Xunit;
-    using static Xunit.Assert;
 
     public class Attempt
     {
@@ -24,11 +24,11 @@
             };
 
             // Act
-            var exception = Throws<AggregateException>(() => rules.Attempt(function));
+            var exception = Assert.Throws<AggregateException>(() => rules.Attempt(function));
 
             // Assert
-            Equal(3, exception.InnerExceptions.Count);
-            Equal(3, tries);
+            Assert.Equal(3, exception.InnerExceptions.Count);
+            Assert.Equal(3, tries);
         }
 
         [Theory]
@@ -46,12 +46,12 @@
 
             // Act
             stopwatch.Start();
-            Throws<AggregateException>(() => rules.Attempt(function));
+            Assert.Throws<AggregateException>(() => rules.Attempt(function));
             stopwatch.Stop();
 
             // Assert
             var elapsed = stopwatch.Elapsed;
-            True(elapsed.TotalMilliseconds - 200 < 50);
+            Assert.True(elapsed.TotalMilliseconds - 200 < 50);
         }
 
         [Theory]
@@ -76,8 +76,8 @@
             var result = rules.Attempt(function);
 
             // Assert
-            Equal(2, tries);
-            Equal("abc", result);
+            Assert.Equal(2, tries);
+            Assert.Equal("abc", result);
         }
 
         [Theory]
@@ -102,8 +102,8 @@
             var result = rules.Attempt(function);
 
             // Assert
-            Equal(3, tries);
-            Equal("abc", result);
+            Assert.Equal(3, tries);
+            Assert.Equal("abc", result);
         }
     }
 }

@@ -16,7 +16,7 @@
         [Fact]
         public void TestProjectShouldReturnValue()
         {
-            Equal("DotNetRetry.Unit.Tests", Constants.TestProject);
+            Equal("DotNetRetry.Unit.Tests", Constants.UnitTestProject);
         }
 
         [Fact]

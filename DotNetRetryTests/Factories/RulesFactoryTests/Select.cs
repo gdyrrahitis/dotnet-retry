@@ -7,6 +7,7 @@
     using DotNetRetry.Core.Exceptions;
     using DotNetRetry.Factories;
     using DotNetRetry.Rules;
+    using DotNetRetry.Tests.Common;
     using Moq;
     using Xunit;
     using static Xunit.Assert;

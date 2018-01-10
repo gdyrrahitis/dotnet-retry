@@ -1,10 +1,10 @@
-﻿namespace DotNetRetry.Unit.Tests.Rules.RuleTests.Action
+﻿namespace DotNetRetry.Integration.Tests.Rules.RuleTests.Action
 {
     using System;
     using DotNetRetry.Rules;
     using DotNetRetry.Rules.Configuration;
+    using DotNetRetry.Tests.Common;
     using Xunit;
-    using static Xunit.Assert;
 
     public class Attempt
     {
@@ -26,7 +26,7 @@
             rules.Attempt(successFullAction);
 
             // Assert
-            Equal(15, actual);
+            Assert.Equal(15, actual);
         }
 
         [Theory]
@@ -56,8 +56,8 @@
             rules.Attempt(successAtSecondTryAction);
 
             // Assert
-            Equal(2, tries);
-            Equal(123, actual);
+            Assert.Equal(2, tries);
+            Assert.Equal(123, actual);
         }
 
         [Theory]
@@ -87,8 +87,8 @@
             rules.Attempt(successAtThirdTryAction);
 
             // Assert
-            Equal(3, tries);
-            Equal(123, actual);
+            Assert.Equal(3, tries);
+            Assert.Equal(123, actual);
         }
 
         [Theory]
@@ -107,12 +107,12 @@
             };
 
             // Act
-            var exception = Throws<AggregateException>(() => rules.Attempt(failureAction));
+            var exception = Assert.Throws<AggregateException>(() => rules.Attempt(failureAction));
 
             // Assert
-            Equal(3, exception.InnerExceptions.Count);
-            Equal(3, tries);
-            Equal(0, actual);
+            Assert.Equal(3, exception.InnerExceptions.Count);
+            Assert.Equal(3, tries);
+            Assert.Equal(0, actual);
         }
 
         [Theory]
@@ -129,7 +129,7 @@
             rules.Attempt(() => convertToIntAction(parameter));
 
             // Assert
-            Equal(123456, actual);
+            Assert.Equal(123456, actual);
         }
 
         [Theory]
@@ -159,8 +159,8 @@
             rules.Attempt(() => convertToIntAction(parameter));
 
             // Assert
-            Equal(2, tries);
-            Equal(123456, actual);
+            Assert.Equal(2, tries);
+            Assert.Equal(123456, actual);
         }
 
         [Theory]
@@ -179,13 +179,13 @@
             };
 
             // Act
-            var exception = Throws<AggregateException>(() => 
+            var exception = Assert.Throws<AggregateException>(() => 
                 rules.Attempt(() => failureAction(parameter)));
 
             // Assert
-            Equal(3, exception.InnerExceptions.Count);
-            Equal(3, tries);
-            Equal(0, actual);
+            Assert.Equal(3, exception.InnerExceptions.Count);
+            Assert.Equal(3, tries);
+            Assert.Equal(0, actual);
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿namespace DotNetRetry.Unit.Tests.Rules.RuleTests
+﻿namespace DotNetRetry.Integration.Tests.Rules.RuleTests
 {
     using System;
     using DotNetRetry.Rules;
     using DotNetRetry.Rules.Configuration;
+    using DotNetRetry.Tests.Common;
     using Xunit;
-    using static Xunit.Assert;
 
     public class OnFailure
     {
@@ -19,7 +19,7 @@
             var result = rule.OnFailure((sender, args) => { });
 
             // Assert
-            Same(rule, result);
+            Assert.Same(rule, result);
         }
 
         [Theory]
@@ -33,10 +33,10 @@
                 .OnFailure((sender, args) => dispatched = true);
 
             // Act
-            Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom Exception"); }));
+            Assert.Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom Exception"); }));
 
             // Assert
-            True(dispatched, "Event should be dispatched");
+            Assert.True(dispatched, "Event should be dispatched");
         }
 
         [Theory]
@@ -50,13 +50,13 @@
                 .OnFailure((sender, args) => dispatched = true);
 
             // Act
-            Throws<AggregateException>(() => rule.Attempt(() =>
+            Assert.Throws<AggregateException>(() => rule.Attempt(() =>
             {
                 throw new Exception("Custom Exception");
             }));
 
             // Assert
-            True(dispatched, "Event should be dispatched");
+            Assert.True(dispatched, "Event should be dispatched");
         }
 
         [Theory]
@@ -73,7 +73,7 @@
             rule.Attempt(() => { });
 
             // Assert
-            False(dispatched, "Event should not be dispatched");
+            Assert.False(dispatched, "Event should not be dispatched");
         }
 
         [Theory]
@@ -90,7 +90,7 @@
             rule.Attempt(() => "Function Invocation");
 
             // Assert
-            False(dispatched, "Event should not be dispatched");
+            Assert.False(dispatched, "Event should not be dispatched");
         }
 
         [Theory]
@@ -109,7 +109,7 @@
                 .Attempt(() => { });
 
             // Assert
-            False(dispatched, "Event should not be dispatched");
+            Assert.False(dispatched, "Event should not be dispatched");
         }
 
         [Theory]
@@ -128,7 +128,7 @@
                 .Attempt(() => "Function Invocation");
 
             // Assert
-            False(dispatched, "Event should not be dispatched");
+            Assert.False(dispatched, "Event should not be dispatched");
         }
     }
 }
