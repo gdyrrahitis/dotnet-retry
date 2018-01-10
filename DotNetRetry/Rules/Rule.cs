@@ -91,14 +91,7 @@
         /// </summary>
         /// <param name="action">The action to try execute.</param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed.</exception>
-        public override void Attempt(Action action)
-        {
-            _retry.Attempt(() =>
-            {
-                action();
-                OnAfterRetryInvocation();
-            });
-        }
+        public override void Attempt(Action action) => _retry.Attempt(action);
 
         /// <summary>
         /// Attempts to retry an a method that returns a result.
@@ -112,7 +105,6 @@
             return _retry.Attempt(() =>
             {
                 var result = function();
-                OnAfterRetryInvocation();
                 return result;
             });
         }

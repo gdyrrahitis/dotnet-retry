@@ -1,11 +1,10 @@
-﻿namespace DotNetRetry.Unit.Tests.Rules.SequentialTests.Function
+﻿namespace DotNetRetry.Integration.Tests.Rules.SequentialTests.Function
 {
     using System;
     using System.Diagnostics;
     using DotNetRetry.Rules;
     using DotNetRetry.Rules.Configuration;
     using Xunit;
-    using static Xunit.Assert;
 
     public class Attempt
     {
@@ -42,8 +41,8 @@
             var result = sequential.Attempt(function);
 
             // Assert
-            Equal(whenSuccessful, attempt);
-            Equal(returnValue, result);
+            Assert.Equal(whenSuccessful, attempt);
+            Assert.Equal(returnValue, result);
         }
 
         [Fact]
@@ -61,11 +60,11 @@
             };
 
             // Act
-            var exception = Throws<AggregateException>(() => sequential.Attempt(function));
+            var exception = Assert.Throws<AggregateException>(() => sequential.Attempt(function));
 
             // Assert
-            Equal(3, exception.InnerExceptions.Count);
-            Equal(3, tries);
+            Assert.Equal(3, exception.InnerExceptions.Count);
+            Assert.Equal(3, tries);
         }
 
         [Fact]
@@ -82,12 +81,12 @@
 
             // Act
             stopwatch.Start();
-            Throws<AggregateException>(() => sequential.Attempt(function));
+            Assert.Throws<AggregateException>(() => sequential.Attempt(function));
             stopwatch.Stop();
 
             // Assert
             var elapsed = stopwatch.Elapsed;
-            True(elapsed.TotalMilliseconds - 200 < 50);
+            Assert.True(elapsed.TotalMilliseconds - 200 < 50);
         }
     }
 }

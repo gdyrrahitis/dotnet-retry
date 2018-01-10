@@ -1,7 +1,9 @@
 ﻿using System.Runtime.CompilerServices;
 using DotNetRetry.Core.Auxiliery;
 
-[assembly: InternalsVisibleTo(Constants.TestProject)]
+[assembly: InternalsVisibleTo(Constants.UnitTestProject)]
+[assembly: InternalsVisibleTo(Constants.IntegrationTestProject)]
+[assembly: InternalsVisibleTo(Constants.CommonTestProject)]
 namespace DotNetRetry.Rules.Templates.Exponential
 {
     using System;
@@ -59,6 +61,7 @@ namespace DotNetRetry.Rules.Templates.Exponential
 
         /// <summary>
         /// The algorithm to calculate the wait time for this policy.
+        /// min((2 ^ n) + random(0, 1000), backoff)
         /// </summary>
         /// <returns>The time to wait in <see cref="TimeSpan"/>.</returns>
         internal override TimeSpan WaitTime()

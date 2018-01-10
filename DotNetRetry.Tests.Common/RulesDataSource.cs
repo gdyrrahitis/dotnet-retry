@@ -1,8 +1,13 @@
-﻿namespace DotNetRetry.Unit.Tests
+﻿using System.Runtime.CompilerServices;
+using DotNetRetry.Core.Auxiliery;
+
+[assembly: InternalsVisibleTo(Constants.UnitTestProject)]
+[assembly: InternalsVisibleTo(Constants.IntegrationTestProject)]
+namespace DotNetRetry.Tests.Common
 {
     using System.Collections.Generic;
-    using DotNetRetry.Core.Activators;
-    using DotNetRetry.Rules;
+    using Core.Activators;
+    using Rules;
 
     public static class RulesDataSource
     {

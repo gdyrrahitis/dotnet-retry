@@ -1,10 +1,10 @@
-﻿namespace DotNetRetry.Unit.Tests.Rules.RuleTests
+﻿namespace DotNetRetry.Integration.Tests.Rules.RuleTests
 {
     using System;
     using DotNetRetry.Rules;
     using DotNetRetry.Rules.Configuration;
+    using DotNetRetry.Tests.Common;
     using Xunit;
-    using static Xunit.Assert;
 
     public class OnAfterRetry
     {
@@ -20,7 +20,7 @@
             var result = rule.OnAfterRetry((sender, args) => { });
 
             // Assert
-            Same(rule, result);
+            Assert.Same(rule, result);
         }
 
         [Theory]
@@ -37,7 +37,7 @@
             rule.Attempt(() => { });
 
             // Assert
-            True(dispatched, "Event should be dispatched");
+            Assert.True(dispatched, "Event should be dispatched");
         }
 
         [Theory]
@@ -54,8 +54,8 @@
             var result = rule.Attempt(() => "Return value");
 
             // Assert
-            True(dispatched, "Event should be dispatched");
-            Equal("Return value", result);
+            Assert.True(dispatched, "Event should be dispatched");
+            Assert.Equal("Return value", result);
         }
 
         [Theory]
@@ -74,11 +74,11 @@
                 });
 
             // Act
-            Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom exception"); }));
+            Assert.Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom exception"); }));
 
             // Assert
-            True(dispatched, "Event should be dispatched");
-            Equal(3, count);
+            Assert.True(dispatched, "Event should be dispatched");
+            Assert.Equal(3, count);
         }
 
         [Theory]
@@ -92,7 +92,7 @@
                 .OnAfterRetry((sender, args) => dispatched = true);
 
             // Act
-            Throws<AggregateException>(() => rule.Attempt(() =>
+            Assert.Throws<AggregateException>(() => rule.Attempt(() =>
             {
                 throw new Exception("Custom exception");
 #pragma warning disable 162
@@ -101,7 +101,7 @@
             }));
 
             // Assert
-            False(dispatched, "Event should not be dispatched");
+            Assert.False(dispatched, "Event should not be dispatched");
         }
 
         [Theory]
@@ -120,7 +120,7 @@
                 .Attempt(() => { });
 
             // Assert
-            False(dispatched, "Event should not be dispatched");
+            Assert.False(dispatched, "Event should not be dispatched");
         }
 
         [Theory]
@@ -139,7 +139,7 @@
                 .Attempt(() => "Return value");
 
             // Assert
-            False(dispatched, "Event should not be dispatched");
+            Assert.False(dispatched, "Event should not be dispatched");
         }
     }
 }
