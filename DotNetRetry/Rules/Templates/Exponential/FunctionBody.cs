@@ -8,77 +8,83 @@ namespace DotNetRetry.Rules.Templates.Exponential
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Core.Abstractions;
-    using Core.Auxiliery;
+    using Factories;
 
     /// <summary>
     /// Performs a template strategy for returnable actions
     /// </summary>
     internal class FunctionBody: FunctionBodyTemplate
     {
+        private readonly Random _random;
+        private readonly IWaitableFactory _waitableFactory;
+        private const int MaxMilliSeconds = 1001;
+        private const int MinMilliSeconds = 0;
+        private const int Power = 2;
+        private int _count;
+
         /// <summary>
         /// Creates an instance of <see cref="FunctionBody"/>.
         /// </summary>
         /// <param name="retriable">The <see cref="Retriable"/> parent class.</param>
-        internal FunctionBody(Retriable retriable) : base(retriable)
+        /// <param name="random"></param>
+        /// <param name="waitableFactory"></param>
+        internal FunctionBody(Retriable retriable, Random random, IWaitableFactory waitableFactory) : base(retriable)
         {
+            _random = random;
+            _waitableFactory = waitableFactory;
         }
 
         /// <summary>
         /// The actual retry algorithm.
         /// </summary>
-        /// <typeparam name="T">The returnable type.</typeparam>
-        /// <param name="function">The returnable function to retry.</param>
+        /// <param name="function">The non-returnable action to retry.</param>
         /// <param name="exceptions"></param>
         /// <param name="time"></param>
-        /// <returns>A value of <typeparamref name="T"/>.</returns>
-        internal override T Do<T>(Func<T> function, List<Exception> exceptions, TimeSpan time = default(TimeSpan))
+        /// <param name="attempts"></param>
+        /// <param name="result"></param>
+        internal override bool Do<T>(Func<T> function, List<Exception> exceptions, TimeSpan time, int attempts, out T result)
         {
-            var attempts = Retriable.Options.Attempts;
-            var random = new Random();
-            var n = 0;
+            _count = exceptions.Count;
 
-            while (attempts-- > 0)
+            try
             {
-                try
-                {
-                    var result = function();
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Retriable.OnFailureInvocation();
-                    exceptions.Add(ex);
-
-                    if (Retriable.CancellationRule != null && Retriable.CancellationRule.IsIn(ex))
-                    {
-                        Retriable.OnAfterRetryInvocation();
-                        exceptions.ThrowFlattenAggregateException();
-                    }
-
-                    if (attempts > 0)
-                    {
-                        var wait = Math.Min(Math.Pow(2, n++) + random.Next(0, 1001),
-                            Retriable.Options.Time.TotalMilliseconds);
-                        var timeToWait = TimeSpan.FromMilliseconds(wait);
-                        Task.Delay(timeToWait).Wait();
-                        time = time.Add(timeToWait);
-                    }
-                    else
-                    {
-                        exceptions.ThrowFlattenAggregateException();
-                    }
-
-                    if (Retriable.CancellationRule != null && Retriable.CancellationRule.HasExceededMaxTime(time))
-                    {
-                        Retriable.OnAfterRetryInvocation();
-                        exceptions.ThrowFlattenAggregateException();
-                    }
-                }
+                result = function();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Retry(exceptions, ex, attempts, time);
             }
 
-            throw new InvalidOperationException(Constants.InvalidOperationExceptionErrorMessage);
+            result = default(T);
+            return false;
+        }
+
+        /// <summary>
+        /// The algorithm to calculate the wait time for this policy.
+        /// min((2 ^ n) + random(0, 1000), backoff)
+        /// </summary>
+        /// <returns>The time to wait in <see cref="TimeSpan"/>.</returns>
+        internal override TimeSpan WaitTime()
+        {
+            var wait = Math.Min(Math.Pow(Power, _count) + _random.Next(MinMilliSeconds, MaxMilliSeconds),
+                Retriable.Options.Time.TotalMilliseconds);
+            return TimeSpan.FromMilliseconds(wait);
+        }
+
+        /// <summary>
+        /// The algorithm used to delay the retry of the specified action
+        /// for this policy.
+        /// </summary>
+        /// <param name="attempts">The number of current attempts.</param>
+        /// <param name="timeToWait">Time to wait before retry.</param>
+        /// <param name="exceptions">Failures occurred up to this point.</param>
+        internal override void Delay(int attempts, TimeSpan timeToWait, List<Exception> exceptions)
+        {
+            var waitable = _waitableFactory.Select(attempts);
+            waitable.Exceptions = exceptions;
+            waitable.Wait(timeToWait);
         }
     }
 }

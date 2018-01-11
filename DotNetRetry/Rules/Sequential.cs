@@ -20,7 +20,7 @@ namespace DotNetRetry.Rules
         /// </summary>
         /// <param name="retriable">A <see cref="Retriable"/> object with global rules.</param>
         internal Sequential(Retriable retriable) : base(retriable, new ActionBody(retriable, new WaitableFactory()), 
-            new FunctionBody(retriable))
+            new FunctionBody(retriable, new WaitableFactory()))
         {
         }
     }

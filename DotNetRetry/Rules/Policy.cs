@@ -54,7 +54,7 @@ namespace DotNetRetry.Rules
 
         private Looper GetLooper()
         {
-            var looper = Selector.Pick(_retriable, _actionBody);
+            var looper = Selector.Pick(_retriable, _actionBody, _functionBody);
             return looper;
         }
 
@@ -78,7 +78,8 @@ namespace DotNetRetry.Rules
         private T Do<T>(Func<T> function)
         {
             ValidateArguments(_retriable.Options.Attempts, _retriable.Options.Time);
-            return _functionBody.Attempt(function);
+            var looper = GetLooper();
+            return looper.Attempt(function);
         }
     }
 }

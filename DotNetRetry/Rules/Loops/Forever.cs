@@ -14,14 +14,15 @@ namespace DotNetRetry.Rules.Loops
     /// <summary>
     /// An infinite looper
     /// </summary>
-    internal class Forever: Looper
+    internal class Forever : Looper
     {
         /// <summary>
         /// Creates an instance of a finite looper.
         /// </summary>
         /// <param name="actionBody">The policy's action body.</param>
+        /// <param name="functionBody"></param>
         /// <param name="retriable">The parent <see cref="Retriable"/> instance.</param>
-        public Forever(ActionBodyTemplate actionBody, Retriable retriable) : base(actionBody, retriable)
+        public Forever(ActionBodyTemplate actionBody, FunctionBodyTemplate functionBody, Retriable retriable) : base(actionBody, functionBody, retriable)
         {
         }
 
@@ -41,6 +42,23 @@ namespace DotNetRetry.Rules.Loops
                 if (done)
                 {
                     break;
+                }
+            }
+        }
+
+        protected override T Do<T>(Func<T> function)
+        {
+            var exceptions = new List<Exception>();
+            var time = TimeSpan.Zero;
+            var attempts = 0;
+            T result;
+
+            while (true)
+            {
+                var done = FunctionBody.Do(function, exceptions, time, attempts++, out result);
+                if (done)
+                {
+                    return result;
                 }
             }
         }
