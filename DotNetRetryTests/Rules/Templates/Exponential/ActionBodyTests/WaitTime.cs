@@ -49,7 +49,6 @@
             var randomMock = new Mock<Random>();
             randomMock.Setup(m => m.Next(It.IsAny<int>(), It.IsAny<int>())).Returns(randomValue);
             var actionBody = new ActionBody(retriableMock.Object, randomMock.Object, waitableFactoryMock.Object);
-            //var expected = Math.Min(Math.Pow(2, retries) + randomValue, seconds);
             actionBody.GetType().GetField("_count", System.Reflection.BindingFlags.NonPublic | 
                 System.Reflection.BindingFlags.Instance)?
                 .SetValue(actionBody, retries);

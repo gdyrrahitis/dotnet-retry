@@ -19,13 +19,14 @@
             // Arrange
             var retriableMock = new Mock<Retriable>();
             var actionBodyMock = new Mock<ActionBodyTemplate>(retriableMock.Object);
+            var functionBodyMock = new Mock<FunctionBodyTemplate>(retriableMock.Object);
             var options = new RuleOptions(retriableMock.Object);
             if (attempts > 0)
                 options.Config(new Options(attempts));
             retriableMock.Object.Options = options;
 
             // Act
-            var result = Selector.Pick(retriableMock.Object, actionBodyMock.Object);
+            var result = Selector.Pick(retriableMock.Object, actionBodyMock.Object, functionBodyMock.Object);
 
             // Assert
             IsType(type, result);

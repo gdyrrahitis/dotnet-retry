@@ -20,8 +20,9 @@ namespace DotNetRetry.Rules.Loops
         /// Creates an instance of a finite looper.
         /// </summary>
         /// <param name="actionBody">The policy's action body.</param>
+        /// <param name="functionBody"></param>
         /// <param name="retriable">The parent <see cref="Retriable"/> instance.</param>
-        public Finite(ActionBodyTemplate actionBody, Retriable retriable) : base(actionBody, retriable)
+        public Finite(ActionBodyTemplate actionBody, FunctionBodyTemplate functionBody, Retriable retriable) : base(actionBody, functionBody, retriable)
         {
         }
 
@@ -43,6 +44,26 @@ namespace DotNetRetry.Rules.Loops
                     break;
                 }
             }
+        }
+
+        protected override T Do<T>(Func<T> function)
+        {
+            T result;
+            var exceptions = new List<Exception>();
+            var time = TimeSpan.Zero;
+            var attempts = Retriable.Options.Attempts;
+
+            while (attempts-- > 0)
+            {
+                var done = FunctionBody.Do(function, exceptions, time, attempts, out result);
+                if (done)
+                {
+                    return result;
+                }
+            }
+
+            exceptions.ThrowFlattenAggregateException();
+            return default(T);
         }
     }
 }

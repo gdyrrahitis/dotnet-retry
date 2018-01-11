@@ -11,18 +11,23 @@ namespace DotNetRetry.Rules.Templates.Sequential
     using System.Threading.Tasks;
     using Core.Abstractions;
     using Core.Auxiliery;
+    using Factories;
 
     /// <summary>
     /// Performs a template strategy for returnable actions
     /// </summary>
-    internal class FunctionBody: FunctionBodyTemplate
+    internal class FunctionBody : FunctionBodyTemplate
     {
+        private readonly IWaitableFactory _waitableFactory;
+
         /// <summary>
         /// Creates an instance of <see cref="FunctionBody"/>.
         /// </summary>
         /// <param name="retriable">The <see cref="Retriable"/> parent class.</param>
-        internal FunctionBody(Retriable retriable) : base(retriable)
+        /// <param name="waitableFactory"></param>
+        internal FunctionBody(Retriable retriable, IWaitableFactory waitableFactory) : base(retriable)
         {
+            _waitableFactory = waitableFactory;
         }
 
         /// <summary>
@@ -32,48 +37,42 @@ namespace DotNetRetry.Rules.Templates.Sequential
         /// <param name="function">The returnable function to retry.</param>
         /// <param name="exceptions"></param>
         /// <param name="time"></param>
+        /// <param name="attempts"></param>
         /// <returns>A value of <typeparamref name="T"/>.</returns>
-        internal override T Do<T>(Func<T> function, List<Exception> exceptions, TimeSpan time = default(TimeSpan))
+        internal override bool Do<T>(Func<T> function, List<Exception> exceptions, TimeSpan time, int attempts, out T result)
         {
-            var attempts = Retriable.Options.Attempts;
-
-            while (attempts-- > 0)
+            try
             {
-                try
-                {
-                    var result = function();
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Retriable.OnFailureInvocation();
-                    exceptions.Add(ex);
-
-                    if (Retriable.CancellationRule != null && Retriable.CancellationRule.IsIn(ex))
-                    {
-                        Retriable.OnAfterRetryInvocation();
-                        exceptions.ThrowFlattenAggregateException();
-                    }
-
-                    if (attempts > 0)
-                    {
-                        Task.Delay(Retriable.Options.Time).Wait();
-                    }
-                    else
-                    {
-                        exceptions.ThrowFlattenAggregateException();
-                    }
-
-                    time = time.Add(Retriable.Options.Time);
-                    if (Retriable.CancellationRule != null && Retriable.CancellationRule.HasExceededMaxTime(time))
-                    {
-                        Retriable.OnAfterRetryInvocation();
-                        exceptions.ThrowFlattenAggregateException();
-                    }
-                }
+                result = function();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Retry(exceptions, ex, attempts, time);
             }
 
-            throw new InvalidOperationException(Constants.InvalidOperationExceptionErrorMessage);
+            result = default(T);
+            return false;
+        }
+
+        /// <summary>
+        /// The algorithm to calculate the wait time for this policy.
+        /// </summary>
+        /// <returns>The time to wait in <see cref="TimeSpan"/>.</returns>
+        internal override TimeSpan WaitTime() => Retriable.Options.Time;
+
+        /// <summary>
+        /// The algorithm used to delay the retry of the specified action
+        /// for this policy.
+        /// </summary>
+        /// <param name="attempts">The number of current attempts.</param>
+        /// <param name="timeToWait">Time to wait before retry.</param>
+        /// <param name="exceptions">Failures occurred up to this point.</param>
+        internal override void Delay(int attempts, TimeSpan timeToWait, List<Exception> exceptions)
+        {
+            var waitable = _waitableFactory.Select(attempts);
+            waitable.Exceptions = exceptions;
+            waitable.Wait(timeToWait);
         }
     }
 }

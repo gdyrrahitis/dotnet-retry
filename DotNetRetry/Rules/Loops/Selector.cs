@@ -19,10 +19,11 @@ namespace DotNetRetry.Rules.Loops
         /// </summary>
         /// <param name="retriable">A parent <see cref="Retriable"/> instance.</param>
         /// <param name="actionBody">The specified policy's action body.</param>
+        /// <param name="functionBody"></param>
         /// <returns></returns>
-        internal static Looper Pick(Retriable retriable, ActionBodyTemplate actionBody) => 
+        internal static Looper Pick(Retriable retriable, ActionBodyTemplate actionBody, FunctionBodyTemplate functionBody) => 
             retriable.Options.Attempts > 0 ? 
-                new Finite(actionBody, retriable) as Looper :
-                new Forever(actionBody, retriable) as Looper;
+                new Finite(actionBody, functionBody, retriable) as Looper :
+                new Forever(actionBody, functionBody, retriable) as Looper;
     }
 }
