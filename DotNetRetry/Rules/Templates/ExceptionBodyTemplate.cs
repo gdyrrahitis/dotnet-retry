@@ -69,7 +69,7 @@ namespace DotNetRetry.Rules.Templates
 
         private void DispatchAfterRetryEvent() => _retriable.OnAfterRetryInvocation();
 
-        private void CancelIfExceededTime(List<Exception> exceptions, TimeSpan time)
+        private void CancelIfExceededTime(IReadOnlyCollection<Exception> exceptions, TimeSpan time)
         {
             if (HasExceededTime(time))
             {
@@ -83,13 +83,13 @@ namespace DotNetRetry.Rules.Templates
 
         private bool AreAnyCancellationRulesSet() => _retriable.CancellationRule != null;
 
-        private void DispatchAfterRetryEventAndThrowAggregateException(List<Exception> exceptions)
+        private void DispatchAfterRetryEventAndThrowAggregateException(IReadOnlyCollection<Exception> exceptions)
         {
             DispatchAfterRetryEvent();
             exceptions.ThrowFlattenAggregateException();
         }
 
-        private void CancelIfCertainExceptionOccurred(List<Exception> exceptions, Exception ex)
+        private void CancelIfCertainExceptionOccurred(IReadOnlyCollection<Exception> exceptions, Exception ex)
         {
             if (IsExceptionIncludedInList(ex))
             {
