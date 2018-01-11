@@ -59,6 +59,7 @@
     <Compile Include="Core\IRetry.cs" />
     <Compile Include="Core\IRetryAction.cs" />
     <Compile Include="Core\IRetryFunction.cs" />
+    <Compile Include="Core\Time\TimerService.cs" />
     <Compile Include="Factories\IRulesFactory.cs" />
     <Compile Include="Factories\RulesFactory.cs" />
     <Compile Include="Rules\Configuration\Options.cs" />

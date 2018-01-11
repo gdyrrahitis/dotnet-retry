@@ -10,7 +10,7 @@ namespace DotNetRetry.Core.Auxiliery
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Timer service to use timer's delay.
+    /// TimerService service to use timer's delay.
     /// </summary>
     internal class Delayer: IDelayer
     {

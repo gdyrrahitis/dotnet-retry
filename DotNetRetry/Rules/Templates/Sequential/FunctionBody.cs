@@ -38,6 +38,7 @@ namespace DotNetRetry.Rules.Templates.Sequential
         /// <param name="exceptions"></param>
         /// <param name="time"></param>
         /// <param name="attempts"></param>
+        /// <param name="result"></param>
         /// <returns>A value of <typeparamref name="T"/>.</returns>
         internal override bool Do<T>(Func<T> function, List<Exception> exceptions, TimeSpan time, int attempts, out T result)
         {
