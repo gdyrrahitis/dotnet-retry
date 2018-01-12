@@ -9,6 +9,7 @@ namespace DotNetRetry.Rules.Loops
     using System;
     using System.Collections.Generic;
     using Core.Abstractions;
+    using Core.Time;
     using Templates;
 
     /// <summary>
@@ -33,12 +34,12 @@ namespace DotNetRetry.Rules.Loops
         protected override void Do(Action action)
         {
             var exceptions = new List<Exception>();
-            var time = TimeSpan.Zero;
+            var service = new TimerService();
             var attempts = Retriable.Options.Attempts;
 
             while (attempts-- > 0)
             {
-                var done = ActionBody.Do(action, exceptions, time, attempts);
+                var done = ActionBody.Do(action, exceptions, service, attempts);
                 if (done)
                 {
                     break;
@@ -50,12 +51,12 @@ namespace DotNetRetry.Rules.Loops
         {
             T result;
             var exceptions = new List<Exception>();
-            var time = TimeSpan.Zero;
+            var service = new TimerService();
             var attempts = Retriable.Options.Attempts;
 
             while (attempts-- > 0)
             {
-                var done = FunctionBody.Do(function, exceptions, time, attempts, out result);
+                var done = FunctionBody.Do(function, exceptions, service, attempts, out result);
                 if (done)
                 {
                     return result;

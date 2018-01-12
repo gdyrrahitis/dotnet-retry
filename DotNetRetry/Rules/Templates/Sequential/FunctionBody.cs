@@ -8,9 +8,8 @@ namespace DotNetRetry.Rules.Templates.Sequential
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Core.Abstractions;
-    using Core.Auxiliery;
+    using Core.Time;
     using Factories;
 
     /// <summary>
@@ -36,11 +35,11 @@ namespace DotNetRetry.Rules.Templates.Sequential
         /// <typeparam name="T">The returnable type.</typeparam>
         /// <param name="function">The returnable function to retry.</param>
         /// <param name="exceptions"></param>
-        /// <param name="time"></param>
+        /// <param name="timerService"></param>
         /// <param name="attempts"></param>
         /// <param name="result"></param>
         /// <returns>A value of <typeparamref name="T"/>.</returns>
-        internal override bool Do<T>(Func<T> function, List<Exception> exceptions, TimeSpan time, int attempts, out T result)
+        internal override bool Do<T>(Func<T> function, List<Exception> exceptions, TimerService timerService, int attempts, out T result)
         {
             try
             {
@@ -49,7 +48,7 @@ namespace DotNetRetry.Rules.Templates.Sequential
             }
             catch (Exception ex)
             {
-                Retry(exceptions, ex, attempts, time);
+                Retry(exceptions, ex, attempts, timerService);
             }
 
             result = default(T);
@@ -57,9 +56,9 @@ namespace DotNetRetry.Rules.Templates.Sequential
         }
 
         /// <summary>
-        /// The algorithm to calculate the wait time for this policy.
+        /// The algorithm to calculate the wait timerService for this policy.
         /// </summary>
-        /// <returns>The time to wait in <see cref="TimeSpan"/>.</returns>
+        /// <returns>The timerService to wait in <see cref="TimeSpan"/>.</returns>
         internal override TimeSpan WaitTime() => Retriable.Options.Time;
 
         /// <summary>

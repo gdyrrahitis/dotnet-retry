@@ -10,6 +10,7 @@ namespace DotNetRetry.Rules.Templates
     using System.Collections.Generic;
     using Core.Abstractions;
     using Core.Auxiliery;
+    using Core.Time;
 
     /// <summary>
     /// Defines an abstract exception body.
@@ -28,9 +29,9 @@ namespace DotNetRetry.Rules.Templates
         }
 
         /// <summary>
-        /// The algorithm to calculate the wait time for this policy.
+        /// The algorithm to calculate the wait timerService for this policy.
         /// </summary>
-        /// <returns>The time to wait in <see cref="TimeSpan"/>.</returns>
+        /// <returns>The timerService to wait in <see cref="TimeSpan"/>.</returns>
         internal abstract TimeSpan WaitTime();
 
         /// <summary>
@@ -48,15 +49,15 @@ namespace DotNetRetry.Rules.Templates
         /// <param name="exceptions">Failures occurred up to this point.</param>
         /// <param name="ex">Current failure that occurred.</param>
         /// <param name="attempts">The number of current attempts.</param>
-        /// <param name="time">Current time passed.</param>
-        internal void Retry(List<Exception> exceptions, Exception ex, int attempts, TimeSpan time)
+        /// <param name="timerService">Current timerService passed.</param>
+        internal void Retry(List<Exception> exceptions, Exception ex, int attempts, TimerService timerService)
         {
             DispatchBeforeRetryEvent();
             DispatchOnFailureEvent();
             AddExceptionInList(exceptions, ex);
             CancelIfCertainExceptionOccurred(exceptions, ex);
             Delay(attempts, WaitTime(), exceptions);
-            CancelIfExceededTime(exceptions, time);
+            CancelIfExceededTime(exceptions, timerService);
             DispatchAfterRetryEvent();
         }
 
@@ -69,17 +70,17 @@ namespace DotNetRetry.Rules.Templates
 
         private void DispatchAfterRetryEvent() => _retriable.OnAfterRetryInvocation();
 
-        private void CancelIfExceededTime(IReadOnlyCollection<Exception> exceptions, TimeSpan time)
+        private void CancelIfExceededTime(IReadOnlyCollection<Exception> exceptions, TimerService timerService)
         {
-            if (HasExceededTime(time))
+            if (HasExceededTime(timerService))
             {
                 DispatchAfterRetryEventAndThrowAggregateException(exceptions);
             }
         }
 
-        private bool HasExceededTime(TimeSpan time) => 
+        private bool HasExceededTime(TimerService timerService) => 
             AreAnyCancellationRulesSet() && 
-            _retriable.CancellationRule.HasExceededMaxTime(time.Add(_retriable.Options.Time));
+            _retriable.CancellationRule.HasExceededMaxTime(timerService.Add(_retriable.Options.Time));
 
         private bool AreAnyCancellationRulesSet() => _retriable.CancellationRule != null;
 

@@ -18,24 +18,28 @@ namespace DotNetRetry.Core.Time
         /// </summary>
         public TimerService()
         {
-            Value = TimeSpan.Zero;
+            Time = TimeSpan.Zero;
         }
 
-        public TimerService(TimeSpan value)
+        public TimerService(TimeSpan time)
         {
-            Value = value;
+            Time = time;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public TimeSpan Value { get; }
+        public TimeSpan Time { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="toAdd"></param>
+        /// <param name="timeToAdd"></param>
         /// <returns></returns>
-        public TimeSpan Add(double toAdd) => Value.Add(TimeSpan.FromMilliseconds(toAdd));
+        public TimeSpan Add(TimeSpan timeToAdd)
+        {
+            Time =  Time.Add(timeToAdd);
+            return Time;
+        }
     }
 }
