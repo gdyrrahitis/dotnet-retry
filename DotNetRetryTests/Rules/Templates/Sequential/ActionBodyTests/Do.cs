@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using DotNetRetry.Core.Abstractions;
+    using DotNetRetry.Core.Time;
     using DotNetRetry.Factories;
     using DotNetRetry.Rules.Cancellation;
     using DotNetRetry.Rules.Configuration;
@@ -36,11 +37,12 @@
             // Arrange
             var exceptions = Enumerable.Repeat(new Exception(), 2).ToList();
             var time = TimeSpan.FromMilliseconds(100);
+            var service = new TimerService(time);
             var options = new Options(3, time);
             _retriableMock.Object.Options.Config(options);
 
             // Act
-            var result = _actionBody.Do(() => { }, exceptions, options.Time, options.Attempts);
+            var result = _actionBody.Do(() => { }, exceptions, service, options.Attempts);
 
             // Assert
             True(result);
@@ -52,11 +54,12 @@
             // Arrange
             var exceptions = Enumerable.Repeat(new Exception(), 2).ToList();
             var time = TimeSpan.FromMilliseconds(100);
+            var service = new TimerService(time);
             var options = new Options(3, time);
             _retriableMock.Object.Options.Config(options);
 
             // Act
-            var result = _actionBody.Do(() => { throw new Exception("Custom exception"); }, exceptions, options.Time, options.Attempts);
+            var result = _actionBody.Do(() => { throw new Exception("Custom exception"); }, exceptions, service, options.Attempts);
 
             // Assert
             False(result);
@@ -74,6 +77,7 @@
             // Arrange
             var exceptions = new List<Exception>();
             var time = TimeSpan.FromMilliseconds(100);
+            var service = new TimerService(time);
             var options = new Options(3, time);
             _retriableMock.Object.Options.Config(options);
             var cancellationRule = new CancellationRule();
@@ -84,7 +88,7 @@
             var exception = Throws<AggregateException>(() => _actionBody.Do(() =>
             {
                 throw new ArgumentException("Custom exception");
-            }, exceptions, options.Time, options.Attempts));
+            }, exceptions, service, options.Attempts));
 
             // Assert
             _retriableMock.Verify(m => m.OnBeforeRetryInvocation(), Times.Once);
@@ -101,6 +105,7 @@
             // Arrange
             var exceptions = new List<Exception>();
             var time = TimeSpan.FromMilliseconds(100);
+            var service = new TimerService(time);
             var options = new Options(3, time);
             _retriableMock.Object.Options.Config(options);
             var cancellationRule = new CancellationRule();
@@ -111,7 +116,7 @@
             var exception = Throws<AggregateException>(() => _actionBody.Do(() =>
             {
                 throw new ArgumentException("Custom exception");
-            }, exceptions, options.Time, options.Attempts));
+            }, exceptions, service, options.Attempts));
 
             // Assert
             _retriableMock.Verify(m => m.OnBeforeRetryInvocation(), Times.Once);

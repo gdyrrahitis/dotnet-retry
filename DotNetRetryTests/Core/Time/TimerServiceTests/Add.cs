@@ -3,6 +3,7 @@
     using System;
     using DotNetRetry.Core.Time;
     using Xunit;
+    using static Xunit.Assert;
 
     public class Add
     {
@@ -17,10 +18,10 @@
             var timer = new TimerService(TimeSpan.FromMilliseconds(initial));
             
             // Act
-            var result = timer.Add(toAdd);
+            var result = timer.Add(TimeSpan.FromMilliseconds(toAdd));
 
             // Assert
-            Assert.Equal(TimeSpan.FromMilliseconds(expected), result);
+            Equal(TimeSpan.FromMilliseconds(expected), result);
         }
     }
 }

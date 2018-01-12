@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using DotNetRetry.Core.Abstractions;
+    using DotNetRetry.Core.Time;
     using DotNetRetry.Rules.Configuration;
     using DotNetRetry.Rules.Loops;
     using DotNetRetry.Rules.Templates;
@@ -43,7 +44,7 @@
             _finite.Attempt(action);
 
             // Assert
-            _actionBodyMock.Verify(m => m.Do(action, It.IsAny<List<Exception>>(), It.IsAny<TimeSpan>(), It.IsAny<int>()),
+            _actionBodyMock.Verify(m => m.Do(action, It.IsAny<List<Exception>>(), It.IsAny<TimerService>(), It.IsAny<int>()),
                 Times.Exactly(attempts));
         }
 
@@ -63,7 +64,7 @@
             _retriableMock.Object.Options = new RuleOptions(_retriableMock.Object);
             _retriableMock.Object.Options.Config(options);
             _functionBodyMock.Setup(
-                m => m.Do(function, It.IsAny<List<Exception>>(), It.IsAny<TimeSpan>(), It.IsAny<int>(), out expected))
+                m => m.Do(function, It.IsAny<List<Exception>>(), It.IsAny<TimerService>(), It.IsAny<int>(), out expected))
                 .Returns(() => count++ >= attempts - 1);
 
             // Act
@@ -71,7 +72,7 @@
 
             // Assert
             Equal(expected, result);
-            _functionBodyMock.Verify(m => m.Do(function, It.IsAny<List<Exception>>(), It.IsAny<TimeSpan>(), It.IsAny<int>(), out expected),
+            _functionBodyMock.Verify(m => m.Do(function, It.IsAny<List<Exception>>(), It.IsAny<TimerService>(), It.IsAny<int>(), out expected),
                 Times.Exactly(attempts));
         }
     }

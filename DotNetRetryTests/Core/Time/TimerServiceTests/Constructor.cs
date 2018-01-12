@@ -13,7 +13,7 @@
             var result = new TimerService();
 
             // Assert
-            Assert.Equal(TimeSpan.Zero, result.Value);
+            Assert.Equal(TimeSpan.Zero, result.Time);
         }
 
         [Theory]
@@ -29,7 +29,7 @@
             var result = new TimerService(timeSpan);
 
             // Assert
-            Assert.Equal(timeSpan, result.Value);
+            Assert.Equal(timeSpan, result.Time);
         }
 
         private static TimeSpan ConvertToTimeStampByAttribute(int time, string attribute)

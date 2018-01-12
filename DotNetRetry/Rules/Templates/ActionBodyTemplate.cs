@@ -10,6 +10,7 @@ namespace DotNetRetry.Rules.Templates
     using System;
     using System.Collections.Generic;
     using Core.Abstractions;
+    using Core.Time;
 
     /// <summary>
     /// Template class for non-returnable functions.
@@ -35,9 +36,9 @@ namespace DotNetRetry.Rules.Templates
         /// </summary>
         /// <param name="action">The function to try execute</param>
         /// <param name="exceptions">Failures happened up to this point.</param>
-        /// <param name="time">Time to wait for retry.</param>
+        /// <param name="timerService">Time to wait for retry.</param>
         /// <param name="attempts">Remaining attempts.</param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed</exception>
-        internal abstract bool Do(Action action, List<Exception> exceptions, TimeSpan time, int attempts);
+        internal abstract bool Do(Action action, List<Exception> exceptions, TimerService timerService, int attempts);
     }
 }

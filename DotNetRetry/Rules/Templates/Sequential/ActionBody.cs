@@ -9,6 +9,7 @@ namespace DotNetRetry.Rules.Templates.Sequential
     using System;
     using System.Collections.Generic;
     using Core.Abstractions;
+    using Core.Time;
     using Factories;
 
     /// <summary>
@@ -33,9 +34,9 @@ namespace DotNetRetry.Rules.Templates.Sequential
         /// </summary>
         /// <param name="action">The non-returnable action to retry.</param>
         /// <param name="exceptions"></param>
-        /// <param name="time"></param>
+        /// <param name="timerService"></param>
         /// <param name="attempts"></param>
-        internal override bool Do(Action action, List<Exception> exceptions, TimeSpan time, int attempts)
+        internal override bool Do(Action action, List<Exception> exceptions, TimerService timerService, int attempts)
         {
             try
             {
@@ -44,16 +45,16 @@ namespace DotNetRetry.Rules.Templates.Sequential
             }
             catch (Exception ex)
             {
-                Retry(exceptions, ex, attempts, time);
+                Retry(exceptions, ex, attempts, timerService);
             }
 
             return false;
         }
 
         /// <summary>
-        /// The algorithm to calculate the wait time for this policy.
+        /// The algorithm to calculate the wait timerService for this policy.
         /// </summary>
-        /// <returns>The time to wait in <see cref="TimeSpan"/>.</returns>
+        /// <returns>The timerService to wait in <see cref="TimeSpan"/>.</returns>
         internal override TimeSpan WaitTime() => Retriable.Options.Time;
 
         /// <summary>
