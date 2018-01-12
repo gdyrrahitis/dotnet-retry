@@ -5,6 +5,7 @@
     using DotNetRetry.Rules;
     using DotNetRetry.Rules.Configuration;
     using Xunit;
+    using static Xunit.Assert;
 
     public class Attempt
     {
@@ -41,8 +42,8 @@
             var result = sequential.Attempt(function);
 
             // Assert
-            Assert.Equal(whenSuccessful, attempt);
-            Assert.Equal(returnValue, result);
+            Equal(whenSuccessful, attempt);
+            Equal(returnValue, result);
         }
 
         [Fact]
@@ -60,11 +61,11 @@
             };
 
             // Act
-            var exception = Assert.Throws<AggregateException>(() => sequential.Attempt(function));
+            var exception = Throws<AggregateException>(() => sequential.Attempt(function));
 
             // Assert
-            Assert.Equal(3, exception.InnerExceptions.Count);
-            Assert.Equal(3, tries);
+            Equal(3, exception.InnerExceptions.Count);
+            Equal(3, tries);
         }
 
         [Fact]
@@ -81,12 +82,12 @@
 
             // Act
             stopwatch.Start();
-            Assert.Throws<AggregateException>(() => sequential.Attempt(function));
+            Throws<AggregateException>(() => sequential.Attempt(function));
             stopwatch.Stop();
 
             // Assert
             var elapsed = stopwatch.Elapsed;
-            Assert.True(elapsed.TotalMilliseconds - 200 < 50);
+            True(elapsed.TotalMilliseconds - 200 < 50);
         }
     }
 }

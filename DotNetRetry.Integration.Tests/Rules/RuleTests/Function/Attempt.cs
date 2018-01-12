@@ -6,6 +6,7 @@
     using DotNetRetry.Rules.Configuration;
     using DotNetRetry.Tests.Common;
     using Xunit;
+    using static Xunit.Assert;
 
     public class Attempt
     {
@@ -24,11 +25,11 @@
             };
 
             // Act
-            var exception = Assert.Throws<AggregateException>(() => rules.Attempt(function));
+            var exception = Throws<AggregateException>(() => rules.Attempt(function));
 
             // Assert
-            Assert.Equal(3, exception.InnerExceptions.Count);
-            Assert.Equal(3, tries);
+            Equal(3, exception.InnerExceptions.Count);
+            Equal(3, tries);
         }
 
         [Theory]
@@ -46,12 +47,12 @@
 
             // Act
             stopwatch.Start();
-            Assert.Throws<AggregateException>(() => rules.Attempt(function));
+            Throws<AggregateException>(() => rules.Attempt(function));
             stopwatch.Stop();
 
             // Assert
             var elapsed = stopwatch.Elapsed;
-            Assert.True(elapsed.TotalMilliseconds - 200 < 50);
+            True(elapsed.TotalMilliseconds - 200 < 50);
         }
 
         [Theory]
@@ -76,8 +77,8 @@
             var result = rules.Attempt(function);
 
             // Assert
-            Assert.Equal(2, tries);
-            Assert.Equal("abc", result);
+            Equal(2, tries);
+            Equal("abc", result);
         }
 
         [Theory]
@@ -102,8 +103,8 @@
             var result = rules.Attempt(function);
 
             // Assert
-            Assert.Equal(3, tries);
-            Assert.Equal("abc", result);
+            Equal(3, tries);
+            Equal("abc", result);
         }
     }
 }

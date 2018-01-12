@@ -5,6 +5,7 @@
     using DotNetRetry.Rules.Configuration;
     using DotNetRetry.Tests.Common;
     using Xunit;
+    using static Xunit.Assert;
 
     public class OnAfterRetry
     {
@@ -20,12 +21,12 @@
             var result = rule.OnAfterRetry((sender, args) => { });
 
             // Assert
-            Assert.Same(rule, result);
+            Same(rule, result);
         }
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldBeRaisedAfterTheRetryForNonReturnableMethod(Strategy input)
+        public void EventShouldNotBeRaisedBecauseThereWasNoRetryForNonReturnableMethod(Strategy input)
         {
             // Arrange
             var dispatched = false;
@@ -37,12 +38,12 @@
             rule.Attempt(() => { });
 
             // Assert
-            Assert.True(dispatched, "Event should be dispatched");
+            False(dispatched, "Event should not be dispatched");
         }
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldBeRaisedAfterTheRetryForReturnableMethod(Strategy input)
+        public void EventShouldNotBeRaisedBecauseThereWasNoRetryForReturnableMethod(Strategy input)
         {
             // Arrange
             var dispatched = false;
@@ -54,13 +55,13 @@
             var result = rule.Attempt(() => "Return value");
 
             // Assert
-            Assert.True(dispatched, "Event should be dispatched");
-            Assert.Equal("Return value", result);
+            False(dispatched, "Event should be dispatched");
+            Equal("Return value", result);
         }
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldBeRaisedAfterTheRetryForFailingNonReturnableMethod(Strategy input)
+        public void EventShouldBeRaisedAsRetriesWherePerformedForNonReturnableMethod(Strategy input)
         {
             // Arrange
             var count = 0;
@@ -74,16 +75,16 @@
                 });
 
             // Act
-            Assert.Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom exception"); }));
+            Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom exception"); }));
 
             // Assert
-            Assert.True(dispatched, "Event should be dispatched");
-            Assert.Equal(3, count);
+            True(dispatched, "Event should be dispatched");
+            Equal(2, count);
         }
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void EventShouldNotBeRaisedAsNoRetriesWherePerformedForReturnableMethod(Strategy input)
+        public void EventShouldBeRaisedAsRetriesWherePerformedForReturnableMethod(Strategy input)
         {
             // Arrange
             var dispatched = false;
@@ -92,7 +93,7 @@
                 .OnAfterRetry((sender, args) => dispatched = true);
 
             // Act
-            Assert.Throws<AggregateException>(() => rule.Attempt(() =>
+            Throws<AggregateException>(() => rule.Attempt(() =>
             {
                 throw new Exception("Custom exception");
 #pragma warning disable 162
@@ -101,7 +102,7 @@
             }));
 
             // Assert
-            Assert.False(dispatched, "Event should not be dispatched");
+            True(dispatched, "Event should be dispatched");
         }
 
         [Theory]
@@ -120,7 +121,7 @@
                 .Attempt(() => { });
 
             // Assert
-            Assert.False(dispatched, "Event should not be dispatched");
+            False(dispatched, "Event should not be dispatched");
         }
 
         [Theory]
@@ -139,7 +140,7 @@
                 .Attempt(() => "Return value");
 
             // Assert
-            Assert.False(dispatched, "Event should not be dispatched");
+            False(dispatched, "Event should not be dispatched");
         }
     }
 }

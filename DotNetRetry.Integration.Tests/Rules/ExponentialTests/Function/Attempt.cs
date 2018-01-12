@@ -4,6 +4,7 @@
     using DotNetRetry.Rules;
     using DotNetRetry.Rules.Configuration;
     using Xunit;
+    using static Xunit.Assert;
 
     public class Attempt
     {
@@ -40,8 +41,8 @@
             var result = exponential.Attempt(function);
 
             // Assert
-            Assert.Equal(whenSuccessful, attempt);
-            Assert.Equal(returnValue, result);
+            Equal(whenSuccessful, attempt);
+            Equal(returnValue, result);
         }
 
         [Fact]
@@ -59,11 +60,11 @@
             };
 
             // Act
-            var exception = Assert.Throws<AggregateException>(() => exponential.Attempt(function));
+            var exception = Throws<AggregateException>(() => exponential.Attempt(function));
 
             // Assert
-            Assert.Equal(3, exception.InnerExceptions.Count);
-            Assert.Equal(3, tries);
+            Equal(3, exception.InnerExceptions.Count);
+            Equal(3, tries);
         }
     }
 }
