@@ -79,10 +79,20 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scenarios\Sequential\FiniteTests\Finite.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Finite.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Scenarios\Sequential\FiniteTests\FiniteStepDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Scenarios\Sequential\FiniteTests\Finite.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Finite.feature.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\xunit.analyzers.0.7.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
@@ -92,8 +102,13 @@
     <Folder Include="Scenarios\Exponential\FiniteTests\" />
     <Folder Include="Scenarios\Exponential\ForeverTests\" />
     <Folder Include="Scenarios\Sequential\CancellationTests\" />
-    <Folder Include="Scenarios\Sequential\FiniteTests\" />
     <Folder Include="Scenarios\Sequential\ForeverTests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetRetry\DotNetRetry.csproj">
+      <Project>{d51a36f4-4f6f-4e99-94c1-cfafff637a36}</Project>
+      <Name>DotNetRetry</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
