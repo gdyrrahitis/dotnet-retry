@@ -79,7 +79,7 @@
 
             // Assert
             True(dispatched, "Event should be dispatched");
-            Equal(2, count);
+            Equal(3, count);
         }
 
         [Theory]

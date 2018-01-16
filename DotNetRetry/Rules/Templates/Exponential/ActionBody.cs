@@ -8,6 +8,7 @@ namespace DotNetRetry.Rules.Templates.Exponential
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Core.Abstractions;
     using Core.Time;
     using Factories;
@@ -49,7 +50,17 @@ namespace DotNetRetry.Rules.Templates.Exponential
 
             try
             {
-                action();
+                try
+                {
+                    action();
+                }
+                finally
+                {
+                    if (exceptions.Any())
+                    {
+                        Retriable.OnAfterRetryInvocation();
+                    }
+                }
                 return true;
             }
             catch (Exception ex)

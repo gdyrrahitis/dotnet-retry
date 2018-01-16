@@ -3,7 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using DotNetRetry.Core.Abstractions;
     using DotNetRetry.Rules.Waitables;
+    using Moq;
     using Xunit;
     using static Xunit.Assert;
 
@@ -13,7 +15,8 @@
         public void ShouldNotThrowAggregateExceptionWhenNoExceptionsAreSet()
         {
             // Arrange
-            var stopper = new Stopper();
+            var retriableMock = new Mock<Retriable>();
+            var stopper = new Stopper(retriableMock.Object);
 
             // Act | Assert
             stopper.Wait(TimeSpan.FromMilliseconds(10));
@@ -28,8 +31,9 @@
         public void ShouldThrowAggregateExceptionWhenExceptionsAreSet(int count)
         {
             // Arrange
+            var retriableMock = new Mock<Retriable>();
             var exceptions = Enumerable.Repeat(new Exception(), count);
-            var stopper = new Stopper { Exceptions = exceptions };
+            var stopper = new Stopper(retriableMock.Object) { Exceptions = exceptions };
 
             // Act
             var exception = Throws<AggregateException>(() => stopper.Wait(TimeSpan.FromMilliseconds(10)));
