@@ -8,6 +8,7 @@ namespace DotNetRetry.Rules.Templates.Sequential
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Core.Abstractions;
     using Core.Time;
     using Factories;
@@ -43,7 +44,17 @@ namespace DotNetRetry.Rules.Templates.Sequential
         {
             try
             {
-                result = function();
+                try
+                {
+                    result = function();
+                }
+                finally
+                {
+                    if (exceptions.Any())
+                    {
+                        Retriable.OnAfterRetryInvocation();
+                    }
+                }
                 return true;
             }
             catch (Exception ex)

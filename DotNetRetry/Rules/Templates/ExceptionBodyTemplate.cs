@@ -8,6 +8,7 @@ namespace DotNetRetry.Rules.Templates
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Core.Abstractions;
     using Core.Auxiliery;
     using Core.Time;
@@ -58,7 +59,6 @@ namespace DotNetRetry.Rules.Templates
             CancelIfCertainExceptionOccurred(exceptions, ex);
             Delay(attempts, WaitTime(), exceptions);
             CancelIfExceededTime(exceptions, timerService);
-            DispatchAfterRetryEvent();
         }
 
         private void DispatchBeforeRetryEvent() => _retriable.OnBeforeRetryInvocation();

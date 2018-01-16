@@ -87,7 +87,7 @@
 
             // Assert
             var elapsed = stopwatch.Elapsed;
-            True(elapsed.TotalMilliseconds - 200 < 50);
+            True(elapsed.TotalMilliseconds - 200 < 50, $"Failed as it took {elapsed.TotalMilliseconds - 200}");
         }
     }
 }

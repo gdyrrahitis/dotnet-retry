@@ -19,8 +19,8 @@ namespace DotNetRetry.Rules
         /// Initializes a new instance of <see cref="Sequential"/> object.
         /// </summary>
         /// <param name="retriable">A <see cref="Retriable"/> object with global rules.</param>
-        internal Sequential(Retriable retriable) : base(retriable, new ActionBody(retriable, new WaitableFactory()), 
-            new FunctionBody(retriable, new WaitableFactory()))
+        internal Sequential(Retriable retriable) : base(retriable, new ActionBody(retriable, new WaitableFactory(retriable)), 
+            new FunctionBody(retriable, new WaitableFactory(retriable)))
         {
         }
     }

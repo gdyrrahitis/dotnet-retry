@@ -34,7 +34,7 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void TakesTwoHundredMillisecondsToCompleteAfterThreeRetriesOneSecondEach(Strategy input)
+        public void TakesAroundTwoHundredMillisecondsToCompleteAfterThreeRetriesOneSecondEach(Strategy input)
         {
             // Arrange
             var stopwatch = Stopwatch.StartNew();
@@ -52,7 +52,7 @@
 
             // Assert
             var elapsed = stopwatch.Elapsed;
-            True(elapsed.TotalMilliseconds - 200 < 50);
+            InRange(elapsed.TotalMilliseconds, 200, 299);
         }
 
         [Theory]
