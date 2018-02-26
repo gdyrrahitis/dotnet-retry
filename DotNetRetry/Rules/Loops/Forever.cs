@@ -35,7 +35,7 @@ namespace DotNetRetry.Rules.Loops
         {
             var exceptions = new List<Exception>();
             var service = new TimerService();
-            var attempts = 0;
+            var attempts = 1;
 
             while (true)
             {
@@ -51,7 +51,7 @@ namespace DotNetRetry.Rules.Loops
         {
             var exceptions = new List<Exception>();
             var service = new TimerService();
-            var attempts = 0;
+            var attempts = 1;
             T result;
 
             while (true)

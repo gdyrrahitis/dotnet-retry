@@ -8,6 +8,7 @@ namespace DotNetRetry.Rules.Waitables
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using Core.Abstractions;
     using Core.Auxiliery;
 
@@ -34,8 +35,23 @@ namespace DotNetRetry.Rules.Waitables
         /// <param name="waitTime">The time to wait.</param>
         public void Wait(TimeSpan waitTime)
         {
-            _retriable.OnAfterRetryInvocation();
-            Exceptions?.ThrowFlattenAggregateException();
+            Console.WriteLine("****************************");
+            var stopwatch = new Stopwatch();
+            try
+            {
+                stopwatch.Start();
+                _retriable.OnAfterRetryInvocation();
+                Exceptions?.ThrowFlattenAggregateException();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                stopwatch.Stop();
+                Console.WriteLine($"Overhead {stopwatch.ElapsedTicks}");
+            }
         }
     }
 }

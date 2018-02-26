@@ -47,7 +47,6 @@ namespace DotNetRetry.Rules
         /// </summary>
         private void Do(Action action)
         {
-            ValidateArguments(_retriable.Options.Attempts, _retriable.Options.Time);
             var looper = GetLooper();
             looper.Attempt(action);
         }
@@ -77,7 +76,6 @@ namespace DotNetRetry.Rules
         /// </summary>
         private T Do<T>(Func<T> function)
         {
-            ValidateArguments(_retriable.Options.Attempts, _retriable.Options.Time);
             var looper = GetLooper();
             return looper.Attempt(function);
         }

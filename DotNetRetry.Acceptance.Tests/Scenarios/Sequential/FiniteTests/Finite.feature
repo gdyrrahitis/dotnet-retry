@@ -1,4 +1,5 @@
-﻿Feature: Finite retries
+﻿@Finite
+Feature: Finite retries
 	In order to test sequential retry policy
 	As using a finite algorithm
 	I want to verify the number of attempts and time took to retry an operation

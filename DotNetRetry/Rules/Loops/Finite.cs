@@ -39,6 +39,7 @@ namespace DotNetRetry.Rules.Loops
 
             while (attempts-- > 0)
             {
+                Console.WriteLine($"Loop: {attempts}");
                 var done = ActionBody.Do(action, exceptions, service, attempts);
                 if (done)
                 {

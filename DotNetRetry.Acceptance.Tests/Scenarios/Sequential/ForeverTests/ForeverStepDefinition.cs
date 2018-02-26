@@ -1,19 +1,22 @@
-﻿namespace DotNetRetry.Acceptance.Tests.Scenarios.Sequential.FiniteTests
+﻿namespace DotNetRetry.Acceptance.Tests.Scenarios.Sequential.ForeverTests
 {
     using System;
     using System.Diagnostics;
     using Rules;
     using Rules.Configuration;
     using TechTalk.SpecFlow;
+    using static Xunit.Assert;
 
-    [Binding, Scope(Tag = "Finite")]
-    public sealed class FiniteStepDefinition: SequentialStepDefinitions
+    [Binding, Scope(Tag = "Forever")]
+    public sealed class ForeverStepDefinition: SequentialStepDefinitions
     {
-        [When("I attempt to run it"), Scope(Tag = "Finite")]
+        [Given("I have entered (.*) milliseconds between"), Scope(Tag = "Forever")]
+        public void GivenIHaveEnteredAttemptsForMillisecondsBetween(int time) => ScenarioContext.Current.Add("time", time);
+
+        [When("I attempt to run it"), Scope(Tag = "Forever")]
         public void WhenIAttemptToRunIt()
         {
             var stopWatch = new Stopwatch();
-            var attempts = ScenarioContext.Current.Get<int>("attempts");
             var time = TimeSpan.FromMilliseconds(ScenarioContext.Current.Get<int>("time"));
             var action = ScenarioContext.Current.Get<Action>("action");
             var before = ScenarioContext.Current.Get<int>("before");
@@ -24,7 +27,7 @@
             {
                 stopWatch.Start();
                 Rule.Setup(Strategy.Sequential)
-                    .Config(new Options(attempts, time))
+                    .Config(new Options(time))
                     .OnBeforeRetry((sender, args) =>
                     {
                         before++;
@@ -58,16 +61,15 @@
             }
         }
 
-        [When("I setup rule configuration"), Scope(Tag = "Finite")]
+        [When("I setup rule configuration"), Scope(Tag = "Forever")]
         public void WhenSetupRuleConfiguration()
         {
-            var attempts = ScenarioContext.Current.Get<int>("attempts");
             var time = TimeSpan.FromMilliseconds(ScenarioContext.Current.Get<int>("time"));
 
             try
             {
                 Rule.Setup(Strategy.Sequential)
-                    .Config(new Options(attempts, time));
+                    .Config(new Options(time));
             }
             catch (ArgumentOutOfRangeException exception)
             {
