@@ -18,7 +18,7 @@
                     () => Guards.ValidateArguments(value, TimeSpan.FromSeconds(1)));
 
             // Assert
-            Equal($"Argument value <{value}> is less than <1>.\r\nParameter name: attempts", result.Message);
+            Equal($"Argument value <{value}> is less than <1>.{Environment.NewLine}Parameter name: attempts", result.Message);
         }
 
         [Theory]
@@ -32,7 +32,7 @@
                     () => Guards.ValidateArguments(value));
 
             // Assert
-            Equal($"Argument value <{value}> is less than <1>.\r\nParameter name: attempts", result.Message);
+            Equal($"Argument value <{value}> is less than <1>.{Environment.NewLine}Parameter name: attempts", result.Message);
         }
 
         [Fact]
@@ -44,7 +44,7 @@
                     () => Guards.ValidateArguments(10, TimeSpan.Zero));
 
             // Assert
-            Equal($"Argument value <{TimeSpan.Zero}> is less than or equal to <{TimeSpan.Zero}>.\r\nParameter name: timeBetweenRetries", 
+            Equal($"Argument value <{TimeSpan.Zero}> is less than or equal to <{TimeSpan.Zero}>.{Environment.NewLine}Parameter name: timeBetweenRetries", 
                 result.Message);
         }
 
@@ -57,7 +57,7 @@
                     () => Guards.ValidateArguments(TimeSpan.Zero));
 
             // Assert
-            Equal($"Argument value <{TimeSpan.Zero}> is less than or equal to <{TimeSpan.Zero}>.\r\nParameter name: timeBetweenRetries",
+            Equal($"Argument value <{TimeSpan.Zero}> is less than or equal to <{TimeSpan.Zero}>.{Environment.NewLine}Parameter name: timeBetweenRetries",
                 result.Message);
         }
     }
