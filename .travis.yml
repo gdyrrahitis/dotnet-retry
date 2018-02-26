@@ -3,3 +3,13 @@ solution: DotNetRetry.sln
 script:
   - msbuild /p:Configuration=Release DotNetRetry.sln
   - mono ./packages/xunit.runner.console.*/tools/net452/xunit.console.exe ./DotNetRetryTests/bin/Release/DotNetRetry.Unit.Tests.dll
+
+# require the branch name to be master
+stages:
+	- name: deploy
+	if: branch = master
+	skip_cleanup: true
+	provider: script
+	script: chmode +x ./deploy.sh && ./deploy.sh $NUGET_API_KEY $NUGET_SOURCE
+	on:
+		branch: master
