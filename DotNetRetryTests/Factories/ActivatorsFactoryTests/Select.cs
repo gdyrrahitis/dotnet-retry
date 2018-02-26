@@ -5,6 +5,7 @@
     using DotNetRetry.Core.Auxiliery;
     using DotNetRetry.Core.Exceptions;
     using DotNetRetry.Factories;
+    using DotNetRetry.Tests.Common;
     using Xunit;
     using static Xunit.Assert;
 

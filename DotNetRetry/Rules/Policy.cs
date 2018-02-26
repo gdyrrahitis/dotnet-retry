@@ -1,12 +1,15 @@
 ﻿using System.Runtime.CompilerServices;
 using DotNetRetry.Core.Auxiliery;
 
-[assembly: InternalsVisibleTo(Constants.TestProject)]
+[assembly: InternalsVisibleTo(Constants.UnitTestProject)]
+[assembly: InternalsVisibleTo(Constants.IntegrationTestProject)]
+[assembly: InternalsVisibleTo(Constants.CommonTestProject)]
 namespace DotNetRetry.Rules
 {
     using System;
     using Core;
     using Core.Abstractions;
+    using Loops;
     using Templates;
     using static Guards;
 
@@ -37,19 +40,21 @@ namespace DotNetRetry.Rules
         /// </summary>
         /// <param name="action">The action to try execute.</param>
         /// <exception cref="AggregateException">All exceptions logged from action(s) executed.</exception>
-        public virtual void Attempt(Action action) => Do(() =>
-        {
-            action();
-            _retriable.OnAfterRetryInvocation();
-        });
+        public virtual void Attempt(Action action) => Do(action);
 
         /// <summary>
         /// Retries an action and if something happens stores the exceptions to aggregate them.
         /// </summary>
         private void Do(Action action)
         {
-            ValidateArguments(_retriable.Options.Attempts, _retriable.Options.Time);
-            _actionBody.Attempt(action);
+            var looper = GetLooper();
+            looper.Attempt(action);
+        }
+
+        private Looper GetLooper()
+        {
+            var looper = Selector.Pick(_retriable, _actionBody, _functionBody);
+            return looper;
         }
 
         /// <summary>
@@ -71,8 +76,8 @@ namespace DotNetRetry.Rules
         /// </summary>
         private T Do<T>(Func<T> function)
         {
-            ValidateArguments(_retriable.Options.Attempts, _retriable.Options.Time);
-            return _functionBody.Attempt(function);
+            var looper = GetLooper();
+            return looper.Attempt(function);
         }
     }
 }

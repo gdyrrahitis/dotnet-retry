@@ -16,7 +16,7 @@
         /// <summary>
         /// The child exception rule.
         /// </summary>
-        public readonly ExceptionRule ExceptionRule;
+        internal readonly ExceptionRule ExceptionRule;
 
         /// <summary>
         /// Initializes a new instance of <see cref="CancellationRule"/>.

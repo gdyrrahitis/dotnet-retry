@@ -44,6 +44,7 @@
       <HintPath>..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Moq, Version=4.7.145.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.7.145\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
@@ -81,11 +82,13 @@
     <Compile Include="Core\Auxiliery\GuardsTests\ValidateArguments.cs" />
     <Compile Include="Core\Exceptions\ActivatorNotFoundException\Constructor.cs" />
     <Compile Include="Core\Exceptions\RuleNotFoundExceptionTests\Constructor.cs" />
+    <Compile Include="Core\Time\TimerServiceTests\Add.cs" />
+    <Compile Include="Core\Time\TimerServiceTests\Constructor.cs" />
     <Compile Include="Factories\ActivatorsFactoryTests\Select.cs" />
+    <Compile Include="Factories\WaitableFactoryTests\Select.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RulesDataSource.cs" />
     <Compile Include="Factories\RulesFactoryTests\Select.cs" />
-    <Compile Include="Rules\Cancellation\CancellationRuleTests\AddInExceptionList.cs" />
+    <Compile Include="Rules\Cancellation\CancellationRuleTests\AddExceptionType.cs" />
     <Compile Include="Rules\Cancellation\CancellationRuleTests\After.cs" />
     <Compile Include="Rules\Cancellation\CancellationRuleTests\HasExceededMaxTime.cs" />
     <Compile Include="Rules\Cancellation\CancellationRuleTests\IsIn.cs" />
@@ -93,16 +96,24 @@
     <Compile Include="Rules\Cancellation\ExceptionRuleTests\End.cs" />
     <Compile Include="Rules\Cancellation\ExceptionRuleTests\Or.cs" />
     <Compile Include="Rules\Configuration\OptionsTests\Constructor.cs" />
-    <Compile Include="Rules\ExponentialTests\Action\Attempt.cs" />
-    <Compile Include="Rules\ExponentialTests\Function\Attempt.cs" />
-    <Compile Include="Rules\RuleTests\Action\Attempt.cs" />
-    <Compile Include="Rules\RuleTests\Cancel.cs" />
-    <Compile Include="Rules\RuleTests\Function\Attempt.cs" />
-    <Compile Include="Rules\RuleTests\OnAfterRetry.cs" />
-    <Compile Include="Rules\RuleTests\OnBeforeRetry.cs" />
-    <Compile Include="Rules\RuleTests\OnFailure.cs" />
-    <Compile Include="Rules\SequentialTests\Action\Attempt.cs" />
-    <Compile Include="Rules\SequentialTests\Function\Attempt.cs" />
+    <Compile Include="Rules\Configuration\RuleOptionsTests\Config.cs" />
+    <Compile Include="Rules\Loops\FiniteTests\Attempt.cs" />
+    <Compile Include="Rules\Loops\ForeverTests\Attempt.cs" />
+    <Compile Include="Rules\Loops\SelectorTests\Pick.cs" />
+    <Compile Include="Rules\Templates\Exponential\ActionBodyTests\Delay.cs" />
+    <Compile Include="Rules\Templates\Exponential\ActionBodyTests\Do.cs" />
+    <Compile Include="Rules\Templates\Exponential\ActionBodyTests\WaitTime.cs" />
+    <Compile Include="Rules\Templates\Exponential\FunctionBodyTests\Delay.cs" />
+    <Compile Include="Rules\Templates\Exponential\FunctionBodyTests\Do.cs" />
+    <Compile Include="Rules\Templates\Exponential\FunctionBodyTests\WaitTime.cs" />
+    <Compile Include="Rules\Templates\Sequential\ActionBodyTests\Delay.cs" />
+    <Compile Include="Rules\Templates\Sequential\ActionBodyTests\Do.cs" />
+    <Compile Include="Rules\Templates\Sequential\ActionBodyTests\WaitTime.cs" />
+    <Compile Include="Rules\Templates\Sequential\FunctionBodyTests\Delay.cs" />
+    <Compile Include="Rules\Templates\Sequential\FunctionBodyTests\Do.cs" />
+    <Compile Include="Rules\Templates\Sequential\FunctionBodyTests\WaitTime.cs" />
+    <Compile Include="Rules\Waitables\PauserTests\Wait.cs" />
+    <Compile Include="Rules\Waitables\StopperTests\Wait.cs" />
     <Compile Include="StartupTests\Activators.cs" />
     <Compile Include="StartupTests\Configure.cs" />
     <Compile Include="Core\Activators\NullActivatorTests\Activate.cs" />
@@ -110,6 +121,10 @@
     <Compile Include="StartupTests\Rules.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DotNetRetry.Tests.Common\DotNetRetry.Tests.Common.csproj">
+      <Project>{c1c26432-3e0d-4ff4-8f4e-581771b16aca}</Project>
+      <Name>DotNetRetry.Tests.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DotNetRetry\DotNetRetry.csproj">
       <Project>{d51a36f4-4f6f-4e99-94c1-cfafff637a36}</Project>
       <Name>DotNetRetry</Name>

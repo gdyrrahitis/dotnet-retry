@@ -26,17 +26,17 @@
         /// <summary>
         /// Invokes the OnBeforeRetry event.
         /// </summary>
-        public virtual void OnBeforeRetryInvocation() => BeforeRetry?.Invoke(this, EventArgs.Empty);
+        internal virtual void OnBeforeRetryInvocation() => BeforeRetry?.Invoke(this, EventArgs.Empty);
 
         /// <summary>
         /// Invokes the OnAfterRetry event.
         /// </summary>
-        public virtual void OnAfterRetryInvocation() => AfterRetry?.Invoke(this, EventArgs.Empty);
+        internal virtual void OnAfterRetryInvocation() => AfterRetry?.Invoke(this, EventArgs.Empty);
 
         /// <summary>
         /// Invokes the OnFailure event.
         /// </summary>
-        public virtual void OnFailureInvocation() => Failure?.Invoke(this, EventArgs.Empty);
+        internal virtual void OnFailureInvocation() => Failure?.Invoke(this, EventArgs.Empty);
 
         /// <summary>
         /// Sets an OnBeforeRetry event.

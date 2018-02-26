@@ -1,14 +1,16 @@
 ﻿using System.Runtime.CompilerServices;
 using DotNetRetry.Core.Auxiliery;
 
-[assembly: InternalsVisibleTo(Constants.TestProject)]
+[assembly: InternalsVisibleTo(Constants.UnitTestProject)]
+[assembly: InternalsVisibleTo(Constants.IntegrationTestProject)]
+[assembly: InternalsVisibleTo(Constants.CommonTestProject)]
 namespace DotNetRetry.Factories
 {
     using Core;
     using Core.Abstractions;
 
     /// <summary>
-    /// Defines a contract for a rules factory
+    /// Defines a contract for a rules factory.
     /// </summary>
     internal interface IRulesFactory
     {

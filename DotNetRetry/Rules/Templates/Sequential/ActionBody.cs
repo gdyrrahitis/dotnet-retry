@@ -1,73 +1,88 @@
 ﻿using System.Runtime.CompilerServices;
 using DotNetRetry.Core.Auxiliery;
 
-[assembly: InternalsVisibleTo(Constants.TestProject)]
+[assembly: InternalsVisibleTo(Constants.UnitTestProject)]
+[assembly: InternalsVisibleTo(Constants.IntegrationTestProject)]
+[assembly: InternalsVisibleTo(Constants.CommonTestProject)]
 namespace DotNetRetry.Rules.Templates.Sequential
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
+    using System.Linq;
     using Core.Abstractions;
-    using Core.Auxiliery;
+    using Core.Time;
+    using Factories;
 
     /// <summary>
     /// Performs a template strategy for non-returnable actions
     /// </summary>
     internal class ActionBody: ActionBodyTemplate
     {
+        private readonly IWaitableFactory _waitableFactory;
+
         /// <summary>
         /// Creates an instance of <see cref="ActionBody"/>.
         /// </summary>
         /// <param name="retriable">The <see cref="Retriable"/> parent class.</param>
-        internal ActionBody(Retriable retriable) : base(retriable)
+        /// <param name="waitableFactory"></param>
+        internal ActionBody(Retriable retriable, IWaitableFactory waitableFactory) : base(retriable)
         {
+            _waitableFactory = waitableFactory;
         }
 
         /// <summary>
         /// The actual retry algorithm.
         /// </summary>
         /// <param name="action">The non-returnable action to retry.</param>
-        protected override void Do(Action action)
+        /// <param name="exceptions"></param>
+        /// <param name="timerService"></param>
+        /// <param name="attempts"></param>
+        internal override bool Do(Action action, List<Exception> exceptions, TimerService timerService, int attempts)
         {
-            var exceptions = new List<Exception>();
-            var time = TimeSpan.Zero;
-            var attempts = Retriable.Options.Attempts;
-
-            while (attempts-- > 0)
+            Console.WriteLine($"Do: {attempts}");
+            try
             {
                 try
                 {
                     action();
-                    return;
                 }
-                catch (Exception ex)
+                finally
                 {
-                    Retriable.OnFailureInvocation();
-                    exceptions.Add(ex);
-
-                    if (Retriable.CancellationRule != null && Retriable.CancellationRule.IsIn(ex))
+                    if (exceptions.Any())
                     {
                         Retriable.OnAfterRetryInvocation();
-                        exceptions.ThrowFlattenAggregateException();
-                    }
-
-                    if (attempts > 0)
-                    {
-                        Task.Delay(Retriable.Options.Time).Wait();
-                    }
-                    else
-                    {
-                        exceptions.ThrowFlattenAggregateException();
-                    }
-
-                    time = time.Add(Retriable.Options.Time);
-                    if (Retriable.CancellationRule != null && Retriable.CancellationRule.HasExceededMaxTime(time))
-                    {
-                        Retriable.OnAfterRetryInvocation();
-                        exceptions.ThrowFlattenAggregateException();
                     }
                 }
+                return true;
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Retry: {attempts}");
+                Retry(exceptions, ex, attempts, timerService);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// The algorithm to calculate the wait timerService for this policy.
+        /// </summary>
+        /// <returns>The timerService to wait in <see cref="TimeSpan"/>.</returns>
+        internal override TimeSpan WaitTime() => Retriable.Options.Time;
+
+        /// <summary>
+        /// The algorithm used to delay the retry of the specified action
+        /// for this policy.
+        /// </summary>
+        /// <param name="attempts">The number of current attempts.</param>
+        /// <param name="timeToWait">Time to wait before retry.</param>
+        /// <param name="exceptions">Failures occurred up to this point.</param>
+        internal override void Delay(int attempts, TimeSpan timeToWait, List<Exception> exceptions)
+        {
+            var waitable = _waitableFactory.Select(attempts);
+            waitable.Exceptions = exceptions;
+            waitable.Wait(timeToWait);
+            Console.WriteLine($"Time to wait: {timeToWait} and attempts: {attempts}");
         }
     }
 }

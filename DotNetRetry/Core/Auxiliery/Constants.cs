@@ -1,7 +1,9 @@
 ﻿using System.Runtime.CompilerServices;
 using DotNetRetry.Core.Auxiliery;
 
-[assembly: InternalsVisibleTo(Constants.TestProject)]
+[assembly: InternalsVisibleTo(Constants.UnitTestProject)]
+[assembly: InternalsVisibleTo(Constants.IntegrationTestProject)]
+[assembly: InternalsVisibleTo(Constants.CommonTestProject)]
 namespace DotNetRetry.Core.Auxiliery
 {
     using System;
@@ -24,6 +26,16 @@ namespace DotNetRetry.Core.Auxiliery
         /// <summary>
         /// Unit test project namespace.
         /// </summary>
-        public const string TestProject = "DotNetRetry.Unit.Tests";
+        public const string UnitTestProject = "DotNetRetry.Unit.Tests";
+
+        /// <summary>
+        /// Integration test project namespace.
+        /// </summary>
+        public const string IntegrationTestProject = "DotNetRetry.Integration.Tests";
+
+        /// <summary>
+        /// Common test project namespace.
+        /// </summary>
+        public const string CommonTestProject = "DotNetRetry.Tests.Common";
     }
 }
