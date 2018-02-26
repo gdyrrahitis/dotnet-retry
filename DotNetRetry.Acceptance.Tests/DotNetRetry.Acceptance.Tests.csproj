@@ -78,20 +78,42 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Exceptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scenarios\Sequential\CancellationTests\Cancellation.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Cancellation.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Scenarios\Sequential\CancellationTests\CancellationStepDefinition.cs" />
     <Compile Include="Scenarios\Sequential\FiniteTests\Finite.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Finite.feature</DependentUpon>
     </Compile>
     <Compile Include="Scenarios\Sequential\FiniteTests\FiniteStepDefinition.cs" />
+    <Compile Include="Scenarios\Sequential\ForeverTests\Forever.feature.cs">
+      <DependentUpon>Forever.feature</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Scenarios\Sequential\ForeverTests\ForeverStepDefinition.cs" />
+    <Compile Include="Scenarios\Sequential\SequentialStepDefinitions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Scenarios\Sequential\CancellationTests\Cancellation.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Cancellation.feature.cs</LastGenOutput>
+    </None>
     <None Include="Scenarios\Sequential\FiniteTests\Finite.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Finite.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Scenarios\Sequential\ForeverTests\Forever.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Forever.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -101,8 +123,6 @@
     <Folder Include="Scenarios\Exponential\CancellationTests\" />
     <Folder Include="Scenarios\Exponential\FiniteTests\" />
     <Folder Include="Scenarios\Exponential\ForeverTests\" />
-    <Folder Include="Scenarios\Sequential\CancellationTests\" />
-    <Folder Include="Scenarios\Sequential\ForeverTests\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNetRetry\DotNetRetry.csproj">

@@ -17,6 +17,7 @@ namespace DotNetRetry.Acceptance.Tests.Scenarios.Sequential.FiniteTests
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.2.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [Xunit.TraitAttribute("Category", "Finite")]
     public partial class FiniteRetriesFeature : Xunit.IClassFixture<FiniteRetriesFeature.FixtureData>, System.IDisposable
     {
         
@@ -37,7 +38,8 @@ namespace DotNetRetry.Acceptance.Tests.Scenarios.Sequential.FiniteTests
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Finite retries", "\tIn order to test sequential retry policy\r\n\tAs using a finite algorithm\r\n\tI want " +
-                    "to verify the number of attempts and time took to retry an operation", ProgrammingLanguage.CSharp, ((string[])(null)));
+                    "to verify the number of attempts and time took to retry an operation", ProgrammingLanguage.CSharp, new string[] {
+                        "Finite"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -78,15 +80,15 @@ namespace DotNetRetry.Acceptance.Tests.Scenarios.Sequential.FiniteTests
         public virtual void ExecuteOperationErrorlessWithoutRetrying()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute operation errorless without retrying", ((string[])(null)));
-#line 6
-this.ScenarioSetup(scenarioInfo);
 #line 7
- testRunner.Given("I have entered a successfull non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 8
- testRunner.And("I have entered 3 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a successfull non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 9
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 3 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 10
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 11
  testRunner.Then("no retry attempts should be made", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -98,15 +100,15 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ZeroAttemptsThrowsException()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Zero attempts throws exception", ((string[])(null)));
-#line 12
-this.ScenarioSetup(scenarioInfo);
 #line 13
- testRunner.Given("I have entered a successfull non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 14
- testRunner.And("I have entered 0 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a successfull non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 15
- testRunner.When("I setup rule configuration", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 0 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 16
+ testRunner.When("I setup rule configuration", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 17
  testRunner.Then("ArgumentOutOfRangeException is thrown when attempts is less than 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -118,15 +120,15 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ZeroTimeThrowsException()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Zero time throws exception", ((string[])(null)));
-#line 18
-this.ScenarioSetup(scenarioInfo);
 #line 19
- testRunner.Given("I have entered a successfull non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 20
- testRunner.And("I have entered 10 attempts for 0 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a successfull non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 21
- testRunner.When("I setup rule configuration", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 10 attempts for 0 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 22
+ testRunner.When("I setup rule configuration", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 23
  testRunner.Then("ArgumentOutOfRangeException is thrown when time is less than 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -138,25 +140,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationExhausts1Attempt()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation exhausts 1 attempt", ((string[])(null)));
-#line 24
-this.ScenarioSetup(scenarioInfo);
 #line 25
- testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 26
- testRunner.And("I have entered 1 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 27
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 1 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 28
- testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 29
- testRunner.And("took less than 100 milliseconds in total because of overhead", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 30
- testRunner.And("OnFailure will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took less than 100 milliseconds in total because of overhead", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 31
- testRunner.And("OnBeforeRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 32
- testRunner.And("OnAfterRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 33
+ testRunner.And("OnAfterRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 34
  testRunner.And("AggregateException will be thrown with exactly 1 inner exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -168,25 +170,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationExhausts2Attempts()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation exhausts 2 attempts", ((string[])(null)));
-#line 35
-this.ScenarioSetup(scenarioInfo);
 #line 36
- testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 37
- testRunner.And("I have entered 2 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 38
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 2 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 39
- testRunner.Then("exactly 2 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 40
- testRunner.And("took around 100 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 2 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 41
- testRunner.And("OnFailure will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 100 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 42
- testRunner.And("OnBeforeRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 43
- testRunner.And("OnAfterRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 44
+ testRunner.And("OnAfterRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 45
  testRunner.And("AggregateException will be thrown with exactly 2 inner exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -198,25 +200,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationExhausts3Attempts()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation exhausts 3 attempts", ((string[])(null)));
-#line 46
-this.ScenarioSetup(scenarioInfo);
 #line 47
- testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 48
- testRunner.And("I have entered 3 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 49
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 3 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 50
- testRunner.Then("exactly 3 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 51
- testRunner.And("took around 200 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 3 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 52
- testRunner.And("OnFailure will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 200 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 53
- testRunner.And("OnBeforeRetry will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 54
- testRunner.And("OnAfterRetry will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 55
+ testRunner.And("OnAfterRetry will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 56
  testRunner.And("AggregateException will be thrown with exactly 3 inner exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -228,25 +230,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationExhausts4Attempts()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation exhausts 4 attempts", ((string[])(null)));
-#line 57
-this.ScenarioSetup(scenarioInfo);
 #line 58
- testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 59
- testRunner.And("I have entered 4 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 60
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 4 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 61
- testRunner.Then("exactly 4 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 62
- testRunner.And("took around 300 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 4 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 63
- testRunner.And("OnFailure will be dispatched exactly 4 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 300 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 64
- testRunner.And("OnBeforeRetry will be dispatched exactly 4 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 4 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 65
- testRunner.And("OnAfterRetry will be dispatched exactly 4 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 4 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 66
+ testRunner.And("OnAfterRetry will be dispatched exactly 4 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 67
  testRunner.And("AggregateException will be thrown with exactly 4 inner exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -258,25 +260,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationExhausts5Attempts()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation exhausts 5 attempts", ((string[])(null)));
-#line 68
-this.ScenarioSetup(scenarioInfo);
 #line 69
- testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 70
- testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 71
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 72
- testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 73
- testRunner.And("took around 400 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 74
- testRunner.And("OnFailure will be dispatched exactly 5 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 400 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 75
- testRunner.And("OnBeforeRetry will be dispatched exactly 5 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 5 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 76
- testRunner.And("OnAfterRetry will be dispatched exactly 5 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 5 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 77
+ testRunner.And("OnAfterRetry will be dispatched exactly 5 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 78
  testRunner.And("AggregateException will be thrown with exactly 5 inner exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -288,25 +290,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationExhausts6Attempts()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation exhausts 6 attempts", ((string[])(null)));
-#line 79
-this.ScenarioSetup(scenarioInfo);
 #line 80
- testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 81
- testRunner.And("I have entered 6 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 82
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 6 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 83
- testRunner.Then("exactly 6 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 84
- testRunner.And("took around 500 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 6 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 85
- testRunner.And("OnFailure will be dispatched exactly 6 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 500 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 86
- testRunner.And("OnBeforeRetry will be dispatched exactly 6 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 6 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 87
- testRunner.And("OnAfterRetry will be dispatched exactly 6 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 6 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 88
+ testRunner.And("OnAfterRetry will be dispatched exactly 6 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 89
  testRunner.And("AggregateException will be thrown with exactly 6 inner exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -318,25 +320,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationExhausts7Attempts()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation exhausts 7 attempts", ((string[])(null)));
-#line 90
-this.ScenarioSetup(scenarioInfo);
 #line 91
- testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 92
- testRunner.And("I have entered 7 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 93
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 7 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 94
- testRunner.Then("exactly 7 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 95
- testRunner.And("took around 600 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 7 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 96
- testRunner.And("OnFailure will be dispatched exactly 7 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 600 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 97
- testRunner.And("OnBeforeRetry will be dispatched exactly 7 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 7 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 98
- testRunner.And("OnAfterRetry will be dispatched exactly 7 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 7 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 99
+ testRunner.And("OnAfterRetry will be dispatched exactly 7 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 100
  testRunner.And("AggregateException will be thrown with exactly 7 inner exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -348,25 +350,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationExhausts8Attempts()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation exhausts 8 attempts", ((string[])(null)));
-#line 101
-this.ScenarioSetup(scenarioInfo);
 #line 102
- testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 103
- testRunner.And("I have entered 8 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 104
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 8 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 105
- testRunner.Then("exactly 8 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 106
- testRunner.And("took around 700 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 8 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 107
- testRunner.And("OnFailure will be dispatched exactly 8 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 700 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 108
- testRunner.And("OnBeforeRetry will be dispatched exactly 8 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 8 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 109
- testRunner.And("OnAfterRetry will be dispatched exactly 8 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 8 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 110
+ testRunner.And("OnAfterRetry will be dispatched exactly 8 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 111
  testRunner.And("AggregateException will be thrown with exactly 8 inner exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -378,25 +380,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationExhausts9Attempts()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation exhausts 9 attempts", ((string[])(null)));
-#line 112
-this.ScenarioSetup(scenarioInfo);
 #line 113
- testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 114
- testRunner.And("I have entered 9 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 115
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 9 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 116
- testRunner.Then("exactly 9 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 117
- testRunner.And("took around 800 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 9 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 118
- testRunner.And("OnFailure will be dispatched exactly 9 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 800 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 119
- testRunner.And("OnBeforeRetry will be dispatched exactly 9 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 9 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 120
- testRunner.And("OnAfterRetry will be dispatched exactly 9 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 9 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 121
+ testRunner.And("OnAfterRetry will be dispatched exactly 9 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 122
  testRunner.And("AggregateException will be thrown with exactly 9 inner exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -408,25 +410,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationExhausts10Attempts()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation exhausts 10 attempts", ((string[])(null)));
-#line 123
-this.ScenarioSetup(scenarioInfo);
 #line 124
- testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 125
- testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 126
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 127
- testRunner.Then("exactly 10 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 128
- testRunner.And("took around 900 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 10 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 129
- testRunner.And("OnFailure will be dispatched exactly 10 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 900 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 130
- testRunner.And("OnBeforeRetry will be dispatched exactly 10 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 10 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 131
- testRunner.And("OnAfterRetry will be dispatched exactly 10 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 10 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 132
+ testRunner.And("OnAfterRetry will be dispatched exactly 10 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 133
  testRunner.And("AggregateException will be thrown with exactly 10 inner exceptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -438,15 +440,15 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt1TryOfOverall1()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 1 try of overall 1", ((string[])(null)));
-#line 134
-this.ScenarioSetup(scenarioInfo);
 #line 135
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 1 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 136
- testRunner.And("I have entered 2 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 1 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 137
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 2 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 138
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 139
  testRunner.Then("no retry attempts should be made", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -458,25 +460,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt2TryOfOverall2()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 2 try of overall 2", ((string[])(null)));
-#line 140
-this.ScenarioSetup(scenarioInfo);
 #line 141
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 2 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 142
- testRunner.And("I have entered 2 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 2 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 143
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 2 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 144
- testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 145
- testRunner.And("took around 100 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 146
- testRunner.And("OnFailure will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 100 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 147
- testRunner.And("OnBeforeRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 148
- testRunner.And("OnAfterRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 149
+ testRunner.And("OnAfterRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 150
  testRunner.And("no AggregateException is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -488,15 +490,15 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt1TryOfOverall3()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 1 try of overall 3", ((string[])(null)));
-#line 151
-this.ScenarioSetup(scenarioInfo);
 #line 152
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 1 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 153
- testRunner.And("I have entered 3 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 1 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 154
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 3 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 155
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 156
  testRunner.Then("no retry attempts should be made", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -508,25 +510,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt2TryOfOverall3()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 2 try of overall 3", ((string[])(null)));
-#line 157
-this.ScenarioSetup(scenarioInfo);
 #line 158
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 2 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 159
- testRunner.And("I have entered 3 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 2 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 160
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 3 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 161
- testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 162
- testRunner.And("took around 100 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 163
- testRunner.And("OnFailure will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 100 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 164
- testRunner.And("OnBeforeRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 165
- testRunner.And("OnAfterRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 166
+ testRunner.And("OnAfterRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 167
  testRunner.And("no AggregateException is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -538,25 +540,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt3TryOfOverall3()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 3 try of overall 3", ((string[])(null)));
-#line 168
-this.ScenarioSetup(scenarioInfo);
 #line 169
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 3 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 170
- testRunner.And("I have entered 3 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 3 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 171
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 3 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 172
- testRunner.Then("exactly 2 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 173
- testRunner.And("took around 200 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 2 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 174
- testRunner.And("OnFailure will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 200 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 175
- testRunner.And("OnBeforeRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 176
- testRunner.And("OnAfterRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 177
+ testRunner.And("OnAfterRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 178
  testRunner.And("no AggregateException is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -568,15 +570,15 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt1TryOfOverall4()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 1 try of overall 4", ((string[])(null)));
-#line 179
-this.ScenarioSetup(scenarioInfo);
 #line 180
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 1 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 181
- testRunner.And("I have entered 4 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 1 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 182
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 4 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 183
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 184
  testRunner.Then("no retry attempts should be made", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -588,25 +590,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt2TryOfOverall4()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 2 try of overall 4", ((string[])(null)));
-#line 185
-this.ScenarioSetup(scenarioInfo);
 #line 186
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 2 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 187
- testRunner.And("I have entered 4 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 2 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 188
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 4 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 189
- testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 190
- testRunner.And("took around 100 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 191
- testRunner.And("OnFailure will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 100 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 192
- testRunner.And("OnBeforeRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 193
- testRunner.And("OnAfterRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 194
+ testRunner.And("OnAfterRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 195
  testRunner.And("no AggregateException is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -618,25 +620,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt3TryOfOverall4()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 3 try of overall 4", ((string[])(null)));
-#line 196
-this.ScenarioSetup(scenarioInfo);
 #line 197
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 3 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 198
- testRunner.And("I have entered 4 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 3 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 199
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 4 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 200
- testRunner.Then("exactly 2 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 201
- testRunner.And("took around 200 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 2 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 202
- testRunner.And("OnFailure will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 200 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 203
- testRunner.And("OnBeforeRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 204
- testRunner.And("OnAfterRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 205
+ testRunner.And("OnAfterRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 206
  testRunner.And("no AggregateException is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -648,25 +650,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt4TryOfOverall4()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 4 try of overall 4", ((string[])(null)));
-#line 207
-this.ScenarioSetup(scenarioInfo);
 #line 208
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 4 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 209
- testRunner.And("I have entered 4 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 4 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 210
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 4 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 211
- testRunner.Then("exactly 3 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 212
- testRunner.And("took around 300 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 3 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 213
- testRunner.And("OnFailure will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 300 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 214
- testRunner.And("OnBeforeRetry will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 215
- testRunner.And("OnAfterRetry will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 216
+ testRunner.And("OnAfterRetry will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 217
  testRunner.And("no AggregateException is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -678,15 +680,15 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt1TryOfOverall5()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 1 try of overall 5", ((string[])(null)));
-#line 218
-this.ScenarioSetup(scenarioInfo);
 #line 219
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 1 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 220
- testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 1 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 221
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 222
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 223
  testRunner.Then("no retry attempts should be made", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -698,25 +700,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt2TryOfOverall5()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 2 try of overall 5", ((string[])(null)));
-#line 224
-this.ScenarioSetup(scenarioInfo);
 #line 225
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 2 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 226
- testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 2 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 227
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 228
- testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 229
- testRunner.And("took around 100 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 230
- testRunner.And("OnFailure will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 100 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 231
- testRunner.And("OnBeforeRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 232
- testRunner.And("OnAfterRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 233
+ testRunner.And("OnAfterRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 234
  testRunner.And("no AggregateException is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -728,25 +730,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt3TryOfOverall5()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 3 try of overall 5", ((string[])(null)));
-#line 235
-this.ScenarioSetup(scenarioInfo);
 #line 236
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 3 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 237
- testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 3 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 238
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 239
- testRunner.Then("exactly 2 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 240
- testRunner.And("took around 200 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 2 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 241
- testRunner.And("OnFailure will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 200 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 242
- testRunner.And("OnBeforeRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 243
- testRunner.And("OnAfterRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 244
+ testRunner.And("OnAfterRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 245
  testRunner.And("no AggregateException is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -758,25 +760,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt4TryOfOverall5()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 4 try of overall 5", ((string[])(null)));
-#line 246
-this.ScenarioSetup(scenarioInfo);
 #line 247
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 4 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 248
- testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 4 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 249
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 250
- testRunner.Then("exactly 3 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 251
- testRunner.And("took around 300 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 3 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 252
- testRunner.And("OnFailure will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 300 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 253
- testRunner.And("OnBeforeRetry will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 254
- testRunner.And("OnAfterRetry will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 255
+ testRunner.And("OnAfterRetry will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 256
  testRunner.And("no AggregateException is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -788,25 +790,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt5TryOfOverall5()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 5 try of overall 5", ((string[])(null)));
-#line 257
-this.ScenarioSetup(scenarioInfo);
 #line 258
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 5 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 259
- testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 5 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 260
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 261
- testRunner.Then("exactly 4 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 262
- testRunner.And("took around 400 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 4 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 263
- testRunner.And("OnFailure will be dispatched exactly 4 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 400 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 264
- testRunner.And("OnBeforeRetry will be dispatched exactly 4 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 4 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 265
- testRunner.And("OnAfterRetry will be dispatched exactly 4 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 4 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 266
+ testRunner.And("OnAfterRetry will be dispatched exactly 4 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 267
  testRunner.And("no AggregateException is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -818,15 +820,15 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt1TryOfOverall10()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 1 try of overall 10", ((string[])(null)));
-#line 268
-this.ScenarioSetup(scenarioInfo);
 #line 269
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 1 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 270
- testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 1 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 271
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 272
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 273
  testRunner.Then("no retry attempts should be made", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -838,25 +840,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt2TryOfOverall10()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 2 try of overall 10", ((string[])(null)));
-#line 274
-this.ScenarioSetup(scenarioInfo);
 #line 275
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 2 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 276
- testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 2 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 277
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 278
- testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 279
- testRunner.And("took around 100 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 280
- testRunner.And("OnFailure will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 100 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 281
- testRunner.And("OnBeforeRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 282
- testRunner.And("OnAfterRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 283
+ testRunner.And("OnAfterRetry will be dispatched exactly 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 284
  testRunner.And("no AggregateException is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -868,25 +870,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt3TryOfOverall10()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 3 try of overall 10", ((string[])(null)));
-#line 285
-this.ScenarioSetup(scenarioInfo);
 #line 286
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 3 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 287
- testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 3 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 288
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 289
- testRunner.Then("exactly 2 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 290
- testRunner.And("took around 200 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 2 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 291
- testRunner.And("OnFailure will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 200 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 292
- testRunner.And("OnBeforeRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 293
- testRunner.And("OnAfterRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 294
+ testRunner.And("OnAfterRetry will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 295
  testRunner.And("no AggregateException is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -898,25 +900,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt4TryOfOverall10()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 4 try of overall 10", ((string[])(null)));
-#line 296
-this.ScenarioSetup(scenarioInfo);
 #line 297
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 4 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 298
- testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 4 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 299
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 300
- testRunner.Then("exactly 3 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 301
- testRunner.And("took around 300 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 3 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 302
- testRunner.And("OnFailure will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 300 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 303
- testRunner.And("OnBeforeRetry will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 304
- testRunner.And("OnAfterRetry will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 305
+ testRunner.And("OnAfterRetry will be dispatched exactly 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 306
  testRunner.And("no AggregateException is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -928,25 +930,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt5TryOfOverall10()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 5 try of overall 10", ((string[])(null)));
-#line 307
-this.ScenarioSetup(scenarioInfo);
 #line 308
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 5 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 309
- testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 5 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 310
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 311
- testRunner.Then("exactly 4 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 312
- testRunner.And("took around 400 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 4 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 313
- testRunner.And("OnFailure will be dispatched exactly 4 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 400 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 314
- testRunner.And("OnBeforeRetry will be dispatched exactly 4 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 4 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 315
- testRunner.And("OnAfterRetry will be dispatched exactly 4 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 4 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 316
+ testRunner.And("OnAfterRetry will be dispatched exactly 4 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 317
  testRunner.And("no AggregateException is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -958,25 +960,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt6TryOfOverall10()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 6 try of overall 10", ((string[])(null)));
-#line 318
-this.ScenarioSetup(scenarioInfo);
 #line 319
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 6 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 320
- testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 6 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 321
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 322
- testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 323
- testRunner.And("took around 500 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 324
- testRunner.And("OnFailure will be dispatched exactly 5 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 500 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 325
- testRunner.And("OnBeforeRetry will be dispatched exactly 5 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 5 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 326
- testRunner.And("OnAfterRetry will be dispatched exactly 5 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 5 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 327
+ testRunner.And("OnAfterRetry will be dispatched exactly 5 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 328
  testRunner.And("no AggregateException is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -988,25 +990,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt7TryOfOverall10()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 7 try of overall 10", ((string[])(null)));
-#line 329
-this.ScenarioSetup(scenarioInfo);
 #line 330
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 7 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 331
- testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 7 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 332
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 333
- testRunner.Then("exactly 6 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 334
- testRunner.And("took around 600 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 6 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 335
- testRunner.And("OnFailure will be dispatched exactly 6 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 600 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 336
- testRunner.And("OnBeforeRetry will be dispatched exactly 6 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 6 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 337
- testRunner.And("OnAfterRetry will be dispatched exactly 6 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 6 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 338
+ testRunner.And("OnAfterRetry will be dispatched exactly 6 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 339
  testRunner.And("no AggregateException is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -1018,25 +1020,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt8TryOfOverall10()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 8 try of overall 10", ((string[])(null)));
-#line 340
-this.ScenarioSetup(scenarioInfo);
 #line 341
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 8 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 342
- testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 8 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 343
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 344
- testRunner.Then("exactly 7 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 345
- testRunner.And("took around 700 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 7 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 346
- testRunner.And("OnFailure will be dispatched exactly 7 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 700 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 347
- testRunner.And("OnBeforeRetry will be dispatched exactly 7 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 7 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 348
- testRunner.And("OnAfterRetry will be dispatched exactly 7 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 7 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 349
+ testRunner.And("OnAfterRetry will be dispatched exactly 7 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 350
  testRunner.And("no AggregateException is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -1048,25 +1050,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt9TryOfOverall10()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 9 try of overall 10", ((string[])(null)));
-#line 351
-this.ScenarioSetup(scenarioInfo);
 #line 352
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 9 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 353
- testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 9 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 354
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 355
- testRunner.Then("exactly 8 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 356
- testRunner.And("took around 800 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 8 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 357
- testRunner.And("OnFailure will be dispatched exactly 8 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 800 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 358
- testRunner.And("OnBeforeRetry will be dispatched exactly 8 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 8 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 359
- testRunner.And("OnAfterRetry will be dispatched exactly 8 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 8 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 360
+ testRunner.And("OnAfterRetry will be dispatched exactly 8 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 361
  testRunner.And("no AggregateException is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -1078,25 +1080,25 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ExecuteFailingOperationToSucceedAt10TryOfOverall10()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Execute failing operation to succeed at 10 try of overall 10", ((string[])(null)));
-#line 362
-this.ScenarioSetup(scenarioInfo);
 #line 363
- testRunner.Given("I have entered a failing non-returnable operation which succeeds at 10 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 364
- testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have entered a failing non-returnable operation which succeeds at 10 try", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 365
- testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have entered 10 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 366
- testRunner.Then("exactly 9 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I attempt to run it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 367
- testRunner.And("took around 900 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("exactly 9 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 368
- testRunner.And("OnFailure will be dispatched exactly 9 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 900 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 369
- testRunner.And("OnBeforeRetry will be dispatched exactly 9 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnFailure will be dispatched exactly 9 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 370
- testRunner.And("OnAfterRetry will be dispatched exactly 9 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("OnBeforeRetry will be dispatched exactly 9 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 371
+ testRunner.And("OnAfterRetry will be dispatched exactly 9 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 372
  testRunner.And("no AggregateException is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
