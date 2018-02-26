@@ -21,7 +21,7 @@
             var exception = Throws<ArgumentException>(() => activator.Activate<IRetry>(type));
 
             // Assert
-            Equal($"Type provided is not null, invalid for {nameof(NullActivator)} instance.\r\nParameter name: type", 
+            Equal($"Type provided is not null, invalid for {nameof(NullActivator)} instance.{Environment.NewLine}Parameter name: type", 
                 exception.Message);
         }
 

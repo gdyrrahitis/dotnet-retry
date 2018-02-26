@@ -119,7 +119,7 @@
         {
             var attempts = ScenarioContext.Current.Get<int>("attempts");
             var exception = ScenarioContext.Current.Get<ArgumentOutOfRangeException>("exception");
-            Equal($"Argument value <{attempts}> is less than <1>.\r\nParameter name: attempts", exception.Message);
+            Equal($"Argument value <{attempts}> is less than <1>.{Environment.NewLine}Parameter name: attempts", exception.Message);
         }
 
         [Then("ArgumentOutOfRangeException is thrown when time is less than 1")]
@@ -127,7 +127,7 @@
         {
             var time = TimeSpan.FromMilliseconds(ScenarioContext.Current.Get<int>("time"));
             var exception = ScenarioContext.Current.Get<ArgumentOutOfRangeException>("exception");
-            Equal($"Argument value <{time}> is less than or equal to <{TimeSpan.Zero}>.\r\nParameter name: timeBetweenRetries",
+            Equal($"Argument value <{time}> is less than or equal to <{TimeSpan.Zero}>.{Environment.NewLine}Parameter name: timeBetweenRetries",
                     exception.Message);
         }
 

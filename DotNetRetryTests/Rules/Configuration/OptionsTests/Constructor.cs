@@ -16,7 +16,7 @@
             var exception = Throws<ArgumentOutOfRangeException>(() => new Options(value));
 
             // Assert
-            Equal($"Argument value <{value}> is less than <1>.\r\nParameter name: attempts",
+            Equal($"Argument value <{value}> is less than <1>.{Environment.NewLine}Parameter name: attempts",
                 exception.Message);
         }
 
@@ -30,7 +30,7 @@
                 TimeSpan.FromMilliseconds(1)));
 
             // Assert
-            Equal($"Argument value <{value}> is less than <1>.\r\nParameter name: attempts",
+            Equal($"Argument value <{value}> is less than <1>.{Environment.NewLine}Parameter name: attempts",
                 exception.Message);
         }
 
@@ -43,7 +43,7 @@
                     () => new Options(TimeSpan.Zero));
 
             // Assert
-            Equal($"Argument value <{TimeSpan.Zero}> is less than or equal to <{TimeSpan.Zero}>.\r\nParameter name: timeBetweenRetries",
+            Equal($"Argument value <{TimeSpan.Zero}> is less than or equal to <{TimeSpan.Zero}>.{Environment.NewLine}Parameter name: timeBetweenRetries",
                 result.Message);
         }
 
@@ -56,7 +56,7 @@
                     () => new Options(10, TimeSpan.Zero));
 
             // Assert
-            Equal($"Argument value <{TimeSpan.Zero}> is less than or equal to <{TimeSpan.Zero}>.\r\nParameter name: timeBetweenRetries",
+            Equal($"Argument value <{TimeSpan.Zero}> is less than or equal to <{TimeSpan.Zero}>.{Environment.NewLine}Parameter name: timeBetweenRetries",
                 result.Message);
         }
 
