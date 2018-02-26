@@ -1,14 +1,10 @@
-﻿namespace DotNetRetry.Acceptance.Tests.Scenarios.Sequential
+﻿namespace DotNetRetry.Acceptance.Tests.Scenarios
 {
     using System;
-    using System.Diagnostics;
-    using Rules;
-    using Rules.Configuration;
     using TechTalk.SpecFlow;
-    using static Xunit.Assert;
+    using Xunit;
 
-    //[Binding]
-    public class SequentialStepDefinitions
+    public class GlobalStepDefinitions
     {
         protected const string CustomExceptionErrorMessage = "Custom Exception";
 
@@ -95,22 +91,22 @@
             int failure;
             if (ScenarioContext.Current.TryGetValue("before", out before) && before > 0)
             {
-                False(true);
+                Assert.False(true);
             }
 
             if (ScenarioContext.Current.TryGetValue("after", out after) && after > 0)
             {
-                False(true);
+                Assert.False(true);
             }
 
             if (ScenarioContext.Current.TryGetValue("after", out failure) && failure > 0)
             {
-                False(true);
+                Assert.False(true);
             }
 
             if (ScenarioContext.Current.TryGetValue("count", out count))
             {
-                Equal(0, count);
+                Assert.Equal(0, count);
             }
         }
 
@@ -119,7 +115,7 @@
         {
             var attempts = ScenarioContext.Current.Get<int>("attempts");
             var exception = ScenarioContext.Current.Get<ArgumentOutOfRangeException>("exception");
-            Equal($"Argument value <{attempts}> is less than <1>.{Environment.NewLine}Parameter name: attempts", exception.Message);
+            Assert.Equal($"Argument value <{attempts}> is less than <1>.{Environment.NewLine}Parameter name: attempts", exception.Message);
         }
 
         [Then("ArgumentOutOfRangeException is thrown when time is less than 1")]
@@ -127,7 +123,7 @@
         {
             var time = TimeSpan.FromMilliseconds(ScenarioContext.Current.Get<int>("time"));
             var exception = ScenarioContext.Current.Get<ArgumentOutOfRangeException>("exception");
-            Equal($"Argument value <{time}> is less than or equal to <{TimeSpan.Zero}>.{Environment.NewLine}Parameter name: timeBetweenRetries",
+            Assert.Equal($"Argument value <{time}> is less than or equal to <{TimeSpan.Zero}>.{Environment.NewLine}Parameter name: timeBetweenRetries",
                     exception.Message);
         }
 
@@ -135,7 +131,7 @@
         public void ThenExactlyRetryShouldHappen(int retries)
         {
             var count = ScenarioContext.Current.Get<int>("count");
-            Equal(retries, count);
+            Assert.Equal(retries, count);
         }
 
         [Then(@"took around (\d+) milliseconds in total")]
@@ -143,42 +139,42 @@
         {
             var count = ScenarioContext.Current.Get<int>("count");
             var time = ScenarioContext.Current.Get<long>("time");
-            InRange(time, milliseconds, milliseconds + ((count + 1) * 20.5)); // TODO: Find a better overhead mean
+            Assert.InRange(time, milliseconds, milliseconds + ((count + 1) * 50.5)); // TODO: Find a better overhead mean
         }
 
         [Then(@"took less than (\d+) milliseconds in total because of overhead")]
         public void TookLessThanMillisecondsInTotalBecauseOfOverhead(int milliseconds)
         {
             var time = ScenarioContext.Current.Get<long>("time");
-            InRange(time, 0, milliseconds);
+            Assert.InRange(time, 0, milliseconds);
         }
 
         [Then(@"OnFailure will be dispatched exactly (\d+) times")]
         public void ThenOnFailureWillBeDispatchedExactlyTimes(int times)
         {
             var failure = ScenarioContext.Current.Get<int>("failure");
-            Equal(times, failure);
+            Assert.Equal(times, failure);
         }
 
         [Then(@"OnBeforeRetry will be dispatched exactly (\d+) times")]
         public void ThenOnBeforeRetryWillBeDispatchedExactlyTimes(int times)
         {
             var before = ScenarioContext.Current.Get<int>("before");
-            Equal(times, before);
+            Assert.Equal(times, before);
         }
 
         [Then(@"OnAfterRetry will be dispatched exactly (\d+) times")]
         public void ThenOnAfterRetryWillBeDispatchedExactlyTimes(int times)
         {
             var after = ScenarioContext.Current.Get<int>("after");
-            Equal(times, after);
+            Assert.Equal(times, after);
         }
 
         [Then(@"AggregateException will be thrown with exactly (\d+) inner exceptions")]
         public void ThenAggregateExceptionWillBeThrownWithExactlyInnerExceptions(int count)
         {
             var exception = ScenarioContext.Current.Get<AggregateException>("aggregateException");
-            Equal(count, exception.InnerExceptions.Count);
+            Assert.Equal(count, exception.InnerExceptions.Count);
         }
 
         [Then(@"no AggregateException is thrown")]
@@ -187,7 +183,7 @@
             AggregateException exception;
             if (ScenarioContext.Current.TryGetValue("aggregateException", out exception))
             {
-                False(true);
+                Assert.False(true);
             }
         }
     }

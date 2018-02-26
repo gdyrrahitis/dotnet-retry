@@ -1,4 +1,4 @@
-﻿namespace DotNetRetry.Acceptance.Tests.Scenarios.Sequential.CancellationTests
+﻿namespace DotNetRetry.Acceptance.Tests.Scenarios
 {
     using System;
     using System.Diagnostics;
@@ -7,7 +7,7 @@
     using TechTalk.SpecFlow;
 
     [Binding, Scope(Tag = "Cancellation")]
-    public sealed class CancellationStepDefinition : SequentialStepDefinitions
+    public sealed class CancellationStepDefinitions : GlobalStepDefinitions
     {
         [Given("I have entered (.*) milliseconds between"), Scope(Tag = "Cancellation")]
         public void GivenIHaveEnteredAttemptsForMillisecondsBetween(int time) => ScenarioContext.Current.Add("time", time);
@@ -69,8 +69,8 @@
             }
         }
 
-        [When(@"I setup up to fail on (.*) cancellation policy and attempt to run operation"), Scope(Tag = "Finite")]
-        public void WhenISetupUpToRetriesCancellationPolicyAndAttemptToRunOperation(Exceptions exception)
+        [When(@"I setup up to fail on (.*) for (.*) cancellation policy and attempt to run operation"), Scope(Tag = "Finite")]
+        public void WhenISetupUpToRetriesCancellationPolicyAndAttemptToRunOperation(Exceptions exception, Strategy strategy)
         {
             Action action;
             Func<string> function;
@@ -89,8 +89,8 @@
             try
             {
                 stopWatch.Start();
-                var rule = haveAttemptsSetup ? Rule.Setup(Strategy.Sequential).Config(new Options(attempts, time)) :
-                    Rule.Setup(Strategy.Sequential).Config(new Options(time));
+                var rule = haveAttemptsSetup ? Rule.Setup(strategy).Config(new Options(attempts, time)) :
+                    Rule.Setup(strategy).Config(new Options(time));
 
                 rule.Cancel(r =>
                 {
@@ -140,12 +140,11 @@
                 stopWatch.Stop();
                 ScenarioContext.Current.Remove("time");
                 ScenarioContext.Current.Add("time", stopWatch.ElapsedMilliseconds);
-                Console.WriteLine($"Ticks: {stopWatch.ElapsedTicks}");
             }
         }
 
-        [When(@"I setup up to fail after (.*) milliseconds cancellation policy and attempt to run operation")]
-        public void WhenISetupUpToFailAfterMillisecondsCancellationPolicyAndAttemptToRunOperation(int whenToStop)
+        [When(@"I setup up to fail after (.*) milliseconds for (.*) cancellation policy and attempt to run operation")]
+        public void WhenISetupUpToFailAfterMillisecondsCancellationPolicyAndAttemptToRunOperation(int whenToStop, Strategy strategy)
         {
             Action action;
             Func<string> function;
@@ -162,7 +161,7 @@
             try
             {
                 stopWatch.Start();
-                var rule = haveAttemptsSetup ? Rule.Setup(Strategy.Sequential).Config(new Options(attempts, time)) :
+                var rule = haveAttemptsSetup ? Rule.Setup(strategy).Config(new Options(attempts, time)) :
                     Rule.Setup(Strategy.Sequential).Config(new Options(time));
 
                 rule.Cancel(r => r.After(TimeSpan.FromMilliseconds(whenToStop)))
@@ -205,7 +204,6 @@
                 stopWatch.Stop();
                 ScenarioContext.Current.Remove("time");
                 ScenarioContext.Current.Add("time", stopWatch.ElapsedMilliseconds);
-                Console.WriteLine($"Ticks: {stopWatch.ElapsedTicks}");
             }
         }
 

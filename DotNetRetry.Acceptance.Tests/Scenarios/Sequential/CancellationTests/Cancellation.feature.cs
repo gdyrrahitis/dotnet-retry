@@ -88,8 +88,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 11
  testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 12
- testRunner.When("I setup up to fail on ArgumentException cancellation policy and attempt to run op" +
-                    "eration", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on ArgumentException for sequential cancellation policy and at" +
+                    "tempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 13
  testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 14
@@ -120,8 +120,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 22
  testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 23
- testRunner.When("I setup up to fail on ArgumentOutOfRangeException cancellation policy and attempt" +
-                    " to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on ArgumentOutOfRangeException for sequential cancellation pol" +
+                    "icy and attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 24
  testRunner.Then("exactly 2 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 25
@@ -152,8 +152,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 33
  testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 34
- testRunner.When("I setup up to fail on NullReferenceException cancellation policy and attempt to r" +
-                    "un operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on NullReferenceException for sequential cancellation policy a" +
+                    "nd attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 35
  testRunner.Then("exactly 3 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 36
@@ -184,7 +184,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 44
  testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 45
- testRunner.When("I setup up to fail on Exception cancellation policy and attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on Exception for sequential cancellation policy and attempt to" +
+                    " run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 46
  testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 47
@@ -215,8 +216,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 56
  testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 57
- testRunner.When("I setup up to fail on ArgumentException cancellation policy and attempt to run op" +
-                    "eration", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on ArgumentException for sequential cancellation policy and at" +
+                    "tempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 58
  testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 59
@@ -247,8 +248,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 67
  testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 68
- testRunner.When("I setup up to fail on ArgumentOutOfRangeException cancellation policy and attempt" +
-                    " to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on ArgumentOutOfRangeException for sequential cancellation pol" +
+                    "icy and attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 69
  testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 70
@@ -279,8 +280,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 78
  testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 79
- testRunner.When("I setup up to fail on NullReferenceException cancellation policy and attempt to r" +
-                    "un operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on NullReferenceException for sequential cancellation policy a" +
+                    "nd attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 80
  testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 81
@@ -311,7 +312,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 89
  testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 90
- testRunner.When("I setup up to fail on Exception cancellation policy and attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on Exception for sequential cancellation policy and attempt to" +
+                    " run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 91
  testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 92
@@ -342,8 +344,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 101
  testRunner.And("I have entered 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 102
- testRunner.When("I setup up to fail on ArgumentException cancellation policy and attempt to run op" +
-                    "eration", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on ArgumentException for sequential cancellation policy and at" +
+                    "tempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 103
  testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 104
@@ -374,8 +376,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 112
  testRunner.And("I have entered 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 113
- testRunner.When("I setup up to fail on ArgumentOutOfRangeException cancellation policy and attempt" +
-                    " to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on ArgumentOutOfRangeException for sequential cancellation pol" +
+                    "icy and attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 114
  testRunner.Then("exactly 2 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 115
@@ -406,8 +408,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 123
  testRunner.And("I have entered 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 124
- testRunner.When("I setup up to fail on NullReferenceException cancellation policy and attempt to r" +
-                    "un operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on NullReferenceException for sequential cancellation policy a" +
+                    "nd attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 125
  testRunner.Then("exactly 3 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 126
@@ -438,7 +440,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 134
  testRunner.And("I have entered 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 135
- testRunner.When("I setup up to fail on Exception cancellation policy and attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on Exception for sequential cancellation policy and attempt to" +
+                    " run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 136
  testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 137
@@ -471,8 +474,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 148
  testRunner.And("stops after 500 milliseconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 149
- testRunner.When("I setup up to fail on ArgumentException cancellation policy and attempt to run op" +
-                    "eration", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on ArgumentException for sequential cancellation policy and at" +
+                    "tempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 150
  testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 151
@@ -505,8 +508,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 160
  testRunner.And("stops after 500 milliseconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 161
- testRunner.When("I setup up to fail on ArgumentOutOfRangeException cancellation policy and attempt" +
-                    " to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on ArgumentOutOfRangeException for sequential cancellation pol" +
+                    "icy and attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 162
  testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 163
@@ -539,8 +542,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 172
  testRunner.And("stops after 500 milliseconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 173
- testRunner.When("I setup up to fail on NullReferenceException cancellation policy and attempt to r" +
-                    "un operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on NullReferenceException for sequential cancellation policy a" +
+                    "nd attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 174
  testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 175
@@ -573,7 +576,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 184
  testRunner.And("stops after 500 milliseconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 185
- testRunner.When("I setup up to fail on Exception cancellation policy and attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on Exception for sequential cancellation policy and attempt to" +
+                    " run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 186
  testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 187
@@ -603,8 +607,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 196
  testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 197
- testRunner.When("I setup up to fail after 200 milliseconds cancellation policy and attempt to run " +
-                    "operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 200 milliseconds for sequential cancellation policy and " +
+                    "attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 198
  testRunner.Then("exactly 2 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 199
@@ -634,8 +638,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 207
  testRunner.And("I have entered 15 attempts for 200 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 208
- testRunner.When("I setup up to fail after 600 milliseconds cancellation policy and attempt to run " +
-                    "operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 600 milliseconds for sequential cancellation policy and " +
+                    "attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 209
  testRunner.Then("exactly 3 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 210
@@ -665,8 +669,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 218
  testRunner.And("I have entered 15 attempts for 200 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 219
- testRunner.When("I setup up to fail after 1500 milliseconds cancellation policy and attempt to run" +
-                    " operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 1500 milliseconds for sequential cancellation policy and" +
+                    " attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 220
  testRunner.Then("exactly 8 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 221
@@ -696,8 +700,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 229
  testRunner.And("I have entered 15 attempts for 430 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 230
- testRunner.When("I setup up to fail after 3000 milliseconds cancellation policy and attempt to run" +
-                    " operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 3000 milliseconds for sequential cancellation policy and" +
+                    " attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 231
  testRunner.Then("exactly 7 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 232
@@ -727,8 +731,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 240
  testRunner.And("I have entered 15 attempts for 600 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 241
- testRunner.When("I setup up to fail after 5000 milliseconds cancellation policy and attempt to run" +
-                    " operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 5000 milliseconds for sequential cancellation policy and" +
+                    " attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 242
  testRunner.Then("exactly 9 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 243
@@ -758,8 +762,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 252
  testRunner.And("I have entered 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 253
- testRunner.When("I setup up to fail after 200 milliseconds cancellation policy and attempt to run " +
-                    "operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 200 milliseconds for sequential cancellation policy and " +
+                    "attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 254
  testRunner.Then("exactly 2 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 255
@@ -789,8 +793,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 263
  testRunner.And("I have entered 200 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 264
- testRunner.When("I setup up to fail after 600 milliseconds cancellation policy and attempt to run " +
-                    "operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 600 milliseconds for sequential cancellation policy and " +
+                    "attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 265
  testRunner.Then("exactly 3 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 266
@@ -820,8 +824,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 274
  testRunner.And("I have entered 200 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 275
- testRunner.When("I setup up to fail after 1500 milliseconds cancellation policy and attempt to run" +
-                    " operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 1500 milliseconds for sequential cancellation policy and" +
+                    " attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 276
  testRunner.Then("exactly 8 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 277
@@ -851,8 +855,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 285
  testRunner.And("I have entered 430 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 286
- testRunner.When("I setup up to fail after 3000 milliseconds cancellation policy and attempt to run" +
-                    " operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 3000 milliseconds for sequential cancellation policy and" +
+                    " attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 287
  testRunner.Then("exactly 7 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 288
@@ -882,8 +886,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 296
  testRunner.And("I have entered 600 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 297
- testRunner.When("I setup up to fail after 5000 milliseconds cancellation policy and attempt to run" +
-                    " operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 5000 milliseconds for sequential cancellation policy and" +
+                    " attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 298
  testRunner.Then("exactly 9 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 299
@@ -914,8 +918,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 309
  testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 310
- testRunner.When("I setup up to fail on ArgumentException cancellation policy and attempt to run op" +
-                    "eration", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on ArgumentException for sequential cancellation policy and at" +
+                    "tempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 311
  testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 312
@@ -946,8 +950,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 320
  testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 321
- testRunner.When("I setup up to fail on ArgumentOutOfRangeException cancellation policy and attempt" +
-                    " to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on ArgumentOutOfRangeException for sequential cancellation pol" +
+                    "icy and attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 322
  testRunner.Then("exactly 2 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 323
@@ -978,8 +982,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 331
  testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 332
- testRunner.When("I setup up to fail on NullReferenceException cancellation policy and attempt to r" +
-                    "un operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on NullReferenceException for sequential cancellation policy a" +
+                    "nd attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 333
  testRunner.Then("exactly 3 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 334
@@ -1010,7 +1014,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 342
  testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 343
- testRunner.When("I setup up to fail on Exception cancellation policy and attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on Exception for sequential cancellation policy and attempt to" +
+                    " run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 344
  testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 345
@@ -1041,8 +1046,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 354
  testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 355
- testRunner.When("I setup up to fail on ArgumentException cancellation policy and attempt to run op" +
-                    "eration", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on ArgumentException for sequential cancellation policy and at" +
+                    "tempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 356
  testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 357
@@ -1073,8 +1078,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 365
  testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 366
- testRunner.When("I setup up to fail on ArgumentOutOfRangeException cancellation policy and attempt" +
-                    " to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on ArgumentOutOfRangeException for sequential cancellation pol" +
+                    "icy and attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 367
  testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 368
@@ -1105,8 +1110,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 376
  testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 377
- testRunner.When("I setup up to fail on NullReferenceException cancellation policy and attempt to r" +
-                    "un operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on NullReferenceException for sequential cancellation policy a" +
+                    "nd attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 378
  testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 379
@@ -1137,7 +1142,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 387
  testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 388
- testRunner.When("I setup up to fail on Exception cancellation policy and attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on Exception for sequential cancellation policy and attempt to" +
+                    " run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 389
  testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 390
@@ -1168,8 +1174,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 399
  testRunner.And("I have entered 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 400
- testRunner.When("I setup up to fail on ArgumentException cancellation policy and attempt to run op" +
-                    "eration", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on ArgumentException for sequential cancellation policy and at" +
+                    "tempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 401
  testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 402
@@ -1200,8 +1206,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 410
  testRunner.And("I have entered 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 411
- testRunner.When("I setup up to fail on ArgumentOutOfRangeException cancellation policy and attempt" +
-                    " to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on ArgumentOutOfRangeException for sequential cancellation pol" +
+                    "icy and attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 412
  testRunner.Then("exactly 2 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 413
@@ -1232,8 +1238,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 421
  testRunner.And("I have entered 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 422
- testRunner.When("I setup up to fail on NullReferenceException cancellation policy and attempt to r" +
-                    "un operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on NullReferenceException for sequential cancellation policy a" +
+                    "nd attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 423
  testRunner.Then("exactly 3 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 424
@@ -1262,13 +1268,14 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.Given("I have entered a failing returnable operation which fails at step 2 with Exceptio" +
                     "n and all others are ArgumentException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 432
- testRunner.And("I have entered 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have entered 1500 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 433
- testRunner.When("I setup up to fail on Exception cancellation policy and attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on Exception for sequential cancellation policy and attempt to" +
+                    " run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 434
  testRunner.Then("exactly 1 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 435
- testRunner.And("took around 100 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("took around 1500 milliseconds in total", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 436
  testRunner.And("OnFailure will be dispatched exactly 2 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 437
@@ -1297,8 +1304,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 446
  testRunner.And("stops after 500 milliseconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 447
- testRunner.When("I setup up to fail on ArgumentException cancellation policy and attempt to run op" +
-                    "eration", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on ArgumentException for sequential cancellation policy and at" +
+                    "tempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 448
  testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 449
@@ -1331,8 +1338,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 458
  testRunner.And("stops after 500 milliseconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 459
- testRunner.When("I setup up to fail on ArgumentOutOfRangeException cancellation policy and attempt" +
-                    " to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on ArgumentOutOfRangeException for sequential cancellation pol" +
+                    "icy and attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 460
  testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 461
@@ -1365,8 +1372,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 470
  testRunner.And("stops after 500 milliseconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 471
- testRunner.When("I setup up to fail on NullReferenceException cancellation policy and attempt to r" +
-                    "un operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on NullReferenceException for sequential cancellation policy a" +
+                    "nd attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 472
  testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 473
@@ -1399,7 +1406,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 482
  testRunner.And("stops after 500 milliseconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 483
- testRunner.When("I setup up to fail on Exception cancellation policy and attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail on Exception for sequential cancellation policy and attempt to" +
+                    " run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 484
  testRunner.Then("exactly 5 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 485
@@ -1429,8 +1437,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 494
  testRunner.And("I have entered 5 attempts for 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 495
- testRunner.When("I setup up to fail after 200 milliseconds cancellation policy and attempt to run " +
-                    "operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 200 milliseconds for sequential cancellation policy and " +
+                    "attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 496
  testRunner.Then("exactly 2 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 497
@@ -1460,8 +1468,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 505
  testRunner.And("I have entered 15 attempts for 200 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 506
- testRunner.When("I setup up to fail after 600 milliseconds cancellation policy and attempt to run " +
-                    "operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 600 milliseconds for sequential cancellation policy and " +
+                    "attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 507
  testRunner.Then("exactly 3 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 508
@@ -1491,8 +1499,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 516
  testRunner.And("I have entered 15 attempts for 200 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 517
- testRunner.When("I setup up to fail after 1500 milliseconds cancellation policy and attempt to run" +
-                    " operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 1500 milliseconds for sequential cancellation policy and" +
+                    " attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 518
  testRunner.Then("exactly 8 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 519
@@ -1522,8 +1530,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 527
  testRunner.And("I have entered 15 attempts for 430 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 528
- testRunner.When("I setup up to fail after 3000 milliseconds cancellation policy and attempt to run" +
-                    " operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 3000 milliseconds for sequential cancellation policy and" +
+                    " attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 529
  testRunner.Then("exactly 7 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 530
@@ -1553,8 +1561,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 538
  testRunner.And("I have entered 15 attempts for 600 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 539
- testRunner.When("I setup up to fail after 5000 milliseconds cancellation policy and attempt to run" +
-                    " operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 5000 milliseconds for sequential cancellation policy and" +
+                    " attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 540
  testRunner.Then("exactly 9 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 541
@@ -1584,8 +1592,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 550
  testRunner.And("I have entered 100 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 551
- testRunner.When("I setup up to fail after 200 milliseconds cancellation policy and attempt to run " +
-                    "operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 200 milliseconds for sequential cancellation policy and " +
+                    "attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 552
  testRunner.Then("exactly 2 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 553
@@ -1615,8 +1623,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 561
  testRunner.And("I have entered 200 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 562
- testRunner.When("I setup up to fail after 600 milliseconds cancellation policy and attempt to run " +
-                    "operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 600 milliseconds for sequential cancellation policy and " +
+                    "attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 563
  testRunner.Then("exactly 3 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 564
@@ -1646,8 +1654,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 572
  testRunner.And("I have entered 200 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 573
- testRunner.When("I setup up to fail after 1500 milliseconds cancellation policy and attempt to run" +
-                    " operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 1500 milliseconds for sequential cancellation policy and" +
+                    " attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 574
  testRunner.Then("exactly 8 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 575
@@ -1677,8 +1685,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 583
  testRunner.And("I have entered 430 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 584
- testRunner.When("I setup up to fail after 3000 milliseconds cancellation policy and attempt to run" +
-                    " operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 3000 milliseconds for sequential cancellation policy and" +
+                    " attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 585
  testRunner.Then("exactly 7 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 586
@@ -1708,8 +1716,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 594
  testRunner.And("I have entered 600 milliseconds between", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 595
- testRunner.When("I setup up to fail after 5000 milliseconds cancellation policy and attempt to run" +
-                    " operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I setup up to fail after 5000 milliseconds for sequential cancellation policy and" +
+                    " attempt to run operation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 596
  testRunner.Then("exactly 9 retry should happen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 597

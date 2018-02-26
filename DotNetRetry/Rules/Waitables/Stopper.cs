@@ -50,7 +50,6 @@ namespace DotNetRetry.Rules.Waitables
             finally
             {
                 stopwatch.Stop();
-                Console.WriteLine($"Overhead {stopwatch.ElapsedTicks}");
             }
         }
     }

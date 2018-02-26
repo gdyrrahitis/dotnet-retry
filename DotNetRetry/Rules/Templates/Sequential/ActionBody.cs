@@ -39,7 +39,6 @@ namespace DotNetRetry.Rules.Templates.Sequential
         /// <param name="attempts"></param>
         internal override bool Do(Action action, List<Exception> exceptions, TimerService timerService, int attempts)
         {
-            Console.WriteLine($"Do: {attempts}");
             try
             {
                 try
@@ -57,7 +56,6 @@ namespace DotNetRetry.Rules.Templates.Sequential
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Retry: {attempts}");
                 Retry(exceptions, ex, attempts, timerService);
             }
 
@@ -82,7 +80,6 @@ namespace DotNetRetry.Rules.Templates.Sequential
             var waitable = _waitableFactory.Select(attempts);
             waitable.Exceptions = exceptions;
             waitable.Wait(timeToWait);
-            Console.WriteLine($"Time to wait: {timeToWait} and attempts: {attempts}");
         }
     }
 }

@@ -38,10 +38,6 @@ namespace DotNetRetry.Factories
         /// </summary>
         /// <param name="attempts">The attempts to test if greater than 0 or not.</param>
         /// <returns>An <see cref="IWaitable"/> instance.</returns>
-        public IWaitable Select(int attempts)
-        {
-            Console.WriteLine($"Attempts: {attempts}");
-            return _waitables[attempts > 0];
-        }
+        public IWaitable Select(int attempts) => _waitables[attempts > 0];
     }
 }
