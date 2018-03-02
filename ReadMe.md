@@ -85,7 +85,6 @@ var rule = Rule.SetupRules(Strategy.Exponential);
 ```
 
 ### **Define options**
-// TODO
 Call the `Config` method and provide a new instance of `Options` object, indicating the max number of retries and/or the timing for these retries, based on the policy chosen.
 ```
 // Sets up a Sequential retry policy with maximum 3 tries, having an 100 millisecond window between each retry
@@ -96,6 +95,9 @@ var rule = Rule.Setup(Strategy.Exponential).Config(new Options(6, TimeSpan.FromS
 
 // Sets up a Sequential retry policy with infinite tries, having an 1.5 seconds window between each retry
 var rule = Rule.Setup(Strategy.Sequential).Config(new Options(TimeSpan.FromMilliseconds(1500)));
+
+// Sets up a Sequential retry policy with maximum 4 tries, having no window between each retry
+var rule = Rule.Setup(Strategy.Sequential).Config(new Options(4));
 ```
 
 ### **Just a method invocation**
@@ -118,7 +120,6 @@ rule.Attempt(() => TryThisOperation(x, y));
 
 ### **Using methods that return a value**
 
-// TODO
 They will be treated as `Func<T>`
 ```
 // Greet() method returns "Hello there!"
