@@ -1,0 +1,38 @@
+﻿namespace DotNetRetry.Unit.Tests.Rules.Templates.Sequential.ActionBodyTests
+{
+    using System;
+    using DotNetRetry.Core.Abstractions;
+    using DotNetRetry.Factories;
+    using DotNetRetry.Rules.Configuration;
+    using DotNetRetry.Rules.Templates.Sequential;
+    using Moq;
+    using Xunit;
+    using static Xunit.Assert;
+
+    public class WaitTime
+    {
+        [Theory]
+        [InlineData(1, 1000)]
+        [InlineData(2, 1000)]
+        [InlineData(4, 1000)]
+        [InlineData(8, 1000)]
+        [InlineData(12, 1000)]
+        public void ShouldEqualToWhatIsSetForRetriableOptions(int attempts, int seconds)
+        {
+            // Arrange
+            var time = TimeSpan.FromMilliseconds(seconds);
+            var options = new Options(attempts, time);
+            var retriableMock = new Mock<Retriable>();
+            retriableMock.Object.Options = new RuleOptions(retriableMock.Object);
+            retriableMock.Object.Options.Config(options);
+            var waitableFactoryMock = new Mock<IWaitableFactory>();
+            var actionBody = new ActionBody(retriableMock.Object, waitableFactoryMock.Object);
+
+            // Act
+            var result = actionBody.WaitTime();
+
+            // Assert
+            Equal(time, result);
+        }
+    }
+}
