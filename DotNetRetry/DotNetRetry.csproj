@@ -29,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\DotNetRetry.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bytes2you.Validation, Version=2.0.0.0, Culture=neutral, PublicKeyToken=a7d501dd757e0442, processorArchitecture=MSIL">
@@ -44,18 +45,62 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IRetry.cs" />
-    <Compile Include="IRetryAction.cs" />
-    <Compile Include="IRetryFunction.cs" />
-    <Compile Include="Wrapper\IRetryWrapper.cs" />
-    <Compile Include="Retry.cs" />
+    <Compile Include="Core\Abstractions\RetriableAttempts.cs" />
+    <Compile Include="Core\Abstractions\RetriableEvents.cs" />
+    <Compile Include="Core\Abstractions\RetriableOptions.cs" />
+    <Compile Include="Core\Auxiliery\Delayer.cs" />
+    <Compile Include="Core\Auxiliery\Constants.cs" />
+    <Compile Include="Core\Auxiliery\ExceptionsExtension.cs" />
+    <Compile Include="Core\Auxiliery\Guards.cs" />
+    <Compile Include="Core\Auxiliery\IDelayer.cs" />
+    <Compile Include="Core\Auxiliery\ISyncDelayer.cs" />
+    <Compile Include="Core\Exceptions\ActivatorNotFoundException.cs" />
+    <Compile Include="Core\Exceptions\RuleNotFoundException.cs" />
+    <Compile Include="Core\IRetry.cs" />
+    <Compile Include="Core\IRetryAction.cs" />
+    <Compile Include="Core\IRetryFunction.cs" />
+    <Compile Include="Core\Time\TimerService.cs" />
+    <Compile Include="Factories\IRulesFactory.cs" />
+    <Compile Include="Factories\RulesFactory.cs" />
+    <Compile Include="Rules\Configuration\Options.cs" />
+    <Compile Include="Rules\Configuration\RuleOptions.cs" />
+    <Compile Include="Rules\Loops\Finite.cs" />
+    <Compile Include="Rules\Loops\Forever.cs" />
+    <Compile Include="Rules\Loops\Looper.cs" />
+    <Compile Include="Rules\Loops\Selector.cs" />
+    <Compile Include="Rules\Policy.cs" />
+    <Compile Include="Rules\Waitables\Pauser.cs" />
+    <Compile Include="Rules\Templates\ExceptionBodyTemplate.cs" />
+    <Compile Include="Rules\Templates\Exponential\ActionBody.cs" />
+    <Compile Include="Rules\Templates\Exponential\FunctionBody.cs" />
+    <Compile Include="Rules\Waitables\IWaitable.cs" />
+    <Compile Include="Factories\IWaitableFactory.cs" />
+    <Compile Include="Rules\Waitables\Stopper.cs" />
+    <Compile Include="Rules\Templates\Sequential\ActionBody.cs" />
+    <Compile Include="Rules\Cancellation\CancellationRule.cs" />
+    <Compile Include="Rules\Cancellation\ExceptionRule.cs" />
+    <Compile Include="Rules\Exponential.cs" />
+    <Compile Include="Rules\Templates\Sequential\FunctionBody.cs" />
+    <Compile Include="Rules\Templates\FunctionBodyTemplate.cs" />
+    <Compile Include="Core\Abstractions\RetriableRules.cs" />
+    <Compile Include="Rules\Templates\ActionBodyTemplate.cs" />
+    <Compile Include="Rules\Rule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Static\Retry.cs" />
-    <Compile Include="Wrapper\Retry.cs" />
+    <Compile Include="Rules\Strategy.cs" />
+    <Compile Include="Rules\Sequential.cs" />
+    <Compile Include="Factories\WaitableFactory.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="Factories\ActivatorsFactory.cs" />
+    <Compile Include="Core\Activators\IActivator.cs" />
+    <Compile Include="Factories\IActivatorsFactory.cs" />
+    <Compile Include="Core\Activators\NullActivator.cs" />
+    <Compile Include="Core\Activators\TypeActivator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="DotNetRetry.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

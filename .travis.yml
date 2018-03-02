@@ -1,5 +1,28 @@
 language: csharp
 solution: DotNetRetry.sln
+env:
+  - DB=postgres
+  - SH=bash
+  - PACKAGE_VERSION="1.0.0"
+install:
+ - nuget restore DotNetRetry.sln
 script:
-  - xbuild /p:Configuration=Release DotNetRetry.sln
-  - mono ./packages/NUnit.ConsoleRunner.*/tools/nunit3-console.exe ./DotNetRetryTests/bin/Release/DotNetRetry.Tests.dll
+  - msbuild /p:Configuration=Release DotNetRetry.sln
+  - mono ./packages/xunit.runner.console.*/tools/net452/xunit.console.exe ./DotNetRetryTests/bin/Release/DotNetRetry.Unit.Tests.dll
+  - mono ./packages/xunit.runner.console.*/tools/net452/xunit.console.exe ./DotNetRetry.Integration.Tests/bin/Release/DotNetRetry.Integration.Tests.dll -parallel none
+  - mono ./packages/xunit.runner.console.*/tools/net452/xunit.console.exe ./DotNetRetry.Acceptance.Tests/bin/Release/DotNetRetry.Acceptance.Tests.dll -parallel none
+deploy:
+ # require the branch name to be master for deployment
+ skip_cleanup: true
+ provider: script
+ script: chmod +x deploy.sh && deploy.sh $NUGET_API_KEY $NUGET_SOURCE $PACKAGE_VERSION
+ on:
+  branch: master
+
+after_deploy:
+ # Create GIT TAG
+ - "git config --global user.email \"builds@travis-ci.com\""
+ - "git config --global user.name \"Travis CI\""
+ - "export GIT_TAG=$PACKAGE_VERSION"
+ - "git tag $GIT_TAG -a -m \"Generated tag $GIT_TAG from TravisCI build $TRAVIS_BUILD_NUMBER\""
+ - "git push -quiet https://$GITHUBKEY@https://github.com/gdyrrahitis/dotnet-retry $GIT_TAG"
