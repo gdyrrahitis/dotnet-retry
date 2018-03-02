@@ -65,13 +65,17 @@
             // Arrange
             var dispatched = false;
             var rule = Rule.Setup(input)
-                .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
-                .OnBeforeRetry((sender, args) => dispatched = true);
+                .Config(new Options(2, TimeSpan.FromMilliseconds(1)))
+                .OnBeforeRetry((sender, args) =>
+                {
+                    dispatched = true;
+                });
 
             // Act
             Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom exception"); }));
 
             // Assert
+            Console.WriteLine($"This is the failed one ({input}) - OnBeforeRetry.EventShouldBeRaisedBeforeRetryForNonReturnableMethod");
             True(dispatched, "Event should be dispatched");
         }
 

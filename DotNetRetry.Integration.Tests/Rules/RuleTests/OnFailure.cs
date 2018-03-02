@@ -30,13 +30,14 @@
             // Arrange
             var dispatched = false;
             var rule = Rule.Setup(input)
-                .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
+                .Config(new Options(2, TimeSpan.FromMilliseconds(1000)))
                 .OnFailure((sender, args) => dispatched = true);
 
             // Act
             Throws<AggregateException>(() => rule.Attempt(() => { throw new Exception("Custom Exception"); }));
 
             // Assert
+            Console.WriteLine($"This is the failed one ({input}) - OnFailure.EventShouldBeDispatchedWhenFailureOccursForAction");
             True(dispatched, "Event should be dispatched");
         }
 

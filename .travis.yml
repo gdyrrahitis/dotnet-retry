@@ -19,12 +19,10 @@ deploy:
  on:
   branch: master
 
-#after_success:
-  # Create GIT TAG
-#  - git config --global user.email "builds@travis-ci.com"
-#  - git config --global user.name "Travis CI"
-#  - export GIT_TAG=$PACKAGE_VERSION
-#  - git tag $GIT_TAG -a -m "Generated tag $GIT_TAG from TravisCI build $TRAVIS_BUILD_NUMBER"
-#  - git push -quiet https://$GITHUBKEY@https://github.com/gdyrrahitis/dotnet-retry $GIT_TAG
-#  on:
-#   branch: master
+after_deploy:
+ # Create GIT TAG
+ - "git config --global user.email \"builds@travis-ci.com\""
+ - "git config --global user.name \"Travis CI\""
+ - "export GIT_TAG=$PACKAGE_VERSION"
+ - "git tag $GIT_TAG -a -m \"Generated tag $GIT_TAG from TravisCI build $TRAVIS_BUILD_NUMBER\""
+ - "git push -quiet https://$GITHUBKEY@https://github.com/gdyrrahitis/dotnet-retry $GIT_TAG"

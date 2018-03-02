@@ -9,14 +9,18 @@
     [Binding, Scope(Tag = "Cancellation")]
     public sealed class CancellationStepDefinitions : GlobalStepDefinitions
     {
+        public CancellationStepDefinitions(ScenarioContext scenarioContext) : base(scenarioContext)
+        {
+        }
+
         [Given("I have entered (.*) milliseconds between"), Scope(Tag = "Cancellation")]
-        public void GivenIHaveEnteredAttemptsForMillisecondsBetween(int time) => ScenarioContext.Current.Add("time", time);
+        public void GivenIHaveEnteredAttemptsForMillisecondsBetween(int time) => InjectedScenarioContext.Add("time", time);
 
         [Given(@"I have entered a failing non-returnable operation which fails at step (\d+) with (.*) and all others are (.*)")]
         public void GivenIHaveEnteredAFailingNon_ReturnableOperationWhichFailsAtStepWithArgumentExceptionAndAllOthersAreException(int step,
             Exceptions toFailWith, Exceptions others)
         {
-            var count = ScenarioContext.Current.Get<int>("count");
+            var count = InjectedScenarioContext.Get<int>("count");
             Action action = () =>
             {
                 if (++count == step)
@@ -25,18 +29,18 @@
                     return;
                 }
 
-                ScenarioContext.Current.Remove("count");
-                ScenarioContext.Current.Add("count", count);
+                InjectedScenarioContext.Remove("count");
+                InjectedScenarioContext.Add("count", count);
                 ThrowWithExceptionByType(others);
             };
-            ScenarioContext.Current.Add("action", action);
+            InjectedScenarioContext.Add("action", action);
         }
 
         [Given(@"I have entered a failing returnable operation which fails at step (\d+) with (.*) and all others are (.*)")]
         public void GivenIHaveEnteredAFailingReturnableOperationWhichFailsAtStepWithArgumentExceptionAndAllOthersAreException(int step,
     Exceptions toFailWith, Exceptions others)
         {
-            var count = ScenarioContext.Current.Get<int>("count");
+            var count = InjectedScenarioContext.Get<int>("count");
             Func<string> function = () =>
             {
                 if (++count == step)
@@ -44,12 +48,12 @@
                     ThrowWithExceptionByType(toFailWith);
                 }
 
-                ScenarioContext.Current.Remove("count");
-                ScenarioContext.Current.Add("count", count);
+                InjectedScenarioContext.Remove("count");
+                InjectedScenarioContext.Add("count", count);
                 ThrowWithExceptionByType(others);
                 return "Hello world!";
             };
-            ScenarioContext.Current.Add("function", function);
+            InjectedScenarioContext.Add("function", function);
         }
 
         private void ThrowWithExceptionByType(Exceptions toFailWith)
@@ -77,14 +81,14 @@
             int attempts;
             int whenToStop;
             var stopWatch = new Stopwatch();
-            var haveWhenToStopSetup = ScenarioContext.Current.TryGetValue("whenToStop", out whenToStop);
-            var haveAttemptsSetup = ScenarioContext.Current.TryGetValue("attempts", out attempts);
-            var time = TimeSpan.FromMilliseconds(ScenarioContext.Current.Get<int>("time"));
-            var haveActionSetup = ScenarioContext.Current.TryGetValue("action", out action);
-            var haveFunctionSetup = ScenarioContext.Current.TryGetValue("function", out function);
-            var before = ScenarioContext.Current.Get<int>("before");
-            var after = ScenarioContext.Current.Get<int>("after");
-            var failure = ScenarioContext.Current.Get<int>("failure");
+            var haveWhenToStopSetup = InjectedScenarioContext.TryGetValue("whenToStop", out whenToStop);
+            var haveAttemptsSetup = InjectedScenarioContext.TryGetValue("attempts", out attempts);
+            var time = TimeSpan.FromMilliseconds(InjectedScenarioContext.Get<int>("time"));
+            var haveActionSetup = InjectedScenarioContext.TryGetValue("action", out action);
+            var haveFunctionSetup = InjectedScenarioContext.TryGetValue("function", out function);
+            var before = InjectedScenarioContext.Get<int>("before");
+            var after = InjectedScenarioContext.Get<int>("after");
+            var failure = InjectedScenarioContext.Get<int>("failure");
 
             try
             {
@@ -104,18 +108,18 @@
                     .OnBeforeRetry((sender, args) =>
                     {
                         before++;
-                        ScenarioContext.Current.Remove("before");
-                        ScenarioContext.Current.Add("before", before);
+                        InjectedScenarioContext.Remove("before");
+                        InjectedScenarioContext.Add("before", before);
                     }).OnAfterRetry((sender, args) =>
                     {
                         after++;
-                        ScenarioContext.Current.Remove("after");
-                        ScenarioContext.Current.Add("after", after);
+                        InjectedScenarioContext.Remove("after");
+                        InjectedScenarioContext.Add("after", after);
                     }).OnFailure((sender, args) =>
                     {
                         failure++;
-                        ScenarioContext.Current.Remove("failure");
-                        ScenarioContext.Current.Add("failure", failure);
+                        InjectedScenarioContext.Remove("failure");
+                        InjectedScenarioContext.Add("failure", failure);
                     });
 
                 if (haveActionSetup)
@@ -133,13 +137,13 @@
             }
             catch (AggregateException ex)
             {
-                ScenarioContext.Current.Add("aggregateException", ex);
+                InjectedScenarioContext.Add("aggregateException", ex);
             }
             finally
             {
                 stopWatch.Stop();
-                ScenarioContext.Current.Remove("time");
-                ScenarioContext.Current.Add("time", stopWatch.ElapsedMilliseconds);
+                InjectedScenarioContext.Remove("time");
+                InjectedScenarioContext.Add("time", stopWatch.ElapsedMilliseconds);
             }
         }
 
@@ -150,13 +154,13 @@
             Func<string> function;
             int attempts;
             var stopWatch = new Stopwatch();
-            var haveAttemptsSetup = ScenarioContext.Current.TryGetValue("attempts", out attempts);
-            var time = TimeSpan.FromMilliseconds(ScenarioContext.Current.Get<int>("time"));
-            var haveActionSetup = ScenarioContext.Current.TryGetValue("action", out action);
-            var haveFunctionSetup = ScenarioContext.Current.TryGetValue("function", out function);
-            var before = ScenarioContext.Current.Get<int>("before");
-            var after = ScenarioContext.Current.Get<int>("after");
-            var failure = ScenarioContext.Current.Get<int>("failure");
+            var haveAttemptsSetup = InjectedScenarioContext.TryGetValue("attempts", out attempts);
+            var time = TimeSpan.FromMilliseconds(InjectedScenarioContext.Get<int>("time"));
+            var haveActionSetup = InjectedScenarioContext.TryGetValue("action", out action);
+            var haveFunctionSetup = InjectedScenarioContext.TryGetValue("function", out function);
+            var before = InjectedScenarioContext.Get<int>("before");
+            var after = InjectedScenarioContext.Get<int>("after");
+            var failure = InjectedScenarioContext.Get<int>("failure");
 
             try
             {
@@ -168,18 +172,18 @@
                 .OnBeforeRetry((sender, args) =>
                 {
                     before++;
-                    ScenarioContext.Current.Remove("before");
-                    ScenarioContext.Current.Add("before", before);
+                    InjectedScenarioContext.Remove("before");
+                    InjectedScenarioContext.Add("before", before);
                 }).OnAfterRetry((sender, args) =>
                 {
                     after++;
-                    ScenarioContext.Current.Remove("after");
-                    ScenarioContext.Current.Add("after", after);
+                    InjectedScenarioContext.Remove("after");
+                    InjectedScenarioContext.Add("after", after);
                 }).OnFailure((sender, args) =>
                 {
                     failure++;
-                    ScenarioContext.Current.Remove("failure");
-                    ScenarioContext.Current.Add("failure", failure);
+                    InjectedScenarioContext.Remove("failure");
+                    InjectedScenarioContext.Add("failure", failure);
                 });
 
                 if (haveActionSetup)
@@ -197,13 +201,13 @@
             }
             catch (AggregateException ex)
             {
-                ScenarioContext.Current.Add("aggregateException", ex);
+                InjectedScenarioContext.Add("aggregateException", ex);
             }
             finally
             {
                 stopWatch.Stop();
-                ScenarioContext.Current.Remove("time");
-                ScenarioContext.Current.Add("time", stopWatch.ElapsedMilliseconds);
+                InjectedScenarioContext.Remove("time");
+                InjectedScenarioContext.Add("time", stopWatch.ElapsedMilliseconds);
             }
         }
 
@@ -211,8 +215,8 @@
         [Given(@"stops after (.*) milliseconds")]
         public void GivenStopsAfterMillisecond(int time)
         {
-            ScenarioContext.Current.Remove("whenToStop");
-            ScenarioContext.Current.Add("whenToStop", time);
+            InjectedScenarioContext.Remove("whenToStop");
+            InjectedScenarioContext.Add("whenToStop", time);
         }
 
         private Type GetExceptionType(Exceptions exception)

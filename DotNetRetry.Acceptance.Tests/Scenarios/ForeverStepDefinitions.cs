@@ -9,18 +9,22 @@
     [Binding, Scope(Tag = "Forever")]
     public sealed class ForeverStepDefinitions: GlobalStepDefinitions
     {
+        public ForeverStepDefinitions(ScenarioContext scenarioContext) : base(scenarioContext)
+        {
+        }
+
         [Given("I have entered (.*) milliseconds between"), Scope(Tag = "Forever")]
-        public void GivenIHaveEnteredAttemptsForMillisecondsBetween(int time) => ScenarioContext.Current.Add("time", time);
+        public void GivenIHaveEnteredAttemptsForMillisecondsBetween(int time) => InjectedScenarioContext.Add("time", time);
 
         [When("I attempt to run it"), Scope(Tag = "Forever")]
         public void WhenIAttemptToRunIt()
         {
             var stopWatch = new Stopwatch();
-            var time = TimeSpan.FromMilliseconds(ScenarioContext.Current.Get<int>("time"));
-            var action = ScenarioContext.Current.Get<Action>("action");
-            var before = ScenarioContext.Current.Get<int>("before");
-            var after = ScenarioContext.Current.Get<int>("after");
-            var failure = ScenarioContext.Current.Get<int>("failure");
+            var time = TimeSpan.FromMilliseconds(InjectedScenarioContext.Get<int>("time"));
+            var action = InjectedScenarioContext.Get<Action>("action");
+            var before = InjectedScenarioContext.Get<int>("before");
+            var after = InjectedScenarioContext.Get<int>("after");
+            var failure = InjectedScenarioContext.Get<int>("failure");
 
             try
             {
@@ -30,32 +34,32 @@
                     .OnBeforeRetry((sender, args) =>
                     {
                         before++;
-                        ScenarioContext.Current.Remove("before");
-                        ScenarioContext.Current.Add("before", before);
+                        InjectedScenarioContext.Remove("before");
+                        InjectedScenarioContext.Add("before", before);
                     })
                     .OnAfterRetry((sender, args) =>
                     {
                         after++;
-                        ScenarioContext.Current.Remove("after");
-                        ScenarioContext.Current.Add("after", after);
+                        InjectedScenarioContext.Remove("after");
+                        InjectedScenarioContext.Add("after", after);
                     })
                     .OnFailure((sender, args) =>
                     {
                         failure++;
-                        ScenarioContext.Current.Remove("failure");
-                        ScenarioContext.Current.Add("failure", failure);
+                        InjectedScenarioContext.Remove("failure");
+                        InjectedScenarioContext.Add("failure", failure);
                     })
                     .Attempt(action);
             }
             catch (AggregateException exception)
             {
-                ScenarioContext.Current.Add("aggregateException", exception);
+                InjectedScenarioContext.Add("aggregateException", exception);
             }
             finally
             {
                 stopWatch.Stop();
-                ScenarioContext.Current.Remove("time");
-                ScenarioContext.Current.Add("time", stopWatch.ElapsedMilliseconds);
+                InjectedScenarioContext.Remove("time");
+                InjectedScenarioContext.Add("time", stopWatch.ElapsedMilliseconds);
             }
         }
 
@@ -63,11 +67,11 @@
         public void WhenIAttemptToRunExponential()
         {
             var stopWatch = new Stopwatch();
-            var time = TimeSpan.FromMilliseconds(ScenarioContext.Current.Get<int>("time"));
-            var action = ScenarioContext.Current.Get<Action>("action");
-            var before = ScenarioContext.Current.Get<int>("before");
-            var after = ScenarioContext.Current.Get<int>("after");
-            var failure = ScenarioContext.Current.Get<int>("failure");
+            var time = TimeSpan.FromMilliseconds(InjectedScenarioContext.Get<int>("time"));
+            var action = InjectedScenarioContext.Get<Action>("action");
+            var before = InjectedScenarioContext.Get<int>("before");
+            var after = InjectedScenarioContext.Get<int>("after");
+            var failure = InjectedScenarioContext.Get<int>("failure");
 
             try
             {
@@ -77,39 +81,39 @@
                     .OnBeforeRetry((sender, args) =>
                     {
                         before++;
-                        ScenarioContext.Current.Remove("before");
-                        ScenarioContext.Current.Add("before", before);
+                        InjectedScenarioContext.Remove("before");
+                        InjectedScenarioContext.Add("before", before);
                     })
                     .OnAfterRetry((sender, args) =>
                     {
                         after++;
-                        ScenarioContext.Current.Remove("after");
-                        ScenarioContext.Current.Add("after", after);
+                        InjectedScenarioContext.Remove("after");
+                        InjectedScenarioContext.Add("after", after);
                     })
                     .OnFailure((sender, args) =>
                     {
                         failure++;
-                        ScenarioContext.Current.Remove("failure");
-                        ScenarioContext.Current.Add("failure", failure);
+                        InjectedScenarioContext.Remove("failure");
+                        InjectedScenarioContext.Add("failure", failure);
                     })
                     .Attempt(action);
             }
             catch (AggregateException exception)
             {
-                ScenarioContext.Current.Add("aggregateException", exception);
+                InjectedScenarioContext.Add("aggregateException", exception);
             }
             finally
             {
                 stopWatch.Stop();
-                ScenarioContext.Current.Remove("time");
-                ScenarioContext.Current.Add("time", stopWatch.ElapsedMilliseconds);
+                InjectedScenarioContext.Remove("time");
+                InjectedScenarioContext.Add("time", stopWatch.ElapsedMilliseconds);
             }
         }
 
         [When("I setup rule configuration"), Scope(Tag = "Forever")]
         public void WhenSetupRuleConfiguration()
         {
-            var time = TimeSpan.FromMilliseconds(ScenarioContext.Current.Get<int>("time"));
+            var time = TimeSpan.FromMilliseconds(InjectedScenarioContext.Get<int>("time"));
 
             try
             {
@@ -118,14 +122,14 @@
             }
             catch (ArgumentOutOfRangeException exception)
             {
-                ScenarioContext.Current.Add("exception", exception);
+                InjectedScenarioContext.Add("exception", exception);
             }
         }
 
         [When("I setup exponential configuration"), Scope(Tag = "Forever")]
         public void WhenSetupExponentialConfiguration()
         {
-            var time = TimeSpan.FromMilliseconds(ScenarioContext.Current.Get<int>("time"));
+            var time = TimeSpan.FromMilliseconds(InjectedScenarioContext.Get<int>("time"));
 
             try
             {
@@ -134,7 +138,7 @@
             }
             catch (ArgumentOutOfRangeException exception)
             {
-                ScenarioContext.Current.Add("exception", exception);
+                InjectedScenarioContext.Add("exception", exception);
             }
         }
     }
