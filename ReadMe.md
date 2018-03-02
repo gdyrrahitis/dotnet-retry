@@ -250,11 +250,13 @@ If you have dotnet cli installed, you can build the project from the solution fo
 ```
 $ > dotnet build
 
-$ > "packages/xunit.runner.console.2.*/tools/xunit.console.exe" DotNetRetryTests/bin/Release/DotNetRetry.Unit.Tests.dll
+$ > "packages/xunit.runner.console.*/tools/xunit.console.exe" DotNetRetryTests/bin/Release/DotNetRetry.Unit.Tests.dll
 
-$ > "packages/xunit.runner.console.2.*/tools/xunit.console.exe" DotNetRetry.Integration.Tests/bin/Release/DotNetRetry.Integration.Tests.dll
+$ > "packages/xunit.runner.console.*/tools/xunit.console.exe" DotNetRetry.Integration.Tests/bin/Release/DotNetRetry.Integration.Tests.dll
 
-$ > "packages/xunit.runner.console.2.*/tools/xunit.console.exe" DotNetRetry.Acceptance.Tests/bin/Release/DotNetRetry.Acceptance.Tests.dll
+$ > "packages/xunit.runner.console.*/tools/xunit.console.exe" DotNetRetry.Acceptance.Tests/bin/Release/DotNetRetry.Acceptance.Tests.dll
 ```
+*Note: where &ast; replace with dowloaded package*
+
 ## License
 Library and code is free to use in commercial applications and/or libraries without restrictions.
