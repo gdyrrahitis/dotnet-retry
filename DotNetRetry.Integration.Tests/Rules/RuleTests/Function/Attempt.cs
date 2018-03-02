@@ -34,29 +34,6 @@
 
         [Theory]
         [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
-        public void TakesAroundTwoHundredMillisecondsToCompleteAfterThreeRetriesOneSecondEach(Strategy input)
-        {
-            // Arrange
-            var stopwatch = Stopwatch.StartNew();
-            var rules = Rule.Setup(input)
-                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
-            Func<string> function = () =>
-            {
-                throw new Exception("Unhandled exception");
-            };
-
-            // Act
-            stopwatch.Start();
-            Throws<AggregateException>(() => rules.Attempt(function));
-            stopwatch.Stop();
-
-            // Assert
-            var elapsed = stopwatch.Elapsed;
-            InRange(elapsed.TotalMilliseconds, 200, 299);
-        }
-
-        [Theory]
-        [MemberData(nameof(RulesDataSource.Data), MemberType = typeof(RulesDataSource))]
         public void FailsTheFirstTimeButSucceedsOnSecondTryReturningStringValue(Strategy input)
         {
             // Arrange

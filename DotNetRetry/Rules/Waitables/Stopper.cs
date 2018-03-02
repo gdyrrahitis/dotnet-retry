@@ -35,22 +35,8 @@ namespace DotNetRetry.Rules.Waitables
         /// <param name="waitTime">The time to wait.</param>
         public void Wait(TimeSpan waitTime)
         {
-            Console.WriteLine("****************************");
-            var stopwatch = new Stopwatch();
-            try
-            {
-                stopwatch.Start();
-                _retriable.OnAfterRetryInvocation();
-                Exceptions?.ThrowFlattenAggregateException();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                stopwatch.Stop();
-            }
+            _retriable.OnAfterRetryInvocation();
+            Exceptions?.ThrowFlattenAggregateException();
         }
     }
 }
