@@ -9,8 +9,8 @@ install:
 script:
   - msbuild /p:Configuration=Release DotNetRetry.sln
   - mono ./packages/xunit.runner.console.*/tools/net452/xunit.console.exe ./DotNetRetryTests/bin/Release/DotNetRetry.Unit.Tests.dll
-  - mono ./packages/xunit.runner.console.*/tools/net452/xunit.console.exe ./DotNetRetry.Integration.Tests/bin/Release/DotNetRetry.Integration.Tests.dll
-  - mono ./packages/xunit.runner.console.*/tools/net452/xunit.console.exe ./DotNetRetry.Acceptance.Tests/bin/Release/DotNetRetry.Acceptance.Tests.dll
+  - mono ./packages/xunit.runner.console.*/tools/net452/xunit.console.exe ./DotNetRetry.Integration.Tests/bin/Release/DotNetRetry.Integration.Tests.dll -parallel none
+  - mono ./packages/xunit.runner.console.*/tools/net452/xunit.console.exe ./DotNetRetry.Acceptance.Tests/bin/Release/DotNetRetry.Acceptance.Tests.dll -parallel none
 deploy:
  # require the branch name to be master for deployment
  skip_cleanup: true
