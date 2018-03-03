@@ -28,4 +28,4 @@ after_deploy:
  - "git config --global user.name \"Travis CI\""
  - "export GIT_TAG=$PACKAGE_VERSION"
  - "git tag $GIT_TAG -a -m \"Generated tag $GIT_TAG from TravisCI build $TRAVIS_BUILD_NUMBER\""
- - "git push -quiet https://$GITHUBKEY@https://github.com/gdyrrahitis/dotnet-retry $GIT_TAG"
+ - "git push --quiet https://$GITHUBKEY@https://github.com/gdyrrahitis/dotnet-retry $GIT_TAG"
