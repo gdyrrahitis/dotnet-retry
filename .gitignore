@@ -189,7 +189,6 @@ _Pvt_Extensions/
 ModelManifest.xml
 *.ncrunchproject
 *.ncrunchsolution
-/DotNetRetry/DotNetRetry.nuspec
 /DotNetRetry/gdyrra.dotnet.retry.1.0.0.nupkg
 *.nupkg
 /DotNetRetry/.vs

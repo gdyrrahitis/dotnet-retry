@@ -4,7 +4,7 @@ language: csharp
 solution: DotNetRetry.sln
 env:
  matrix:
-  - PACKAGE_VERSION="1.0.0-rc1"
+  - PACKAGE_VERSION="1.0.0"
 install:
  - curl -L -o nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
  - nuget restore DotNetRetry.sln
@@ -17,7 +17,7 @@ deploy:
  # require the branch name to be master for deployment
  skip_cleanup: true
  provider: script
- script: chmod +x deploy.sh && deploy.sh $NUGET_API_KEY $NUGET_SOURCE $PACKAGE_VERSION
+ script: chmod +x ./deploy.sh && ./deploy.sh $NUGET_API_KEY $NUGET_SOURCE $PACKAGE_VERSION
  on:
   branch: master
 
