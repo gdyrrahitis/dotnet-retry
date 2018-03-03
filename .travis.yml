@@ -9,6 +9,7 @@ install:
  - curl -L -o nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
  - nuget restore DotNetRetry.sln
 script:
+  - sudo nuget update -self
   - msbuild /p:Configuration=Release DotNetRetry.sln
   - mono ./packages/xunit.runner.console.*/tools/net452/xunit.console.exe ./DotNetRetryTests/bin/Release/DotNetRetry.Unit.Tests.dll
   - mono ./packages/xunit.runner.console.*/tools/net452/xunit.console.exe ./DotNetRetry.Integration.Tests/bin/Release/DotNetRetry.Integration.Tests.dll -parallel none
