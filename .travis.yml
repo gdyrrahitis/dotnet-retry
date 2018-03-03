@@ -4,7 +4,7 @@ language: csharp
 solution: DotNetRetry.sln
 env:
  matrix:
-  - PACKAGE_VERSION="1.0.0"
+  - PACKAGE_VERSION="1.0.1"
 install:
  - curl -L -o nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
  - nuget restore DotNetRetry.sln
