@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>gdyrra.dotnet.retry</id>
+    <version>$version$</version>
+    <title>DotNet.Retry</title>
+    <authors>George Dyrrachitis</authors>
+    <owners>George Dyrrachitis</owners>
+    <licenseUrl>https://github.com/gdyrrahitis/dotnet-retry/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/gdyrrahitis/dotnet-retry</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A simple retry mechanism for .net</description>
+    <copyright>Copyright 2018</copyright>
+    <tags>c# retry</tags>
+  </metadata>
+</package>
