@@ -1,5 +1,6 @@
 ApiKey=$1
 Source=$2
+Version=$3
 
-nuget pack ./DotNetRetry/DotNetRetry.nuspec -Verbosity detailed -Version 1.0.0
-nuget push ./DotNetRetry/DotNetRetry.*.nupkg -Verbosity detailed -ApiKey=$1 -Source=$2
+nuget pack -Prop Configuration=Release -Version $Version -Verbosity detailed -OutputDirectory .
+nuget push gdyrra.dotnet.retry.$Version.nupkg -ApiKey $ApiKey -Source $Source
