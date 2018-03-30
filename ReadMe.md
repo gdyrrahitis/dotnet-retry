@@ -2,7 +2,7 @@
 Retry mechanism for C#
 
 [![Build Status](https://travis-ci.org/gdyrrahitis/dotnet-retry.svg?branch=features)](https://travis-ci.org/gdyrrahitis/dotnet-retry)
-[![NuGet](https://img.shields.io/nuget/vpre/gdyrra.dotnet.retry.svg)](https://www.nuget.org/packages/gdyrra.dotnet.retry/1.0.0-alpha)
+[![NuGet](https://img.shields.io/nuget/vpre/gdyrra.dotnet.retry.svg)](https://www.nuget.org/packages/gdyrra.dotnet.retry/1.0.1)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/gdyrrahitis/dotnet-retry)
 
 # Table of contents
@@ -38,7 +38,7 @@ This class contains the public API for the retry attempts.
 It exposes a static method, `Setup(Strategy strategy)` that takes a `Strategy` enum, indicating which retry policy to use. This method returns a `RuleOptions` instance, which is used to setup global options for the selected retry policy. After options have been set, you can use `Retry`'s public API to setup cancellation policies, utilize events and of course execute the operation in question.
 
 #### Methods
-* `RuleOptions Setup(Strategy strategy)`. Public static method. Sets up the retry policy. It returns a `RuleOptions` class, which can be used to setup global options for specified policy.
+* `RuleOptions::Setup(Strategy strategy)`. Public static method. Sets up the retry policy. It returns a `RuleOptions` class, which can be used to setup global options for specified policy.
 * `void::Attempt(Action action)`. Executes a void synchronous `Action`.
 * `T::Attempt<T>(Func<T> function)`. Executes a synchronous `Func<T>`.
 * `Retriable::Cancel(Action<CancellationRule> cancellationRules)`. Specifies cancellation policies via `CancellationRule` instance.
