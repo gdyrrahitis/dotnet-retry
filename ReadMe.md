@@ -2,7 +2,8 @@
 Retry mechanism for C#
 
 [![Build Status](https://travis-ci.org/gdyrrahitis/dotnet-retry.svg?branch=features)](https://travis-ci.org/gdyrrahitis/dotnet-retry)
-[![NuGet](https://img.shields.io/nuget/vpre/gdyrra.dotnet.retry.svg)](https://www.nuget.org/packages/gdyrra.dotnet.retry/1.0.1)
+
+![NuGet](https://img.shields.io/nuget/v/gdyrra.dotnet.retry.svg)(https://www.nuget.org/packages/gdyrra.dotnet.retry)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/gdyrrahitis/dotnet-retry)
 
 # Table of contents
@@ -51,10 +52,10 @@ It also exposes events for callers to subscribe to. Events are:
 
 ### `RuleOptions`
 #### Methods
-* `Retriable::Config(Options options)`. It receives an `Options` object as input, to specify global options for retry policy. It returns the parent `Retriable` instance.
+* `Retriable::Config(Action<Options> options)`. It receives an `Action<Options>` object as input, to specify global options for retry policy. It returns the parent `Retriable` instance.
 
 ### `Options`
-A simple immutable class that sets up global options for specified retry policy. Two options are included, `Attempts` and `Time`. They can be both set, or one of them.
+A class that sets up global options for specified retry policy. Two options are included, `Attempts` and `Time`. They can be both set, or one of them.
 * `int::Attempts` defines the maximum number of retries. Zero indicates infinite retries.
 * `TimeSpan::Time` is used kind of differently in various policies. For example, `Sequential` policy uses this fixed time to wait after a failure before retrying again. `Exponential` policy uses this time as the maximum backoff time, which is used in algorithm to calculate the mean backoff time. In other words, this is the maximum wait time for each retry attempt on exponential policy.
 
@@ -85,26 +86,39 @@ var rule = Rule.SetupRules(Strategy.Exponential);
 ```
 
 ### **Define options**
-Call the `Config` method and provide a new instance of `Options` object, indicating the max number of retries and/or the timing for these retries, based on the policy chosen.
+Call the `Config` method and provide options using the action parameter, indicating the max number of retries and/or the timing for these retries, based on the policy chosen.
 ```
 // Sets up a Sequential retry policy with maximum 3 tries, having an 100 millisecond window between each retry
-var rule = Rule.Setup(Strategy.Sequential).Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+var rule = Rule.Setup(Strategy.Sequential).Config(options => { 
+	options.Attempts = 3;
+	options.Time = TimeSpan.FromMilliseconds(100);
+});
 
 // Sets up an Exponential retry policy with maximum 6 tries, having a 4 second maximum backoff time.
-var rule = Rule.Setup(Strategy.Exponential).Config(new Options(6, TimeSpan.FromSeconds(4)));
+var rule = Rule.Setup(Strategy.Exponential).Config(options => { 
+	options.Attempts = 6;
+	options.Time = TimeSpan.FromSeconds(4);
+});
 
 // Sets up a Sequential retry policy with infinite tries, having an 1.5 seconds window between each retry
-var rule = Rule.Setup(Strategy.Sequential).Config(new Options(TimeSpan.FromMilliseconds(1500)));
+var rule = Rule.Setup(Strategy.Sequential).Config(options => { 
+	options.Time = TimeSpan.FromMilliseconds(1500);
+});
 
 // Sets up a Sequential retry policy with maximum 4 tries, having no window between each retry
-var rule = Rule.Setup(Strategy.Sequential).Config(new Options(4));
+var rule = Rule.Setup(Strategy.Sequential).Config(options => { 
+	options.Attempts = 4;
+});
 ```
 
 ### **Just a method invocation**
 
 Just retrying a method, twice, waiting for 2 seconds between retries.
 ```
-var rule = Rule.Setup(Strategy.Sequential).Config(new Options(2, TimeSpan.FromSeconds(2)));
+var rule = Rule.Setup(Strategy.Sequential).Config(options => { 
+	options.Attempts = 2;
+	options.Time = TimeSpan.FromSeconds(2);
+});
 
 rule.Attempt(() => TryThisOperation());
 // or just rule.Attempt(TryThisOperation);
@@ -113,7 +127,10 @@ rule.Attempt(() => TryThisOperation());
 ### **Or passing variables**
 ```
 // x = 1, y = "abc"
-var rule = Rule.Setup(Strategy.Sequential).Config(new Options(2, TimeSpan.FromSeconds(2)));
+var rule = Rule.Setup(Strategy.Sequential).Config(options => { 
+	options.Attempts = 2;
+	options.Time = TimeSpan.FromSeconds(2);
+});
 
 rule.Attempt(() => TryThisOperation(x, y));
 ```
@@ -123,7 +140,10 @@ rule.Attempt(() => TryThisOperation(x, y));
 They will be treated as `Func<T>`
 ```
 // Greet() method returns "Hello there!"
-var rule = Rule.Setup(Strategy.Sequential).Config(new Options(2, TimeSpan.FromSeconds(2)));
+var rule = Rule.Setup(Strategy.Sequential).Config(options => { 
+	options.Attempts = 2;
+	options.Time = TimeSpan.FromSeconds(2);
+});
 
 var greeting = rule.Attempt(Greet);
 Console.WriteLine(greeting); // Hello there!
@@ -135,7 +155,11 @@ The following will fail in all tries. If that happens, `Attempt` method will thr
 
 **Note: Be sure to wrap your `Attempt` call in a `try...catch` block, so you can catch the flatten `AggregateException`.**
 ```
-var rule = Rule.Setup(Strategy.Sequential).Config(new Options(3, TimeSpan.FromMilliseconds(500)));
+var rule = Rule.Setup(Strategy.Sequential).Config(options => { 
+	options.Attempts = 3;
+	options.Time = TimeSpan.FromMilliseconds(500);
+});
+
 try 
 {
     rule.Attempt(() => int.Parse("abc"));
@@ -150,7 +174,10 @@ catch(AggregateException ex)
 
 `Rule` class defines a public API that can utilize events. You can subscribe to certain events happening before or after a retry attempt or when a failure occurs during a retry attempt.
 ```
-var rule = Rule.Setup(Strategy.Sequential).Config(new Options(3, TimeSpan.FromMilliseconds(500)));
+var rule = Rule.Setup(Strategy.Sequential).Config(options => { 
+	options.Attempts = 3;
+	options.Time = TimeSpan.FromMilliseconds(500);
+});
 
 rule.OnBeforeRetry((sender, args) => {
 	// Do something before target method is called.
@@ -171,7 +198,10 @@ rule.OnBeforeRetry((sender, args) => {
 ```
 // Cancels the retry policy when an ArgumentException occurs
 var rule = Rule.Setup(Strategy.Sequential)
-	.Config(new Options(3, TimeSpan.FromMilliseconds(500)))
+	.Config(options => { 
+		options.Attempts = 3;
+		options.Time = TimeSpan.FromMilliseconds(500);
+	})
 	.Cancel(c => c.OnFailure<ArgumentException>());
 
 rule.Attempt(() =>
@@ -185,7 +215,10 @@ rule.Attempt(() =>
 ```
 // Cancels the retry policy when an ArgumentException occurs with non-generic method
 var rule = Rule.Setup(Strategy.Sequential)
-	.Config(new Options(3, TimeSpan.FromMilliseconds(500)))
+	.Config(options => { 
+		options.Attempts = 3;
+		options.Time = TimeSpan.FromMilliseconds(500);
+	})
 	.Cancel(c => c.OnFailure(typeof(ArgumentException)));
 
 rule.Attempt(() =>
@@ -200,7 +233,10 @@ rule.Attempt(() =>
 // Cancels the retry policy when an ArgumentException or
 // ArgumentOutOfRangeException occurs (same result with non-generic method)
 var rule = Rule.Setup(Strategy.Sequential)
-	.Config(new Options(3, TimeSpan.FromMilliseconds(500)))
+	.Config(options => { 
+		options.Attempts = 3;
+		options.Time = TimeSpan.FromMilliseconds(500);
+	})
 	.Cancel(c => c.OnFailure<ArgumentException>()
 		      .Or<ArgumentOutOfRangeException>()
 	);
@@ -216,7 +252,10 @@ rule.Attempt(() =>
 ```
 // Cancels the retry policy after 300 milliseconds passed
 var rule = Rule.Setup(Strategy.Sequential)
-	.Config(new Options(10, TimeSpan.FromMilliseconds(100)))
+	.Config(options => { 
+		options.Attempts = 10;
+		options.Time = TimeSpan.FromMilliseconds(100);
+	})
 	.Cancel(c => c.After(TimeSpan.FromMilliseconds(300)));
 
 rule.Attempt(() =>
@@ -230,7 +269,10 @@ rule.Attempt(() =>
 ```
 // Can mix and match cancellation rules
 var rule = Rule.Setup(Strategy.Sequential)
-	.Config(new Options(10, TimeSpan.FromMilliseconds(100)))
+	.Config(options => { 
+		options.Attempts = 10;
+		options.Time = TimeSpan.FromMilliseconds(100);
+	})
 	.Cancel(c => c.After(TimeSpan.FromMilliseconds(300))
 	              .OnFailure<ArgumentException>());
 
