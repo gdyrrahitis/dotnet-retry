@@ -41,10 +41,13 @@
             // Arrange
             const int randomValue = 10;
             var time = TimeSpan.FromMilliseconds(seconds);
-            var options = new Options(10, time);
             var retriableMock = new Mock<Retriable>();
             retriableMock.Object.Options = new RuleOptions(retriableMock.Object);
-            retriableMock.Object.Options.Config(options);
+            retriableMock.Object.Options.Config(options =>
+            {
+                options.Attempts = randomValue;
+                options.Time = time;
+            });
             var waitableFactoryMock = new Mock<IWaitableFactory>();
             var randomMock = new Mock<Random>();
             randomMock.Setup(m => m.Next(It.IsAny<int>(), It.IsAny<int>())).Returns(randomValue);

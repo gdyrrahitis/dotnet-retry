@@ -38,11 +38,14 @@
             var exceptions = Enumerable.Repeat(new Exception(), 2).ToList();
             var time = TimeSpan.FromMilliseconds(100);
             var service = new TimerService(time);
-            var options = new Options(3, time);
-            _retriableMock.Object.Options.Config(options);
+            _retriableMock.Object.Options.Config(options =>
+            {
+                options.Attempts = 3;
+                options.Time = time;
+            });
 
             // Act
-            var result = _actionBody.Do(() => { }, exceptions, service, options.Attempts);
+            var result = _actionBody.Do(() => { }, exceptions, service, 3);
 
             // Assert
             True(result);
@@ -55,19 +58,22 @@
             var exceptions = Enumerable.Repeat(new Exception(), 2).ToList();
             var time = TimeSpan.FromMilliseconds(100);
             var service = new TimerService(time);
-            var options = new Options(3, time);
-            _retriableMock.Object.Options.Config(options);
+            _retriableMock.Object.Options.Config(options =>
+            {
+                options.Attempts = 3;
+                options.Time = time;
+            });
 
             // Act
-            var result = _actionBody.Do(() => { throw new Exception("Custom exception"); }, exceptions, service, options.Attempts);
+            var result = _actionBody.Do(() => { throw new Exception("Custom exception"); }, exceptions, service, 3);
 
             // Assert
             False(result);
             _retriableMock.Verify(m => m.OnBeforeRetryInvocation(), Times.Once);
             _retriableMock.Verify(m => m.OnFailureInvocation(), Times.Once);
             _retriableMock.Verify(m => m.OnAfterRetryInvocation(), Times.Once);
-            _waitableFactoryMock.Verify(m => m.Select(options.Attempts), Times.Once);
-            _waitableMock.Verify(m => m.Wait(options.Time), Times.Once);
+            _waitableFactoryMock.Verify(m => m.Select(3), Times.Once);
+            _waitableMock.Verify(m => m.Wait(time), Times.Once);
             Equal(3, exceptions.Count);
         }
 
@@ -78,8 +84,11 @@
             var exceptions = new List<Exception>();
             var time = TimeSpan.FromMilliseconds(100);
             var service = new TimerService(time);
-            var options = new Options(3, time);
-            _retriableMock.Object.Options.Config(options);
+            _retriableMock.Object.Options.Config(options =>
+            {
+                options.Attempts = 3;
+                options.Time = time;
+            });
             var cancellationRule = new CancellationRule();
             cancellationRule.AddExceptionType(typeof(ArgumentException));
             _retriableMock.Object.CancellationRule = cancellationRule;
@@ -88,14 +97,14 @@
             var exception = Throws<AggregateException>(() => _actionBody.Do(() =>
             {
                 throw new ArgumentException("Custom exception");
-            }, exceptions, service, options.Attempts));
+            }, exceptions, service, 3));
 
             // Assert
             _retriableMock.Verify(m => m.OnBeforeRetryInvocation(), Times.Once);
             _retriableMock.Verify(m => m.OnFailureInvocation(), Times.Once);
             _retriableMock.Verify(m => m.OnAfterRetryInvocation(), Times.Once);
-            _waitableFactoryMock.Verify(m => m.Select(options.Attempts), Times.Never);
-            _waitableMock.Verify(m => m.Wait(options.Time), Times.Never);
+            _waitableFactoryMock.Verify(m => m.Select(3), Times.Never);
+            _waitableMock.Verify(m => m.Wait(time), Times.Never);
             Single(exception.InnerExceptions);
         }
 
@@ -106,8 +115,11 @@
             var exceptions = new List<Exception>();
             var time = TimeSpan.FromMilliseconds(100);
             var service = new TimerService(time);
-            var options = new Options(3, time);
-            _retriableMock.Object.Options.Config(options);
+            _retriableMock.Object.Options.Config(options =>
+            {
+                options.Attempts = 3;
+                options.Time = time;
+            });
             var cancellationRule = new CancellationRule();
             cancellationRule.After(TimeSpan.FromMilliseconds(50));
             _retriableMock.Object.CancellationRule = cancellationRule;
@@ -116,14 +128,14 @@
             var exception = Throws<AggregateException>(() => _actionBody.Do(() =>
             {
                 throw new ArgumentException("Custom exception");
-            }, exceptions, service, options.Attempts));
+            }, exceptions, service, 3));
 
             // Assert
             _retriableMock.Verify(m => m.OnBeforeRetryInvocation(), Times.Once);
             _retriableMock.Verify(m => m.OnFailureInvocation(), Times.Once);
             _retriableMock.Verify(m => m.OnAfterRetryInvocation(), Times.Once);
-            _waitableFactoryMock.Verify(m => m.Select(options.Attempts), Times.Once);
-            _waitableMock.Verify(m => m.Wait(options.Time), Times.Once);
+            _waitableFactoryMock.Verify(m => m.Select(3), Times.Once);
+            _waitableMock.Verify(m => m.Wait(time), Times.Once);
             Single(exception.InnerExceptions);
         }
     }

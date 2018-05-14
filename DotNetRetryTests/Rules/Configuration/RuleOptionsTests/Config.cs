@@ -15,10 +15,13 @@
             // Arrange
             var retriableMock = new Mock<Retriable>();
             var ruleOptions = new RuleOptions(retriableMock.Object);
-            var options = new Options(1, TimeSpan.FromSeconds(1));
 
             // Act
-            var result = ruleOptions.Config(options);
+            var result = ruleOptions.Config(options =>
+            {
+                options.Attempts = 1;
+                options.Time = TimeSpan.FromSeconds(1);
+            });
 
             // Assert
             Same(retriableMock.Object, result);
@@ -32,10 +35,12 @@
             // Arrange
             var retriableMock = new Mock<Retriable>();
             var ruleOptions = new RuleOptions(retriableMock.Object);
-            var options = new Options(1);
 
             // Act
-            var result = ruleOptions.Config(options);
+            var result = ruleOptions.Config(options =>
+            {
+                options.Attempts = 1;
+            });
 
             // Assert
             Same(retriableMock.Object, result);
@@ -49,10 +54,12 @@
             // Arrange
             var retriableMock = new Mock<Retriable>();
             var ruleOptions = new RuleOptions(retriableMock.Object);
-            var options = new Options(TimeSpan.FromSeconds(1));
 
             // Act
-            var result = ruleOptions.Config(options);
+            var result = ruleOptions.Config(options =>
+            {
+                options.Time = TimeSpan.FromSeconds(1);
+            });
 
             // Assert
             Same(retriableMock.Object, result);

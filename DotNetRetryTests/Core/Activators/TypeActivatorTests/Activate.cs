@@ -17,7 +17,11 @@
         {
             // Arrange
             var rules = Rule.Setup(strategy)
-                .Config(new Options(1, TimeSpan.FromMilliseconds(1)));
+                .Config(options =>
+                {
+                    options.Attempts = 1;
+                    options.Time = TimeSpan.FromMilliseconds(1);
+                });
             var activator = new TypeActivator();
 
             // Act

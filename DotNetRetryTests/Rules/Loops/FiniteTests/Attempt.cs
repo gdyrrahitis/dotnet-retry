@@ -36,9 +36,8 @@
         {
             // Arrange
             Action action = () => { };
-            var options = new Options(attempts);
             _retriableMock.Object.Options = new RuleOptions(_retriableMock.Object);
-            _retriableMock.Object.Options.Config(options);
+            _retriableMock.Object.Options.Config(options => options.Attempts = attempts);
 
             // Act
             _finite.Attempt(action);
@@ -60,9 +59,8 @@
             var count = 0;
             var expected = "Hello World!";
             Func<string> function = () => "Hello World!";
-            var options = new Options(attempts);
             _retriableMock.Object.Options = new RuleOptions(_retriableMock.Object);
-            _retriableMock.Object.Options.Config(options);
+            _retriableMock.Object.Options.Config(options => options.Attempts = attempts);
             _functionBodyMock.Setup(
                 m => m.Do(function, It.IsAny<List<Exception>>(), It.IsAny<TimerService>(), It.IsAny<int>(), out expected))
                 .Returns(() => count++ >= attempts - 1);

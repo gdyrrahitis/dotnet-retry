@@ -96,7 +96,7 @@
     <Compile Include="Rules\Cancellation\CancellationRuleTests\OnFailure.cs" />
     <Compile Include="Rules\Cancellation\ExceptionRuleTests\End.cs" />
     <Compile Include="Rules\Cancellation\ExceptionRuleTests\Or.cs" />
-    <Compile Include="Rules\Configuration\OptionsTests\Constructor.cs" />
+    <Compile Include="Rules\Configuration\OptionsTests\Properties.cs" />
     <Compile Include="Rules\Configuration\RuleOptionsTests\Config.cs" />
     <Compile Include="Rules\Loops\FiniteTests\Attempt.cs" />
     <Compile Include="Rules\Loops\ForeverTests\Attempt.cs" />

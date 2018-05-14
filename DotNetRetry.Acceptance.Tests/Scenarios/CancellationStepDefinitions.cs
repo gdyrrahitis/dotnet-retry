@@ -93,8 +93,15 @@
             try
             {
                 stopWatch.Start();
-                var rule = haveAttemptsSetup ? Rule.Setup(strategy).Config(new Options(attempts, time)) :
-                    Rule.Setup(strategy).Config(new Options(time));
+                var rule = haveAttemptsSetup ? Rule.Setup(strategy).Config(options =>
+                {
+                    options.Attempts = attempts;
+                    options.Time = time;
+                }) :
+                    Rule.Setup(strategy).Config(options =>
+                    {
+                        options.Time = time;
+                    });
 
                 rule.Cancel(r =>
                 {
@@ -165,8 +172,15 @@
             try
             {
                 stopWatch.Start();
-                var rule = haveAttemptsSetup ? Rule.Setup(strategy).Config(new Options(attempts, time)) :
-                    Rule.Setup(Strategy.Sequential).Config(new Options(time));
+                var rule = haveAttemptsSetup ? Rule.Setup(strategy).Config(options =>
+                {
+                    options.Attempts = attempts;
+                    options.Time = time;
+                }) :
+                    Rule.Setup(Strategy.Sequential).Config(options =>
+                    {
+                        options.Time = time;
+                    });
 
                 rule.Cancel(r => r.After(TimeSpan.FromMilliseconds(whenToStop)))
                 .OnBeforeRetry((sender, args) =>
