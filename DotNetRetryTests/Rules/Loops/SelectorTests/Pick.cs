@@ -22,7 +22,10 @@
             var functionBodyMock = new Mock<FunctionBodyTemplate>(retriableMock.Object);
             var options = new RuleOptions(retriableMock.Object);
             if (attempts > 0)
-                options.Config(new Options(attempts));
+                options.Config(o =>
+                {
+                    o.Attempts = attempts;
+                });
             retriableMock.Object.Options = options;
 
             // Act

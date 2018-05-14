@@ -15,7 +15,11 @@
         {
             // Arrange 
             var rule = Rule.Setup(input)
-                .Config(new Options(3, TimeSpan.FromMilliseconds(1)));
+                .Config(options =>
+                {
+                    options.Attempts = 3;
+                    options.Time = TimeSpan.FromMilliseconds(1);
+                });
 
             // Act
             var result = rule.OnAfterRetry((sender, args) => { });
@@ -31,7 +35,11 @@
             // Arrange
             var dispatched = false;
             var rule = Rule.Setup(input)
-                .Config(new Options(3, TimeSpan.FromMilliseconds(1)))
+                .Config(options =>
+                {
+                    options.Attempts = 3;
+                    options.Time = TimeSpan.FromMilliseconds(1);
+                })
                 .OnAfterRetry((sender, args) => dispatched = true);
 
             // Act
@@ -48,7 +56,11 @@
             // Arrange
             var dispatched = false;
             var rule = Rule.Setup(input)
-                .Config(new Options(3, TimeSpan.FromMilliseconds(1)))
+                .Config(options =>
+                {
+                    options.Attempts = 3;
+                    options.Time = TimeSpan.FromMilliseconds(1);
+                })
                 .OnAfterRetry((sender, args) => dispatched = true);
 
             // Act
@@ -67,7 +79,11 @@
             var count = 0;
             var dispatched = false;
             var rule = Rule.Setup(input)
-                .Config(new Options(3, TimeSpan.FromMilliseconds(1)))
+                .Config(options =>
+                {
+                    options.Attempts = 3;
+                    options.Time = TimeSpan.FromMilliseconds(1);
+                })
                 .OnAfterRetry((sender, args) =>
                 {
                     count++;
@@ -89,7 +105,11 @@
             // Arrange
             var dispatched = false;
             var rule = Rule.Setup(input)
-                .Config(new Options(3, TimeSpan.FromMilliseconds(1)))
+                .Config(options =>
+                {
+                    options.Attempts = 3;
+                    options.Time = TimeSpan.FromMilliseconds(1);
+                })
                 .OnAfterRetry((sender, args) => dispatched = true);
 
             // Act
@@ -112,12 +132,20 @@
             // Arrange
             var dispatched = false;
             Rule.Setup(input)
-                .Config(new Options(3, TimeSpan.FromMilliseconds(1)))
+                .Config(options =>
+                {
+                    options.Attempts = 3;
+                    options.Time = TimeSpan.FromMilliseconds(1);
+                })
                 .OnAfterRetry((sender, args) => dispatched = true);
 
             // Act
             Rule.Setup(input)
-                .Config(new Options(3, TimeSpan.FromMilliseconds(1)))
+                .Config(options =>
+                {
+                    options.Attempts = 3;
+                    options.Time = TimeSpan.FromMilliseconds(1);
+                })
                 .Attempt(() => { });
 
             // Assert
@@ -131,12 +159,20 @@
             // Arrange
             var dispatched = false;
             Rule.Setup(input)
-                .Config(new Options(3, TimeSpan.FromMilliseconds(1)))
+                .Config(options =>
+                {
+                    options.Attempts = 3;
+                    options.Time = TimeSpan.FromMilliseconds(1);
+                })
                 .OnAfterRetry((sender, args) => dispatched = true);
 
             // Act
             Rule.Setup(input)
-                .Config(new Options(3, TimeSpan.FromMilliseconds(1)))
+                .Config(options =>
+                {
+                    options.Attempts = 3;
+                    options.Time = TimeSpan.FromMilliseconds(1);
+                })
                 .Attempt(() => "Return value");
 
             // Assert

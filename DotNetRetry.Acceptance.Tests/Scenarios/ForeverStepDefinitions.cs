@@ -30,7 +30,10 @@
             {
                 stopWatch.Start();
                 Rule.Setup(Strategy.Sequential)
-                    .Config(new Options(time))
+                    .Config(options =>
+                    {
+                        options.Time = time;
+                    })
                     .OnBeforeRetry((sender, args) =>
                     {
                         before++;
@@ -77,7 +80,10 @@
             {
                 stopWatch.Start();
                 Rule.Setup(Strategy.Exponential)
-                    .Config(new Options(time))
+                    .Config(options =>
+                    {
+                        options.Time = time;
+                    })
                     .OnBeforeRetry((sender, args) =>
                     {
                         before++;
@@ -118,7 +124,10 @@
             try
             {
                 Rule.Setup(Strategy.Sequential)
-                    .Config(new Options(time));
+                    .Config(options =>
+                    {
+                        options.Time = time;
+                    });
             }
             catch (ArgumentOutOfRangeException exception)
             {
@@ -134,7 +143,10 @@
             try
             {
                 Rule.Setup(Strategy.Exponential)
-                    .Config(new Options(time));
+                    .Config(options =>
+                    {
+                        options.Time = time;
+                    });
             }
             catch (ArgumentOutOfRangeException exception)
             {

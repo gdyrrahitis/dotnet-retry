@@ -14,7 +14,11 @@
         public void ReturnsSelf(Strategy input)
         {
             // Arrange 
-            var rule = Rule.Setup(input).Config(new Options(1, TimeSpan.FromMilliseconds(1)));
+            var rule = Rule.Setup(input).Config(options =>
+            {
+                options.Attempts = 1;
+                options.Time = TimeSpan.FromMilliseconds(1);
+            });
 
             // Act
             var result = rule.OnBeforeRetry((sender, args) => { });
@@ -30,7 +34,11 @@
             // Arrange
             var dispatched = false;
             var rule = Rule.Setup(input)
-                .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
+                .Config(options =>
+                {
+                    options.Attempts = 1;
+                    options.Time = TimeSpan.FromMilliseconds(1);
+                })
                 .OnBeforeRetry((sender, args) => dispatched = true);
 
             // Act
@@ -47,7 +55,11 @@
             // Arrange
             var dispatched = false;
             var rule = Rule.Setup(input)
-                .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
+                .Config(options =>
+                {
+                    options.Attempts = 1;
+                    options.Time = TimeSpan.FromMilliseconds(1);
+                })
                 .OnBeforeRetry((sender, args) => dispatched = true);
 
             // Act
@@ -65,7 +77,11 @@
             // Arrange
             var dispatched = false;
             var rule = Rule.Setup(input)
-                .Config(new Options(2, TimeSpan.FromMilliseconds(1)))
+                .Config(options =>
+                {
+                    options.Attempts = 2;
+                    options.Time = TimeSpan.FromMilliseconds(1);
+                })
                 .OnBeforeRetry((sender, args) =>
                 {
                     dispatched = true;
@@ -87,7 +103,11 @@
             var count = 0;
             var dispatched = false;
             var rule = Rule.Setup(input)
-                .Config(new Options(2, TimeSpan.FromMilliseconds(1)))
+                .Config(options =>
+                {
+                    options.Attempts = 2;
+                    options.Time = TimeSpan.FromMilliseconds(1);
+                })
                 .OnBeforeRetry((sender, args) => dispatched = true);
 
             // Act
@@ -113,12 +133,20 @@
             // Arrange
             var dispatched = false;
             Rule.Setup(input)
-                .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
+                .Config(options =>
+                {
+                    options.Attempts = 1;
+                    options.Time = TimeSpan.FromMilliseconds(1);
+                })
                 .OnBeforeRetry((sender, args) => dispatched = true);
 
             // Act
             Rule.Setup(input)
-                .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
+                .Config(options =>
+                {
+                    options.Attempts = 1;
+                    options.Time = TimeSpan.FromMilliseconds(1);
+                })
                 .Attempt(() => { });
 
             // Assert
@@ -132,12 +160,20 @@
             // Arrange
             var dispatched = false;
             Rule.Setup(input)
-                .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
+                .Config(options =>
+                {
+                    options.Attempts = 1;
+                    options.Time = TimeSpan.FromMilliseconds(1);
+                })
                 .OnBeforeRetry((sender, args) => dispatched = true);
 
             // Act
             Rule.Setup(input)
-                .Config(new Options(1, TimeSpan.FromMilliseconds(1)))
+                .Config(options =>
+                {
+                    options.Attempts = 1;
+                    options.Time = TimeSpan.FromMilliseconds(1);
+                })
                 .Attempt(() => "Return value");
 
             // Assert

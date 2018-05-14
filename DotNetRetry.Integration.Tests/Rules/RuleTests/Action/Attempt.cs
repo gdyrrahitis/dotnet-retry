@@ -15,7 +15,11 @@
         {
             // Arrange
             var actual = 0;
-            var rules = Rule.Setup(input).Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+            var rules = Rule.Setup(input).Config(options =>
+            {
+                options.Attempts = 3;
+                options.Time = TimeSpan.FromMilliseconds(100);
+            });
             Action successFullAction = () =>
             {
                 const string intAsString = "15";
@@ -37,7 +41,11 @@
             // Arrange
             var actual = 0;
             var tries = 0;
-            var rules = Rule.Setup(input).Config(new Options(5, TimeSpan.FromMilliseconds(100)));
+            var rules = Rule.Setup(input).Config(options =>
+            {
+                options.Attempts = 5;
+                options.Time = TimeSpan.FromMilliseconds(100);
+            });
             Action successAtSecondTryAction = () =>
             {
                 const string invalidNumber = "ab123";
@@ -68,7 +76,11 @@
             // Arrange
             var actual = 0;
             var tries = 0;
-            var rules = Rule.Setup(input).Config(new Options(5, TimeSpan.FromMilliseconds(100)));
+            var rules = Rule.Setup(input).Config(options =>
+            {
+                options.Attempts = 5;
+                options.Time = TimeSpan.FromMilliseconds(100);
+            });
             Action successAtThirdTryAction = () =>
             {
                 const string invalidNumber = "ab123";
@@ -99,7 +111,11 @@
             // Arrange
             var actual = 0;
             var tries = 0;
-            var rules = Rule.Setup(input).Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+            var rules = Rule.Setup(input).Config(options =>
+            {
+                options.Attempts = 3;
+                options.Time = TimeSpan.FromMilliseconds(100);
+            });
             Action failureAction = () =>
             {
                 tries++;
@@ -123,7 +139,11 @@
             // Arrange
             var actual = 0;
             const string parameter = "123456";
-            var rules = Rule.Setup(input).Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+            var rules = Rule.Setup(input).Config(options =>
+            {
+                options.Attempts = 3;
+                options.Time = TimeSpan.FromMilliseconds(100);
+            });
             Action<string> convertToIntAction = s => actual = int.Parse(s);
 
             // Act
@@ -141,7 +161,11 @@
             var actual = 0;
             var tries = 0;
             const string parameter = "abc123456";
-            var rules = Rule.Setup(input).Config(new Options(5, TimeSpan.FromMilliseconds(100)));
+            var rules = Rule.Setup(input).Config(options =>
+            {
+                options.Attempts = 5;
+                options.Time = TimeSpan.FromMilliseconds(100);
+            });
             Action<string> convertToIntAction = s =>
             {
                 if (tries == 2)
@@ -172,7 +196,11 @@
             var actual = 0;
             var tries = 0;
             const string parameter = "abcd123";
-            var rules = Rule.Setup(input).Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+            var rules = Rule.Setup(input).Config(options =>
+            {
+                options.Attempts = 3;
+                options.Time = TimeSpan.FromMilliseconds(100);
+            });
             Action<string> failureAction = s =>
             {
                 tries++;

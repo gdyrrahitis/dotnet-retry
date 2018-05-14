@@ -17,7 +17,11 @@
             // Arrange
             var attempts = 0;
             var rule = Rule.Setup(input)
-                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+                .Config(options =>
+                {
+                    options.Attempts = 3;
+                    options.Time = TimeSpan.FromMilliseconds(100);
+                });
             rule.Cancel(c => c.OnFailure<Exception>());
 
             // Act
@@ -39,7 +43,11 @@
             // Arrange
             var attempts = 0;
             var rule = Rule.Setup(input)
-                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+                .Config(options =>
+                {
+                    options.Attempts = 3;
+                    options.Time = TimeSpan.FromMilliseconds(100);
+                });
             rule.Cancel(c => c.OnFailure<Exception>());
 
             // Act
@@ -64,7 +72,11 @@
             // Arrange
             var attempts = 0;
             var rule = Rule.Setup(input)
-                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+                .Config(options =>
+                {
+                    options.Attempts = 3;
+                    options.Time = TimeSpan.FromMilliseconds(100);
+                });
             rule.Cancel(c => c.OnFailure<ArgumentException>());
 
             // Act
@@ -92,7 +104,11 @@
             // Arrange
             var attempts = 0;
             var rule = Rule.Setup(Strategy.Sequential)
-                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+                .Config(options =>
+                {
+                    options.Attempts = 3;
+                    options.Time = TimeSpan.FromMilliseconds(100);
+                });
             rule.Cancel(c => c.OnFailure<ArgumentException>());
 
             // Act
@@ -123,7 +139,11 @@
             // Arrange
             var attempts = 0;
             var rule = Rule.Setup(input)
-                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+                .Config(options =>
+                {
+                    options.Attempts = 3;
+                    options.Time = TimeSpan.FromMilliseconds(100);
+                });
             rule.Cancel(c => c.After(TimeSpan.FromMilliseconds(300)));
 
             // Act
@@ -145,7 +165,11 @@
             // Arrange
             var attempts = 0;
             var rule = Rule.Setup(input)
-                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+                .Config(options =>
+                {
+                    options.Attempts = 3;
+                    options.Time = TimeSpan.FromMilliseconds(100);
+                });
             rule.Cancel(c => c.After(TimeSpan.FromMilliseconds(300)));
 
             // Act
@@ -175,7 +199,11 @@
             // Arrange
             var attempts = 0;
             var rule = Rule.Setup(strategy)
-                .Config(new Options(totalAttempts, TimeSpan.FromMilliseconds(timeToWait)));
+                .Config(options =>
+                {
+                    options.Attempts = totalAttempts;
+                    options.Time = TimeSpan.FromMilliseconds(timeToWait);
+                });
             rule.Cancel(c => c.After(TimeSpan.FromMilliseconds(cancelAfter)).OnFailure(type));
 
             // Act
@@ -201,7 +229,11 @@
             // Arrange
             var attempts = 0;
             var rule = Rule.Setup(strategy)
-                .Config(new Options(totalAttempts, TimeSpan.FromMilliseconds(timeToWait)));
+                .Config(options =>
+                {
+                    options.Attempts = totalAttempts;
+                    options.Time = TimeSpan.FromMilliseconds(timeToWait);
+                });
             rule.Cancel(c => c.After(TimeSpan.FromMilliseconds(cancelAfter)).OnFailure(type));
 
             // Act

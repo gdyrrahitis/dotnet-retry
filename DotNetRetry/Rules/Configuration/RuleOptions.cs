@@ -33,13 +33,16 @@
         /// <summary>
         /// Configures the specified <see cref="Rule"/>.
         /// </summary>
-        /// <param name="config">The <see cref="Options"/> for <see cref="Retriable"/>.</param>
+        /// <param name="generator">The function to define <see cref="Retriable" /> options.</param>
         /// <returns>The parent <see cref="Retriable"/> instance.</returns>
-        public virtual Retriable Config(Options config)
+        public virtual Retriable Config(Action<Options> generator)
         {
-            Guard.WhenArgument(config, nameof(config))
+            Guard.WhenArgument(generator, nameof(generator))
                 .IsNull()
                 .Throw();
+
+            var config = new Options();
+            generator(config);
 
             Attempts = config.Attempts;
             Time = config.Time;

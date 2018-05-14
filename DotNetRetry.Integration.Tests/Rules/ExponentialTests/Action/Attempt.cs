@@ -26,8 +26,11 @@
             // Arrange
             var attempt = 0;
             var actual = "Not Implemented";
-            var options = new Options(totalAttempts, TimeSpan.FromSeconds(seconds));
-            var rule = _options.Config(options);
+            var rule = _options.Config(options =>
+            {
+                options.Attempts = totalAttempts;
+                options.Time = TimeSpan.FromSeconds(seconds);
+            });
             var exponential = new Exponential(rule);
             Action successFullAction = () =>
             {
@@ -56,7 +59,11 @@
             // Arrange
             var actual = 0;
             var tries = 0;
-            var rule = _options.Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+            var rule = _options.Config(options =>
+            {
+                options.Attempts = 3;
+                options.Time = TimeSpan.FromMilliseconds(100);
+            });
             var exponential = new Exponential(rule);
             Action failureAction = () =>
             {

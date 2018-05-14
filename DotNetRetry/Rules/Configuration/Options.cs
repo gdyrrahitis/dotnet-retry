@@ -9,50 +9,32 @@
     /// </summary>
     public class Options
     {
-        /// <summary>
-        /// Initializes a new <see cref="Options"/> object.
-        /// </summary>
-        /// <param name="attempts">The number of retry attempts.</param>
-        /// <param name="time">Time specified for rule.</param>
-        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="attempts"/> being less than 1.</exception>
-        /// <exception cref="ArgumentException">For parameter <paramref name="time"/> Timespan.Zero or Timespan.MinValue values.</exception>
-        public Options(int attempts, TimeSpan time)
-        {
-            Guards.ValidateArguments(attempts, time);
-            Attempts = attempts;
-            Time = time;
-        }
-
-        /// <summary>
-        /// Initializes a new <see cref="Options"/> object.
-        /// </summary>
-        /// <param name="attempts">The number of retry attempts.</param>
-        /// <exception cref="ArgumentOutOfRangeException">For parameter <paramref name="attempts"/> being less than 1.</exception>
-        public Options(int attempts)
-        {
-            Guards.ValidateArguments(attempts);
-            Attempts = attempts;
-        }
-
-        /// <summary>
-        /// Initializes a new <see cref="Options"/> object.
-        /// </summary>
-        /// <param name="time">Time specified for rule.</param>
-        /// <exception cref="ArgumentException">For parameter <paramref name="time"/> Timespan.Zero or Timespan.MinValue values.</exception>
-        public Options(TimeSpan time)
-        {
-            Guards.ValidateArguments(time);
-            Time = time;
-        }
-
+        private int _attempts;
         /// <summary>
         /// The number of retry attempts.
         /// </summary>
-        public int Attempts { get; }
+        public int Attempts
+        {
+            get { return _attempts; }
+            set
+            {
+                Guards.ValidateArguments(value);
+                _attempts = value;
+            }
+        }
 
+        private TimeSpan _time;
         /// <summary>
         /// Time specified for rule.
         /// </summary>
-        public TimeSpan Time { get; }
+        public TimeSpan Time
+        {
+            get { return _time; }
+            set
+            {
+                Guards.ValidateArguments(value);
+                _time = value;
+            }
+        }
     }
 }

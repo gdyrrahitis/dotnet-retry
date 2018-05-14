@@ -25,7 +25,11 @@
         {
             // Arrange
             var attempt = 0;
-            var rule = _options.Config(new Options(totalAttempts, TimeSpan.FromMilliseconds(milliseconds)));
+            var rule = _options.Config(options =>
+            {
+                options.Attempts = totalAttempts;
+                options.Time = TimeSpan.FromMilliseconds(milliseconds);
+            });
             var sequential = new Sequential(rule);
             Func<string> function = () =>
             {
@@ -51,7 +55,11 @@
         {
             // Arrange
             var tries = 0;
-            var rule = _options.Config(new Options(3, TimeSpan.FromMilliseconds(1)));
+            var rule = _options.Config(options =>
+            {
+                options.Attempts = 3;
+                options.Time = TimeSpan.FromMilliseconds(100);
+            });
             var sequential = new Sequential(rule);
 
             Func<string> function = () =>
@@ -72,7 +80,11 @@
         public void TakesTwoHundredMillisecondsToCompleteAfterThreeRetriesOneSecondEach()
         {
             // Arrange
-            var rule = _options.Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+            var rule = _options.Config(options =>
+            {
+                options.Attempts = 3;
+                options.Time = TimeSpan.FromMilliseconds(100);
+            });
             var sequential = new Sequential(rule);
             var stopwatch = Stopwatch.StartNew();
             Func<string> function = () =>

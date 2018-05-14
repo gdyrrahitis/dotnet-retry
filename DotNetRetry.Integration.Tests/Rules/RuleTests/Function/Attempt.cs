@@ -17,7 +17,11 @@
             // Arrange
             var tries = 0;
             var rules = Rule.Setup(input)
-                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+                .Config(options =>
+                {
+                    options.Attempts = 3;
+                    options.Time = TimeSpan.FromMilliseconds(100);
+                });
             Func<string> function = () =>
             {
                 tries++;
@@ -39,7 +43,11 @@
             // Arrange
             var tries = 0;
             var rules = Rule.Setup(input)
-                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+                .Config(options =>
+                {
+                    options.Attempts = 3;
+                    options.Time = TimeSpan.FromMilliseconds(100);
+                });
             Func<string> function = () =>
             {
                 if (tries++ < 1)
@@ -65,7 +73,11 @@
             // Arrange
             var tries = 0;
             var rules = Rule.Setup(input)
-                .Config(new Options(3, TimeSpan.FromMilliseconds(100)));
+                .Config(options =>
+                {
+                    options.Attempts = 3;
+                    options.Time = TimeSpan.FromMilliseconds(100);
+                });
             Func<string> function = () =>
             {
                 if (tries++ < 2)

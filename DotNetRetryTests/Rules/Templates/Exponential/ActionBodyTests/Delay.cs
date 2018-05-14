@@ -22,10 +22,13 @@
         {
             // Arrange
             var time = TimeSpan.FromMilliseconds(seconds);
-            var options = new Options(attempts, time);
             var retriableMock = new Mock<Retriable>();
             retriableMock.Object.Options = new RuleOptions(retriableMock.Object);
-            retriableMock.Object.Options.Config(options);
+            retriableMock.Object.Options.Config(options =>
+            {
+                options.Attempts = attempts;
+                options.Time = time;
+            });
             var waitableFactoryMock = new Mock<IWaitableFactory>();
             var randomMock = new Mock<Random>();
             var actionBody = new ActionBody(retriableMock.Object, randomMock.Object, waitableFactoryMock.Object);

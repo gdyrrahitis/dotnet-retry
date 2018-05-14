@@ -24,7 +24,11 @@
         {
             // Arrange
             var attempt = 0;
-            var rule = _options.Config(new Options(totalAttempts, TimeSpan.FromMilliseconds(milliseconds)));
+            var rule = _options.Config(options =>
+            {
+                options.Attempts = totalAttempts;
+                options.Time = TimeSpan.FromMilliseconds(milliseconds);
+            });
             var exponential = new Exponential(rule);
             Func<string> function = () =>
             {
@@ -50,7 +54,11 @@
         {
             // Arrange
             var tries = 0;
-            var rule = _options.Config(new Options(3, TimeSpan.FromMilliseconds(1)));
+            var rule = _options.Config(options =>
+            {
+                options.Attempts = 3;
+                options.Time = TimeSpan.FromMilliseconds(100);
+            });
             var exponential = new Exponential(rule);
 
             Func<string> function = () =>
