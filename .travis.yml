@@ -1,4 +1,4 @@
-#dist: trusty
+dist: trusty
 sudo: required
 language: csharp
 solution: DotNetRetry.sln
@@ -6,7 +6,7 @@ env:
  matrix:
   - PACKAGE_VERSION="2.0.0"
 install:
- - curl -L -o nuget.exe https://dist.nuget.org/win-x86-commandline/v2.8.6/nuget.exe
+ - curl -L -o nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
  - nuget restore DotNetRetry.sln
 script:
   - sudo nuget update -self

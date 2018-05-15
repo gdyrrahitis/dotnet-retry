@@ -103,7 +103,7 @@
         {
             // Arrange
             var attempts = 0;
-            var rule = Rule.Setup(Strategy.Sequential)
+            var rule = Rule.Setup(input)
                 .Config(options =>
                 {
                     options.Attempts = 3;
