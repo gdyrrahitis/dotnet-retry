@@ -1,5 +1,5 @@
 ﻿# DotNetRetry
-Retry mechanism for C#
+Simple, lightweight retry mechanism for .NET projects.
 
 [![Build Status](https://travis-ci.org/gdyrrahitis/dotnet-retry.svg?branch=features)](https://travis-ci.org/gdyrrahitis/dotnet-retry)
 [![NuGet](https://img.shields.io/nuget/v/gdyrra.dotnet.retry.svg)](https://www.nuget.org/packages/gdyrra.dotnet.retry)
@@ -16,7 +16,7 @@ Retry mechanism for C#
 * License
 
 ## Description
-A retry library for C#, which attempts to execute a given operation using a given retry policy. Operations can be void or can return a value.
+A retry library written in C#, which attempts to execute a given operation using a given retry policy. Operations can be void or can return a value.
 If an operation fails for any reason, a flatten `AggregateException` will be thrown, which contains all the exceptions occured for the method invocation.
 
 ## Retry policies
