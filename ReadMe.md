@@ -1,5 +1,5 @@
 ﻿# DotNetRetry
-Simple, lightweight retry mechanism for .NET projects.
+Simple, lightweight retry mechanism for .NET.
 
 [![Build Status](https://travis-ci.org/gdyrrahitis/dotnet-retry.svg?branch=features)](https://travis-ci.org/gdyrrahitis/dotnet-retry)
 [![NuGet](https://img.shields.io/nuget/v/gdyrra.dotnet.retry.svg)](https://www.nuget.org/packages/gdyrra.dotnet.retry)
